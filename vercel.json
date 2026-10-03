@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "tanmaydesai.site" }], "destination": "https://tanmaydesai.xyz/:path*", "permanent": true }
+  ]
+}
