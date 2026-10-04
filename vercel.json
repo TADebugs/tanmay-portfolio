@@ -3,5 +3,8 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/:path*", "has": [{ "type": "host", "value": "tanmaydesai.site" }], "destination": "https://tanmaydesai.xyz/:path*", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/resume.pdf", "destination": "/resume" }
   ]
 }

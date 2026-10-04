@@ -1,0 +1,50 @@
+{
+  "_note": "Lead-owned. Facts come only from CLAUDE.md §4 / the CV / the repo. null = unknown, ask Tanmay; never invent. status: todo | in-progress | live",
+  "projects": [
+    {
+      "slug": "gods-eye",
+      "name": "God's Eye",
+      "oneLiner": "AI-driven Unity dungeon crawler, dual-persona vision AI",
+      "repo": "https://github.com/TADebugs/Gods_Eye",
+      "route": "/gods-eye",
+      "treatment": "webgl",
+      "status": "todo"
+    },
+    {
+      "slug": "algolend",
+      "name": "AlgoLend AI",
+      "oneLiner": "DeFi lending, 3 AI agents, Algorand",
+      "repo": "https://github.com/TADebugs/ALGOLEND_AI",
+      "route": "/algolend",
+      "treatment": "seeded-demo",
+      "status": "todo"
+    },
+    {
+      "slug": "trinity",
+      "name": "TRINITY",
+      "oneLiner": "Multi-personality voice desktop assistant (ARIA / ECHO / NEXUS)",
+      "repo": "https://github.com/TADebugs/TRINITY",
+      "route": "/trinity",
+      "treatment": "case-study",
+      "status": "todo"
+    },
+    {
+      "slug": "sweet-bite",
+      "name": "Sweet-Bite",
+      "oneLiner": null,
+      "repo": "https://github.com/TADebugs/Sweet-Bite",
+      "route": "/sweet-bite",
+      "treatment": "live",
+      "status": "todo"
+    },
+    {
+      "slug": "rag",
+      "name": "Production RAG system",
+      "oneLiner": null,
+      "repo": null,
+      "route": "/rag",
+      "treatment": "recorded-demo",
+      "status": "todo"
+    }
+  ]
+}
