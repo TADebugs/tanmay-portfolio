@@ -1,59 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tanmay Desai</title>
-<meta name="description" content="Tanmay Desai, software engineer in Boston. Plain résumé, or the console.">
-<script>
-// Pre-paint: a remembered choice skips the gate unless ?reconsider.
-(function () {
-  try {
-    if (new URLSearchParams(location.search).has('reconsider')) localStorage.removeItem('td.choice');
-    else {
-      var c = localStorage.getItem('td.choice');
-      if (c === 'red' || c === 'blue') location.replace('/' + c);
-    }
-  } catch (e) {}
-  document.documentElement.classList.add('js');
-})();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/shared/tokens.css">
-<link rel="stylesheet" href="/gate/gate.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>The Choice</title>
+    <meta name="description" content="Tanmay Desai. The choice is yours.">
+    <link rel="stylesheet" href="/choice/styles.css">
 </head>
 <body>
-<main class="gate">
-  <p class="who">Tanmay Desai</p>
-  <!-- PLACEHOLDER: Tanmay approves gate copy -->
-  <h1 class="q">Plain résumé, or the console?</h1>
+    <canvas class="matrix-rain" aria-hidden="true"></canvas>
 
-  <div class="choices">
-    <div class="choice blue">
-      <a class="plain" href="/blue" data-choice="blue">Plain résumé</a>
-      <p class="legend">fast · printable · everything in 10 seconds</p>
-    </div>
+    <div class="background-image" aria-hidden="true"></div>
 
-    <div class="choice red">
-      <noscript><a class="plain" href="/red">The console</a></noscript>
-      <button class="switch" type="button" id="switch" aria-expanded="false">
-        <span class="housing" aria-hidden="true">
-          <span class="mark on">ON</span>
-          <span class="lever"></span>
-          <span class="mark off">OFF</span>
-          <span class="guard">
-            <svg width="100%" height="100%"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#hatch)"/></svg>
-          </span>
-        </span>
-        <span class="name">The console</span>
-      </button>
-      <p class="state" id="switch-state" aria-live="polite">guard closed</p>
-      <p class="legend">the full thing · keyboard friendly · press <kbd>`</kbd> for the terminal</p>
-    </div>
-  </div>
-</main>
-<script src="/gate/gate.js"></script>
+    <main class="container">
+        <div class="choice-screen" id="choiceScreen">
+            <h1>THE CHOICE IS YOURS</h1>
+            <p class="quote">"You're here because you sense something. What you know you can't explain, but you feel it.
+                The <span style="color: #0066ff; font-weight: bold; text-shadow: none;">Blue Pill</span> returns you safely home—a brief glimpse of my abilities, nothing more.
+                The <span style="color: #ff0000; font-weight: bold; text-shadow: none;">Red Pill?</span> I show you the full extent of what I've created. But remember—all I'm offering is the truth. Nothing more.."</p>
+
+            <div class="pills-container">
+                <div>
+                    <button type="button" class="pill blue-pill" data-pill="blue" aria-label="Blue pill"></button>
+                    <div class="pill-label" style="color: #0066ff;" aria-hidden="true">BLUE PILL</div>
+                </div>
+                <div>
+                    <button type="button" class="pill red-pill" data-pill="red" aria-label="Red pill"></button>
+                    <div class="pill-label" style="color: #ff0000; margin-left:-35px;" aria-hidden="true">RED PILL</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="outcome-screen red-outcome" id="redOutcome">
+            <h2>WELCOME TO THE REAL WORLD</h2>
+            <p>You've chosen to see how deep the rabbit hole goes.</p>
+            <p>The truth can be painful, but you've decided that knowing is better than living in ignorance.</p>
+            <p>The Matrix has you no longer.</p>
+            <button class="back-button" type="button" data-back>TAKE ANOTHER CHOICE</button>
+        </div>
+
+        <div class="outcome-screen blue-outcome" id="blueOutcome">
+            <h2>BACK TO SLEEP</h2>
+            <p>You wake up in your bed and believe whatever you want to believe.</p>
+            <p>Sometimes ignorance is bliss. The comfortable lie continues.</p>
+            <p>The story ends, you return to your life.</p>
+            <button class="back-button" type="button" data-back>RECONSIDER YOUR CHOICE</button>
+        </div>
+    </main>
+
+    <noscript><p class="noscript"><a href="/red">Red pill</a> · <a href="/blue">Blue pill</a></p></noscript>
+
+    <script type="module" src="/choice/main.js"></script>
 </body>
 </html>

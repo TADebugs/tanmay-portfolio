@@ -3,120 +3,339 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tanmay Desai · the board</title>
-<meta name="description" content="Tanmay Desai, software engineer in Boston. Test and data infrastructure. Every project is a channel on the board.">
+<title>Tanmay Desai — the construct</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/shared/tokens.css">
-<link rel="stylesheet" href="/shared/motion/motion.css">
-<link rel="stylesheet" href="/construct/shell.css">
-<link rel="stylesheet" href="/red/board.css">
-<link rel="modulepreload" href="/construct/shell.js">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF3EC; --ink:#0D3B1E; --dim:#4F7A5C; --line:#C5D6C6; --glow:transparent; --pill:#C81E25; --rain:#0D3B1E;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#000A03; --ink:#9BFFB4; --dim:#3E8A55; --line:#0E3A1C; --glow:rgba(110,255,150,.35); --pill:#FF2A33; --rain:#22C55E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000A03; --ink:#9BFFB4; --dim:#3E8A55; --line:#0E3A1C; --glow:rgba(110,255,150,.35); --pill:#FF2A33; --rain:#22C55E;
+}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.7 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.serif{font-family:"Instrument Serif",Georgia,"Times New Roman",serif;font-weight:400}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* scanlines over everything, very faint */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.08) 2px 3px);mix-blend-mode:multiply}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;border-bottom:1px solid var(--line)}
+#rain{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 18%,transparent 70%)}
+.hero .wrap{position:relative;z-index:2;padding-bottom:9vh;width:100%}
+.status{display:flex;gap:10px;align-items:center;color:var(--dim);font-size:13px;margin-bottom:28px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--pill);box-shadow:0 0 10px var(--pill)}
+h1{font-size:clamp(64px,14vw,190px);line-height:.86;letter-spacing:-.02em;text-shadow:0 0 28px var(--glow)}
+h1 span{display:block}
+.lede{max-width:46ch;margin-top:36px;font-size:16px}
+.lede b{font-weight:500}
+.hero nav{display:flex;gap:28px;margin-top:36px;flex-wrap:wrap;font-size:14px}
+.hero nav a{text-decoration:none;border-bottom:1px solid var(--dim);padding-bottom:2px}
+.hero nav a:hover{border-color:var(--ink)}
+
+/* ---------- sections ---------- */
+section.block{padding-top:120px;padding-bottom:40px}
+.block h2{font-size:clamp(40px,6vw,72px);line-height:1;margin-bottom:12px}
+.block .sub{color:var(--dim);max-width:52ch;margin-bottom:56px}
+
+/* programs list */
+.prog{border-top:1px solid var(--line)}
+.prog:last-child{border-bottom:1px solid var(--line)}
+.prog summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:baseline;padding:28px 0}
+.prog summary::-webkit-details-marker{display:none}
+.prog .name{font-size:clamp(34px,5vw,58px);line-height:1;transition:text-shadow .2s,letter-spacing .3s}
+.prog summary:hover .name{text-shadow:0 0 22px var(--glow);letter-spacing:.01em}
+.prog .kind{color:var(--dim);font-size:13px;text-align:right}
+.prog .one{grid-column:1/-1;max-width:60ch}
+.prog .state{display:inline-block;font-size:12px;border:1px solid var(--dim);padding:1px 8px;margin-right:8px;vertical-align:2px}
+.prog .state.live{border-color:var(--ink);box-shadow:0 0 12px var(--glow) inset}
+.body{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;padding:0 0 36px}
+.body ul{list-style:none}
+.body li{padding-left:20px;position:relative;margin-bottom:10px;max-width:62ch}
+.body li::before{content:">";position:absolute;left:0;color:var(--dim)}
+.stack{color:var(--dim);font-size:13px;line-height:2}
+.stack strong{color:var(--ink);font-weight:500;display:block;margin-bottom:4px}
+.acts{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;text-decoration:none;padding:9px 16px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn:hover{box-shadow:0 0 18px var(--glow)}
+.prog[open] .body{animation:decrypt .45s steps(6) both}
+@keyframes decrypt{from{clip-path:inset(0 0 100% 0);opacity:.3}to{clip-path:inset(0);opacity:1}}
+
+/* timeline */
+.log{display:grid;grid-template-columns:150px 1fr;column-gap:32px}
+.log dt{color:var(--dim);font-size:13px;padding:22px 0;border-top:1px solid var(--line)}
+.log dd{padding:20px 0 26px;border-top:1px solid var(--line)}
+.log dd h3{font-size:30px;line-height:1.1;margin-bottom:4px}
+.log dd p{max-width:62ch}
+.log dd .role{color:var(--dim);font-size:13px;margin-bottom:10px}
+
+/* kung fu */
+.loaded{font-size:15px}
+.loaded p{padding:6px 0;border-bottom:1px dashed var(--line);display:grid;grid-template-columns:150px 1fr;gap:24px}
+.loaded p span:first-child{color:var(--dim)}
+.quip{margin-top:28px;color:var(--dim)}
+
+/* exit */
+.exit{padding-top:140px;padding-bottom:100px}
+.exit h2{font-size:clamp(52px,10vw,130px);line-height:.9}
+.exit .links{display:flex;gap:16px;flex-wrap:wrap;margin-top:40px}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--dim);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .foot-links{display:flex;gap:20px;flex-wrap:wrap}
+
+@media (max-width:720px){
+  .body{grid-template-columns:1fr;gap:20px}
+  .log{grid-template-columns:1fr}
+  .log dt{padding-bottom:0}
+  .log dd{border-top:0;padding-top:4px}
+  .loaded p{grid-template-columns:1fr;gap:0}
+  .prog summary{grid-template-columns:1fr}
+  .prog .kind{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .prog[open] .body{animation:none}
+}
+</style>
 </head>
 <body>
-<main class="wrap">
 
-  <header class="oncall">
-    <!-- PLACEHOLDER: approve "software engineer, test and data infrastructure" (DESIGN.md §4.1) -->
-    <h1><span class="oncall-name">Tanmay Desai</span> · software engineer, test and data infrastructure · Boston · B.S. IT, Northeastern, May 2027</h1>
-    <ul class="oncall-ctl" aria-label="Contact and documents">
-      <li><a href="mailto:t.desai240305@gmail.com">email</a></li>
-      <li><a href="https://www.linkedin.com/in/tanmaydesai2126/">LinkedIn</a></li>
-      <li><a href="https://github.com/TADebugs">GitHub</a></li>
-      <li><a href="/resume.pdf">résumé (PDF)</a></li>
-      <li><a href="/blue">plain version</a></li>
-    </ul>
-  </header>
+<header class="hero">
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <p class="status"><i></i> red pill taken. you're in the construct.</p>
+    <h1 class="serif" aria-label="Tanmay Desai"><span data-decode="Tanmay">Tanmay</span><span data-decode="Desai">Desai</span></h1>
+    <p class="lede">IT at Northeastern, class of '27. Currently an <b>SDET intern at Medidata</b>, previously shipping C++ on <b>EA Sports College Football</b>. I build systems you can watch run: traced, tested, and gated.</p>
+    <nav aria-label="Sections">
+      <a href="#programs">Programs</a>
+      <a href="#log">Experience</a>
+      <a href="#loaded">Skills</a>
+      <a href="#exit">Contact</a>
+    </nav>
+  </div>
+</header>
 
-  <section class="sec" aria-labelledby="board-h">
-    <h2 id="board-h" class="sec-h">Board <span class="sec-n" id="board-n"></span></h2>
-    <div class="board" id="board">
-      <noscript><p class="board-msg">The board reads its channels at runtime and needs JavaScript. Everything is on the <a href="/blue">plain version</a>.</p></noscript>
+<main>
+<section class="block wrap" id="programs">
+  <h2 class="serif">Programs</h2>
+  <p class="sub">Five things I've built. Open one to see how it works, then go to the source or the live site.</p>
+
+  <details class="prog">
+    <summary>
+      <span class="name serif">God's Eye</span>
+      <span class="kind">Unity · Vision AI</span>
+      <span class="one"><span class="state">Coming soon</span>A dungeon crawler where a vision AI watches your screen and decides what spawns next. No scripted encounters.</span>
+    </summary>
+    <div class="body">
+      <div>
+        <ul>
+          <li>A dual-persona vision AI analyzes real-time screenshots and returns a structured JSON action plan.</li>
+          <li>Executes 5–10 timed AI actions per vision plan.</li>
+          <li>Enemy spawns and difficulty adapt to how you actually play, for 100% non-scripted gameplay.</li>
+        </ul>
+        <div class="acts">
+          <a class="btn primary" href="/gods-eye">Open</a>
+          <a class="btn" href="https://github.com/TADebugs/Gods_Eye" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+      <p class="stack"><strong>Stack</strong>Unity · C# · REST vision API</p>
     </div>
-  </section>
+  </details>
 
-  <section class="sec" aria-labelledby="log-h">
-    <h2 id="log-h" class="sec-h">Logbook</h2>
+  <details class="prog">
+    <summary>
+      <span class="name serif">AlgoLend AI</span>
+      <span class="kind">DeFi · Multi-agent</span>
+      <span class="one"><span class="state live">Live demo</span>A decentralized lending platform where AI agents read the market, score risk and tune yield on Algorand.</span>
+    </summary>
+    <div class="body">
+      <div>
+        <ul>
+          <li>Full stack: React and TypeScript frontend, FastAPI backend, Algorand smart contracts with fast finality and sub-cent fees.</li>
+          <li>Three AI agents for market analysis, risk scoring and yield optimization.</li>
+        </ul>
+        <div class="acts">
+          <a class="btn primary" href="https://algolend-ai-frontend-v2.vercel.app" target="_blank" rel="noopener">Open demo</a>
+          <a class="btn" href="https://github.com/TADebugs/ALGOLEND_AI" target="_blank" rel="noopener">Source</a>
+        </div>
+      </div>
+      <p class="stack"><strong>Stack</strong>React · TypeScript · FastAPI · Python · Algorand</p>
+    </div>
+  </details>
 
-    <h3 class="log-h">Experience</h3>
-    <ol class="log">
-      <li class="log-r">
-        <span class="log-t">Jul–Nov 2026</span>
-        <div class="log-b">
-          <p class="log-what"><span>Medidata Solutions</span> · SDET intern</p>
-          <ul>
-            <li>Built a CI/CD-integrated testing engine that parses 500+ JSON test results into interactive, time-stamped HTML reports via GitHub Actions. Manual QA reporting went away; failures surface inline per pipeline run.</li>
-            <li>Owned automated regression coverage end to end, and influenced engineers across teams to adopt standardized reporting conventions.</li>
-          </ul>
+  <details class="prog">
+    <summary>
+      <span class="name serif">TRINITY</span>
+      <span class="kind">Desktop · Voice AI</span>
+      <span class="one"><span class="state">Coming soon</span>One desktop assistant, three personalities: ARIA for productivity, ECHO for creative work, NEXUS for code.</span>
+    </summary>
+    <div class="body">
+      <div>
+        <ul>
+          <li>Streams voice through the Gemini 2.5 Native Audio API, with a Chirp 3 HD voice per personality.</li>
+          <li>PersonalityManager, WakeWordDetector and ToolRouter, with tool permissions scoped per personality.</li>
+          <li>FastAPI + Socket.IO backend, React + Vite + TypeScript frontend, and a Three.js animated orb.</li>
+        </ul>
+        <div class="acts">
+          <a class="btn primary" href="/trinity">Open</a>
+          <a class="btn" href="https://github.com/TADebugs/TRINITY" target="_blank" rel="noopener">Source</a>
         </div>
-      </li>
-      <li class="log-r">
-        <span class="log-t">Apr–Jul 2026</span>
-        <div class="log-b">
-          <p class="log-what"><span>Medidata Solutions</span> · Data engineering intern</p>
-          <ul>
-            <li>Trained a TensorFlow/Keras classifier in Python that auto-tags and sorts feature files across 10+ repositories, standardizing lookup conventions.</li>
-            <li>Designed data parsing and transformation workflows feeding downstream pipelines, working with QA and platform engineers.</li>
-          </ul>
-        </div>
-      </li>
-      <li class="log-r">
-        <span class="log-t">Nov 2025–Jan 2026</span>
-        <div class="log-b">
-          <p class="log-what"><span>Electronic Arts</span> · Software engineering intern</p>
-          <ul>
-            <li>Resolved a critical performance bottleneck in a production C++ codebase and architected object-oriented systems for EA Sports College Football.</li>
-          </ul>
-        </div>
-      </li>
-    </ol>
+      </div>
+      <p class="stack"><strong>Stack</strong>Python · FastAPI · Socket.IO · React · Vite · TypeScript · Three.js · Gemini 2.5</p>
+    </div>
+  </details>
 
-    <h3 class="log-h">Education</h3>
-    <ol class="log">
-      <li class="log-r">
-        <span class="log-t">Jul 2024–May 2027</span>
-        <div class="log-b">
-          <p class="log-what"><span>Northeastern University</span> · B.S. Information Technology</p>
-          <ul>
-            <li>GPA <span class="num">3.7</span> · Boston, MA</li>
-            <li>Coursework in Java: data structures and algorithms, object-oriented design, operating systems, software engineering, database systems, cloud computing (AWS), machine learning.</li>
-          </ul>
+  <details class="prog">
+    <summary>
+      <span class="name serif">ComicOracle</span>
+      <span class="kind">RAG · Evaluation</span>
+      <span class="one"><span class="state">Measured</span>A production RAG system that answers with citations, or refuses when the question is out of scope.</span>
+    </summary>
+    <div class="body">
+      <div>
+        <ul>
+          <li>Hybrid BM25 + vector retrieval with cross-encoder reranking, and citation-grounded answers.</li>
+          <li>Measured over 15 recorded queries: p50 1.36 s and p95 2.50 s end to end, about $0.0001 per query.</li>
+          <li>Out-of-scope questions are refused by the reranker gate.</li>
+          <li>Langfuse tracing for latency and cost.</li>
+        </ul>
+        <div class="acts">
+          <a class="btn primary" href="/rag">Open</a>
+          <a class="btn" href="https://github.com/TADebugs/ComicOracle" target="_blank" rel="noopener">Source</a>
         </div>
-      </li>
-      <li class="log-r">
-        <span class="log-t">2023–24</span>
-        <div class="log-b">
-          <p class="log-what"><span>Golden Gate University</span> · Associate's, Computer Science</p>
-          <ul><li>GPA <span class="num">3.9</span> · San Francisco, CA</li></ul>
+      </div>
+      <p class="stack"><strong>Stack</strong>Python · BM25 + vector search · cross-encoder reranker · Langfuse · GitHub Actions</p>
+    </div>
+  </details>
+
+  <details class="prog">
+    <summary>
+      <span class="name serif">Sweet-Bite</span>
+      <span class="kind">Web</span>
+      <span class="one"><span class="state live">Live</span>A restaurant site for a fictional BBQ spot: menu, hours and a reservation form.</span>
+    </summary>
+    <div class="body">
+      <div>
+        <ul>
+          <li>Home, menu, reservations and about pages.</li>
+          <li>Plain HTML, CSS and JavaScript, no framework.</li>
+        </ul>
+        <div class="acts">
+          <a class="btn primary" href="https://sweetbite.tanmaydesai.xyz" target="_blank" rel="noopener">Visit site</a>
+          <a class="btn" href="https://github.com/TADebugs/Sweet-Bite" target="_blank" rel="noopener">Source</a>
         </div>
-      </li>
-    </ol>
+      </div>
+      <p class="stack"><strong>Stack</strong>HTML · CSS · JavaScript</p>
+    </div>
+  </details>
+</section>
 
-    <h3 class="log-h">Leadership</h3>
-    <ol class="log">
-      <li class="log-r">
-        <span class="log-t">2023–24</span>
-        <div class="log-b">
-          <p class="log-what"><span>SCI-TECH Club, Golden Gate University</span> · VP and Software Development Lead</p>
-          <ul><li>Organized coding competitions and hackathon-style STEM contests, mentored junior students, and led discussions on AI algorithms and mathematical modeling.</li></ul>
-        </div>
-      </li>
-    </ol>
+<section class="block wrap" id="log">
+  <h2 class="serif">Experience</h2>
+  <p class="sub">Where I've shipped code that other people depend on.</p>
+  <dl class="log">
+    <dt>Jul – Nov 2026</dt>
+    <dd><h3 class="serif">Medidata Solutions</h3><p class="role">SDET Intern, New York</p>
+      <p>Built a CI-integrated testing engine that turns 500+ JSON test results into time-stamped HTML reports on every GitHub Actions run. Owned regression coverage end to end and got teams onto one reporting convention.</p></dd>
+    <dt>Apr – Jul 2026</dt>
+    <dd><h3 class="serif">Medidata Solutions</h3><p class="role">Data Engineering Intern, New York</p>
+      <p>Trained a TensorFlow/Keras classifier that auto-tags feature files across 10+ repos, and built the parsing workflows feeding downstream pipelines.</p></dd>
+    <dt>Nov 2025 – Jan 2026</dt>
+    <dd><h3 class="serif">Electronic Arts</h3><p class="role">Software Engineering Intern, Remote</p>
+      <p>Fixed a critical performance bottleneck in production C++ and designed object-oriented systems for EA Sports College Football.</p></dd>
+  </dl>
+</section>
 
-    <h3 class="log-h" id="mods-h">Loaded modules</h3>
-    <table class="mods" aria-labelledby="mods-h">
-      <tbody>
-        <tr><th scope="row">languages</th><td>Java · Python · C/C++ · Kotlin · TypeScript · JavaScript · C# · SQL · HTML/CSS</td></tr>
-        <tr><th scope="row">practices</th><td>object-oriented design · design patterns · data structures and algorithms · RESTful API design · unit and integration testing · code health · documentation · monitoring · CI/CD · collaborative Git workflows</td></tr>
-        <tr><th scope="row">backend, cloud</th><td>AWS · Azure · Docker · FastAPI · Node.js · MySQL · Firebase · microservices</td></tr>
-        <tr><th scope="row">data, ML</th><td>TensorFlow/Keras · Langfuse · RAGAS · Pandas · NumPy · ETL pipelines · vector search</td></tr>
-        <tr><th scope="row">tools</th><td>GitHub Actions · GitLab · IntelliJ IDEA · Android Studio · React · Figma · Claude Code · GitHub Copilot · Amazon Q Developer</td></tr>
-      </tbody>
-    </table>
-  </section>
+<section class="block wrap" id="loaded">
+  <h2 class="serif">Loaded</h2>
+  <p class="sub">Programs uploaded to date.</p>
+  <div class="loaded">
+    <p><span>Languages</span><span>Java, Python, C/C++, Kotlin, TypeScript, JavaScript, C#, SQL</span></p>
+    <p><span>Backend</span><span>FastAPI, Node.js, Docker, AWS, Azure, MySQL, Firebase, microservices</span></p>
+    <p><span>Data / ML</span><span>TensorFlow/Keras, Langfuse, RAGAS, Pandas, NumPy, ETL pipelines, vector search</span></p>
+    <p><span>Practice</span><span>Object-oriented design, design patterns, REST API design, unit and integration testing, CI/CD, monitoring</span></p>
+    <p><span>Tools</span><span>GitHub Actions, GitLab, IntelliJ IDEA, Android Studio, React, Figma, Claude Code</span></p>
+  </div>
+  <p class="quip">I know kung fu. Also Java.</p>
+</section>
 
+<section class="exit wrap" id="exit">
+  <h2 class="serif">Call the operator.</h2>
+  <p class="sub" style="margin-top:20px">Open to 2027 SWE and ML engineering roles.</p>
+  <div class="links">
+    <a class="btn primary" href="mailto:t.desai240305@gmail.com">Email me</a>
+    <a class="btn" href="https://www.linkedin.com/in/tanmaydesai2126/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn" href="https://github.com/TADebugs" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="/resume.pdf">Download resume</a>
+  </div>
+</section>
 </main>
-<script type="module" src="/red/board.js"></script>
+
+<footer><div class="wrap"><span>Tanmay Desai, Boston</span><span class="foot-links"><a href="/blue">Take the blue pill instead</a><a href="/">Back to the choice</a></span></div></footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉ0123456789ZTD';
+
+  // code rain, hero only
+  const c = document.getElementById('rain'), x = c.getContext('2d');
+  let cols = [], fs = 16, raf;
+  const color = () => getComputedStyle(document.documentElement).getPropertyValue('--rain').trim() || '#22C55E';
+  function size(){
+    c.width = c.offsetWidth; c.height = c.offsetHeight;
+    cols = Array(Math.ceil(c.width / fs)).fill(0).map(() => Math.random() * -50);
+  }
+  function draw(){
+    x.fillStyle = 'rgba(0,0,0,0)';
+    x.globalCompositeOperation = 'destination-out';
+    x.fillStyle = 'rgba(0,0,0,.08)'; x.fillRect(0, 0, c.width, c.height);
+    x.globalCompositeOperation = 'source-over';
+    x.fillStyle = color(); x.font = fs + 'px monospace';
+    cols.forEach((y, i) => {
+      x.fillText(glyphs[Math.random() * glyphs.length | 0], i * fs, y * fs);
+      cols[i] = (y * fs > c.height && Math.random() > .975) ? 0 : y + 1;
+    });
+    raf = document.hidden ? null : requestAnimationFrame(draw);
+  }
+  size(); addEventListener('resize', size);
+  if (!reduce) {
+    draw();
+    // pause when hero is off screen
+    let onScreen = true;
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) { if (!raf) draw(); } else { cancelAnimationFrame(raf); raf = null; } })
+      .observe(c);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && onScreen && !raf) draw(); });
+  }
+
+  // name decode on load
+  if (!reduce) document.querySelectorAll('[data-decode]').forEach((el, n) => {
+    const target = el.dataset.decode; let frame = 0;
+    const tick = () => {
+      const done = Math.floor(frame / 3) - n * 4;
+      el.textContent = [...target].map((ch, i) => i < done ? ch : glyphs[Math.random() * glyphs.length | 0]).join('');
+      if (done < target.length) { frame++; requestAnimationFrame(tick); } else el.textContent = target;
+    };
+    tick();
+  });
+})();
+</script>
 </body>
 </html>
