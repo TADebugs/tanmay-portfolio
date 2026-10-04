@@ -17,7 +17,8 @@
       "repo": "https://github.com/TADebugs/ALGOLEND_AI",
       "route": "/algolend",
       "treatment": "seeded-demo",
-      "status": "todo"
+      "status": "todo",
+      "existingDeploy": "Vercel project algolend-ai-frontend-v2 (check before porting)"
     },
     {
       "slug": "trinity",
@@ -40,7 +41,7 @@
     {
       "slug": "rag",
       "name": "Production RAG system",
-      "oneLiner": null,
+      "oneLiner": "Hybrid BM25 + vector retrieval with reranking, Langfuse observability, RAGAS-gated CI",
       "repo": null,
       "route": "/rag",
       "treatment": "recorded-demo",

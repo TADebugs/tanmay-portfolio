@@ -102,7 +102,7 @@ Budgets are rough. If quality needs more rounds, spend it. Tanmay watches the me
 
 The premise is **locked in `CONCEPT.md`**: the construct as a place, the terminal, programs as sub-worlds, max 2 easter eggs, and the boring blue pill. Do not pitch new premises.
 
-1. Read `CONCEPT.md`, `CLAUDE.md`, the CV facts, and every project repo's README and code summary.
+1. Read `CONCEPT.md`, `CLAUDE.md`, the CV facts (`shared/cv.md`), and every project repo's README and code summary.
 2. Write `.agents/critique/concepts.md` with **3 execution directions for that concept**. They should differ in the visual and material language of the shared system, e.g. a VT100/phosphor lineage vs. an ops-console/telemetry lineage vs. a technical-manual/schematic lineage.
 
    Each direction covers:
@@ -259,7 +259,7 @@ Waves are order, not days. Start immediately; **everything must be merged before
 
 | agent | specifics |
 |---|---|
-| `algolend` | seeded demo, no backend, never errors |
+| `algolend` | seeded demo, no backend, never errors. **First** check the existing Vercel deploy (project `algolend-ai-frontend-v2`): if it already runs a usable frontend, reuse or link it instead of porting; only port what's missing |
 | `godseye` | wrap `gods-eye/build/`; `api/vision` proxy with `VISION_API_KEY`, per-IP rate limit, daily cap, `MOCK_VISION=1` for sandbox |
 | `trinity` | case study with committed video + architecture |
 | `rag` | recorded Q&A from `rag/data/qa.json`, labeled as recorded |
