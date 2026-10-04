@@ -3,4 +3,4 @@
 status: running
 branch: art/phase-a
 updated: 2026-10-04
-note: Phase B: DESIGN.md + Motion API (session_01Wn1XxocQZuXW991gtBVfwr, PR #2)
+note: DESIGN.md v1 on PR #2; 4 amendments requested (TRINITY/AlgoLend truth, beat failsafe, bfcache)

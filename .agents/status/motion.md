@@ -1,6 +1,6 @@
 # motion
 
-status: not started
+status: running
 branch: agent/motion
 updated: 2026-10-04
-note: starts when DESIGN.md merges; implements shared/motion/ + shared/trace/
+note: session_01BAojZhjiTdwRYFxWNewQ3j, branch agent/motion
