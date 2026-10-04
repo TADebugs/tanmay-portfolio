@@ -82,7 +82,7 @@
     .desk + .desk { border-inline-start: var(--hair) solid var(--rule); padding-inline-start: var(--s-5); }
     .desk:last-child { padding-inline-end: 0; }
     .desk header { display: grid; gap: var(--s-1); }
-    .desk .file { font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-faint); overflow-wrap: anywhere; }
+    .desk .file { font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-faint); }
     .desk dl { display: grid; gap: var(--s-3); }
     .desk dt { font-size: var(--fs-small); color: var(--legend-dim); font-variation-settings: "wdth" var(--wdth-legend); }
     .desk dd { font-family: var(--font-mono); font-size: var(--fs-small); overflow-wrap: anywhere; }
@@ -175,7 +175,7 @@
           <header>
             <span class="tag code"><span class="lamp is-nominal" aria-hidden="true"></span>WIRED</span>
             <h3 id="d-risk">Risk Analyzer</h3>
-            <span class="file">backend/ai/risk_analyzer.py</span>
+            <span class="file">backend/<wbr>ai/<wbr>risk_analyzer.py</span>
           </header>
           <dl>
             <div><dt>reads</dt><dd>balance · account age · tx frequency · tx consistency · tx amounts · network activity · reputation</dd></div>
@@ -206,7 +206,7 @@
           <header>
             <span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>SIMULATED</span>
             <h3 id="d-oracle">Market Oracle</h3>
-            <span class="file">backend/ai/market_oracle.py</span>
+            <span class="file">backend/<wbr>ai/<wbr>market_oracle.py</span>
           </header>
           <dl>
             <div><dt>reads</dt><dd>algo_price · volume_24h · price_change_24h · fear_greed_index</dd></div>
@@ -219,7 +219,7 @@
           <header>
             <span class="tag code"><span class="lamp is-off" aria-hidden="true"></span>NOT WIRED</span>
             <h3 id="d-yield">Yield Optimizer</h3>
-            <span class="file">backend/ai/yield_optimizer.py</span>
+            <span class="file">backend/<wbr>ai/<wbr>yield_optimizer.py</span>
           </header>
           <dl>
             <div><dt>reads</dt><dd>risk_tolerance · investment_amount · time_horizon · 5 pools</dd></div>
