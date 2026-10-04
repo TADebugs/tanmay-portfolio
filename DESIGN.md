@@ -1,6 +1,6 @@
 # DESIGN.md: the contract
 
-Owner: `artdirector`. Status: **v1, 2026-10-04.** This file supersedes CLAUDE.md §5. Builders follow it literally. To change anything here, write to `.agents/inbox/artdirector/`. To change a **Motion API** or **Shell API** signature, artdirector must also notify `construct`, `entry` and `motion` (decisions.md #3).
+Owner: `artdirector`. Status: **v1.1, 2026-10-04** (v1.1: §8 additions ruled in motion r1, all additive). This file supersedes CLAUDE.md §5. Builders follow it literally. To change anything here, write to `.agents/inbox/artdirector/`. To change a **Motion API** or **Shell API** signature, artdirector must also notify `construct`, `entry` and `motion` (decisions.md #3).
 
 Source of the decisions: `CONCEPT.md` (locked premise), Tanmay's pick in `.agents/decisions.md` #7–8, and the research in `.agents/critique/concepts.md` §0.
 
@@ -510,10 +510,12 @@ This is a contract. `construct`, `entry`, `motion` and every program-page owner 
 | export | signature | does |
 |---|---|---|
 | `now` | `() => EpochMs` | `performance.timeOrigin + performance.now()` |
-| `startTrace` | `(slug: string, opts?: { from?: string\|null }) => Span` | creates a Trace with t0 = `now()` and an open root span named `"load"`, and returns the root `Span` |
-| `Span#child` | `(name: string) => Span` | opens a child span at `now()` |
+| `startTrace` | `(slug: string, opts?: { from?: string\|null, t0?: EpochMs }) => Span` | creates a Trace with t0 = `opts.t0 ?? now()` and an open root span named `"load"`, and returns the root `Span`. *(v1.1: `t0` added; mountProgram uses `performance.timeOrigin` for direct visits)* |
+| `resumeTrace` | `(trace: Trace) => Span` | wraps an existing Trace (e.g. from `takePending`) and returns its root `Span`, so spans can be added to it. *(v1.1)* |
+| `Span#child` | `(name: string, at?: EpochMs) => Span` | opens a child span at `at ?? now()`. *(v1.1: `at` added, for spans read from Navigation Timing)* |
 | `Span#end` | `(at?: EpochMs) => number` | closes the span (at `at` or `now()`) and returns its duration in ms. Idempotent |
 | `Span#trace` | `Trace` (getter) | the live Trace object |
+| `Span#name` | `string` (getter/setter) | the span's name; set it to rename (e.g. `"request (failed)"`). *(v1.1)* |
 | `savePending` | `(trace: Trace) => void` | `sessionStorage['td.trace.pending'] = JSON` (try/catch; silent on failure) |
 | `takePending` | `() => Trace\|null` | reads and **removes** the pending trace; null if none, unparseable, or older than 10s |
 | `sessionClock` | `() => number` | ms since the first red-side page view this session. Sets `sessionStorage['td.session.t0']` on first call |
@@ -549,7 +551,9 @@ Linked on every red-side page (after `tokens.css`). It holds:
 - the `.is-beat` rule
 - the bell's `.is-bell` rule
 - the lamp-test `[data-lamp].is-test` rule
-- `@view-transition { navigation: auto; }` scoped as `motion` sees fit
+- **No `@view-transition`** (ruled in motion r1). The beat already gives a white last frame → white first frame, and cross-document View Transitions would add a crossfade to every other red-side navigation, which §3 doesn't allow.
+- The leave fade, implemented as a fixed `--construct` layer (`html.is-leaving::after`, opacity only, `pointer-events: none`) over the page. It is not `body { opacity }`, so it works whatever a page paints its ground on.
+- Default trace waterfall styles under `:where()` (zero specificity). Pages may restyle `.trace*` freely. All the other selectors in this file are not to be overridden.
 
 It defines no layout. Builders don't override its selectors.
 
@@ -557,10 +561,10 @@ It defines no layout. Builders don't override its selectors.
 
 | export | signature | does | reduced motion | called by |
 |---|---|---|---|---|
-| `loadProgram` | `(slug: string, opts: { href: string, from?: string, rail?: HTMLElement\|null }) => Promise<void>` | Board side. (1) `startTrace(slug, { from: opts.from ?? 'board' })`, child span `"request"`. (2) If `rail` is given, `renderTrace(rail, …, { live: true })` so the bar grows while the request runs. (3) `fetch(href, { credentials: 'same-origin' })` to measure the request and warm the HTTP cache; ends `"request"` on response. (4) `savePending(trace)`. (5) Fades `<body>` to `--construct` over `--t-quick` (the white beat starts on this side). (6) `location.assign(href)`. The promise resolves just before step 6. **bfcache:** on import, program.js adds one `pageshow` listener. When `event.persisted` is true (the board was restored with the browser Back button), it removes the fade instantly, sets `<body>` opacity back to 1 with no transition, and stops any live rail render, so the restored board is never stuck faded. **Failure policy:** if the fetch rejects or the response isn't `ok`, still `savePending` (with `"request"` ended and named `"request (failed)"`) and navigate anyway. Never block navigation; a 404 page is the server's honest answer | no rail growth, no fade; trace still recorded; navigates immediately after the fetch resolves or 1500ms, whichever is first | `construct` (Load buttons, `run <slug>`) |
+| `loadProgram` | `(slug: string, opts: { href: string, from?: string, rail?: HTMLElement\|null }) => Promise<void>` | Board side. (1) `startTrace(slug, { from: opts.from ?? 'board' })`, child span `"request"`. (2) If `rail` is given, `renderTrace(rail, …, { live: true })` so the bar grows while the request runs. (3) `fetch(href, { credentials: 'same-origin' })` to measure the request and warm the HTTP cache; ends `"request"` on response. (4) `savePending(trace)`. (5) Fades the page to `--construct` over `--t-quick` with the `is-leaving` layer (the white beat starts on this side); **the trace clock pauses for the fade**: `t0` is shifted forward by the measured fade duration, so no span includes it. (6) `location.assign(href)`. The promise resolves just before step 6. **bfcache:** on import, program.js adds one `pageshow` listener. When `event.persisted` is true (the board was restored with the browser Back button), it removes the `is-leaving` layer instantly (no transition back) and stops any live rail render, so the restored board is never stuck faded. **Hung fetch:** capped at 5000ms; the span is ended and named `"request (timeout)"`, and navigation proceeds. **Callers** intercept only unmodified primary clicks (no Ctrl/Cmd/Shift/Alt, `button === 0`). Modified clicks fall through to the plain `href` so open-in-new-tab keeps working. **Repeat calls** while one is in flight return the same promise. **Failure policy:** if the fetch rejects or the response isn't `ok`, still `savePending` (with `"request"` ended and named `"request (failed)"`) and navigate anyway. Never block navigation; a 404 page is the server's honest answer | no rail growth, no fade; trace still recorded; navigates immediately after the fetch resolves or 1500ms, whichever is first | `construct` (Load buttons, `run <slug>`) |
 | `mountProgram` | `(slug: string, opts?: { ready?: Promise<unknown>, rail?: HTMLElement\|null }) => Promise<Trace>` | Program side. Call once, as early as the module runs. (1) `takePending()`; if none, this is a direct visit: start a new trace with `t0 = performance.timeOrigin` and `from: null`, and add a `"request"` span from Navigation Timing (`requestStart` → `responseEnd`). (2) Add a `"parse"` span from Navigation Timing (`responseEnd` → `domContentLoadedEventEnd`). (3) If `html.is-beat`, hold the white for `max(0, --t-beat − elapsed since navigation start)` (the beat is ≥ 200ms in total, **never counted in the trace**), then remove `is-beat` and reveal the body (opacity 0 → 1, `--t-quick`). (4) Child span `"mount"`: ends when `opts.ready` settles. Default: immediately. If it **rejects**, the span is named `"mount (failed)"` and the promise still resolves. (5) End the root, `renderTrace(rail)` if given, and resolve with the Trace | no beat (beat.js never set it), no reveal fade; trace identical | every program page |
 
-Truth rule: `Trace.total` and every span are measured. Nothing pads, rounds up or fakes a minimum. The white beat and the reveal fade are **excluded** from all spans.
+Truth rule: `Trace.total` and every span are measured. Nothing pads, rounds up or fakes a minimum. The board-side leave fade, the white beat and the reveal fade are **excluded** from all spans. Gaps between spans (e.g. the browser's own navigation between `request` and `parse`) are real time and stay visible as gaps; the root ends at the last child's end.
 
 ### `shared/motion/bell.js`
 

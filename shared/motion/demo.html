@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Motion demo · board side</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="/shared/motion/motion.css">
+  <style>
+    body { margin: 0; padding: var(--s-5) var(--gutter); background: var(--panel); color: var(--legend); font: var(--fs-body)/var(--lh-ui) var(--font-ui); }
+    main { max-width: 720px; display: grid; gap: var(--s-6); }
+    h1 { font-size: var(--fs-h2); margin: 0; } h2 { font-size: var(--fs-h3); margin: 0 0 var(--s-2); }
+    section { border-top: var(--hair) solid var(--rule); padding-top: var(--s-4); }
+    button { font: inherit; color: var(--legend); background: var(--strip); border: var(--hair) solid var(--rule-strong); padding: var(--s-2) var(--s-3); cursor: pointer; }
+    button:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
+    .row { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+    [data-lamp] { display: inline-block; inline-size: var(--lamp); block-size: var(--lamp); border-radius: 50%; border: var(--hair) solid transparent; }
+    [data-lamp="session"], .ok { background: var(--nominal); } .warn { background: var(--caution); } .off { border-color: var(--inactive); }
+    code, output, pre { font-family: var(--font-mono); font-size: var(--fs-small); color: var(--legend-dim); }
+    .trace-rail { min-block-size: 24px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Motion demo · board side</h1>
+  <p>Exercises every export of <code>/shared/motion/index.js</code>. Not linked from the site. Reduced motion: <output id="rm"></output> · session <output id="clock">+00:00.000</output></p>
+
+  <section>
+    <h2>loadProgram → mountProgram</h2>
+    <div class="row">
+      <button id="load" type="button">Load demo program</button>
+      <button id="load-slow" type="button">Load, mount waits 800 ms</button>
+      <button id="load-fail" type="button">Load, mount rejects</button>
+    </div>
+    <div class="trace-rail" id="rail"></div>
+  </section>
+
+  <section>
+    <h2>bell</h2>
+    <div class="row"><button id="bell" type="button">Ring bell</button> <span data-lamp="session" title="session lamp"></span> <output id="rings">0 rung · 0 flashed</output></div>
+  </section>
+
+  <section>
+    <h2>lampTest</h2>
+    <div class="row" id="lamps">
+      <span data-lamp class="ok"></span> LIVE
+      <span data-lamp class="warn"></span> IN PROGRESS
+      <span data-lamp class="off"></span> NOT CONNECTED
+      <button id="lamp" type="button">Lamp test</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>renderTrace (static) · real fetches</h2>
+    <button id="measure" type="button">Measure two fetches</button>
+    <div class="trace-rail" id="static"></div>
+  </section>
+
+  <section>
+    <h2>formatMs / formatClock</h2>
+    <pre id="fmt"></pre>
+  </section>
+</main>
+<script type="module">
+  import { loadProgram, bell, lampTest, reducedMotion, renderTrace, startTrace,
+           sessionClock, formatClock, formatMs } from '/shared/motion/index.js';
+
+  const $ = id => document.getElementById(id);
+  $('rm').textContent = reducedMotion() ? 'on' : 'off';
+
+  // Session clock: ticks 1/s, only while visible.
+  const tick = () => { if (!document.hidden) $('clock').textContent = formatClock(sessionClock()); };
+  tick(); setInterval(tick, 1000);
+
+  const rail = $('rail');
+  $('load').onclick = () => loadProgram('demo', { href: 'demo-program.html', rail });
+  $('load-slow').onclick = () => loadProgram('demo', { href: 'demo-program.html?ready=800', rail });
+  $('load-fail').onclick = () => loadProgram('demo', { href: 'demo-program.html?fail=1', rail });
+
+  // Bell: count clicks vs flashes to show the 500 ms rate limit.
+  let rung = 0, flashed = 0;
+  new MutationObserver(() => { if (document.documentElement.classList.contains('is-bell')) flashed++; show(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  const show = () => { $('rings').textContent = `${rung} rung · ${flashed} flashed`; };
+  $('bell').onclick = () => { rung++; bell(); show(); };
+
+  $('lamp').onclick = () => lampTest($('lamps'));
+
+  $('measure').onclick = async () => {
+    const root = startTrace('board', { from: null });
+    for (const url of ['/shared/tokens.css', '/shared/projects.json']) {
+      const s = root.child(`fetch ${url.split('/').pop()}`);
+      await fetch(url, { cache: 'no-store' });
+      s.end();
+    }
+    root.end();
+    renderTrace($('static'), root.trace);
+  };
+
+  $('fmt').textContent = [3.6, 412, 999.4, 999.6, 1840, 221208, 3821208]
+    .map(ms => `${String(ms).padStart(8)}  ${formatMs(ms).padEnd(10)} ${formatClock(ms)}`).join('\n');
+</script>
+</body>
+</html>
