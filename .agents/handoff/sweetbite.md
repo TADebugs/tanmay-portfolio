@@ -44,3 +44,16 @@ shots: .agents/critique/shots/sweetbite-r2-{1280,375,375-reduced,1280-live-sim}.
 - verified: the ARIA snapshot reads region "Ticket rail, 12 items" > list > listitem. Metrics match round 2 (625 / 268 px, no page h-scroll at 375). ArrowRight still scrolls the rail. No page errors
 - shots: .agents/critique/shots/sweetbite-r2a-*.png
 later: when motion and construct merge, swap the 4 stub paths (listed above), delete sweet-bite/_stub/ and drop "Back to the board"
+
+## sweetbite: stub swap (branch agent/sweet-bite-shell)
+- sweet-bite/index.html now uses /shared/motion/beat.js, /shared/motion/motion.css, /shared/motion/index.js and /construct/shell.js
+- sweet-bite/_stub/ deleted; "Back to the board" link removed (the status line covers it)
+tested (Playwright, http.server):
+- tested at 1280 and 375: board /red → Load on CH-04 → /sweet-bite/
+- html.is-beat was set on arrival and cleared afterward; body visible
+- the trace rail rendered the measured spans, e.g. `loaded in 365 ms` (request / parse / mount)
+- the status line showed `/red › CH-04 Sweet-Bite`
+- ` opened the terminal; the log had `ok CH-04 Sweet-Bite loaded in …`, and `ls programs` listed sweet-bite
+- no page errors; no horizontal scroll at 375
+- the only console errors were Google Fonts (sandbox proxy cert) and the dev server's /favicon.ico 404
+shots: .agents/critique/shots/sweetbite-shell-{1280,375}.png

@@ -1,6 +1,6 @@
 # sweetbite
 
 status: ready for merge
-branch: agent/sweet-bite
+branch: agent/sweet-bite-shell
 updated: 2026-10-04
-note: r2 conditional pass + A1 pushed. Stub swap pending motion + construct merges
+note: stubs swapped for /shared/motion + /construct/shell.js; _stub/ deleted
