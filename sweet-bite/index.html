@@ -1,12 +1,294 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sweet-Bite — in progress · Tanmay Desai</title></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- STUB: swap to /shared/motion/beat.js once motion merges -->
+  <script src="/sweet-bite/_stub/beat.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <!-- STUB: swap to /shared/motion/motion.css once motion merges -->
+  <link rel="stylesheet" href="/sweet-bite/_stub/motion.css">
+  <title>CH-04 Sweet-Bite · Tanmay Desai</title>
+  <meta name="description" content="Sweet-Bite: restaurant site for a fictional BBQ spot; menu, hours and a reservation form in plain HTML/CSS/JS.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--panel);
+      color: var(--legend);
+      font: var(--fs-body)/var(--lh-ui) var(--font-ui);
+      font-variation-settings: "wdth" var(--wdth-body);
+    }
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: var(--s-6) max(16px, env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom) + var(--s-7)) var(--gutter);
+    }
+    a { color: var(--legend); text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
+    .mono, .num {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums slashed-zero;
+    }
+    .unit { color: var(--legend-dim); }
+    h1, h2, h3 {
+      font-family: var(--font-ui);
+      font-variation-settings: "wdth" var(--wdth-legend);
+      font-weight: 600;
+      line-height: var(--lh-tight);
+      margin: 0;
+    }
+    h2 { font-size: var(--fs-h2); margin-bottom: var(--s-4); }
+    section { margin-top: var(--s-7); }
+    .note { color: var(--legend-faint); font-size: var(--fs-small); margin: var(--s-3) 0 0; }
+
+    /* asset tag (DESIGN §4.3) */
+    .asset-tag {
+      position: relative;
+      background: var(--strip);
+      border: var(--hair) solid var(--rule-strong);
+      border-radius: var(--radius-plate);
+      padding: var(--s-5) var(--s-6);
+    }
+    .rivet { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: var(--rule-strong); }
+    .rivet.tl { top: 6px; left: 6px; } .rivet.tr { top: 6px; right: 6px; }
+    .rivet.bl { bottom: 6px; left: 6px; } .rivet.br { bottom: 6px; right: 6px; }
+    .tag-head { display: flex; align-items: baseline; gap: var(--s-4); flex-wrap: wrap; }
+    .tag-head .id { font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-dim); }
+    .tag-head h1 { font-size: var(--fs-h1); }
+    .tag-line {
+      display: flex; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap;
+      margin: var(--s-2) 0 0; font-size: var(--fs-small); color: var(--legend-dim);
+    }
+    .tag-line .label { color: var(--legend-faint); margin-right: var(--s-2); }
+    .trace-rail { min-height: var(--s-2); margin-top: var(--s-2); }
+
+    /* intro + launch control (DESIGN §5.6) */
+    .intro { margin-top: var(--s-6); max-width: var(--measure); }
+    .intro p { margin: 0 0 var(--s-4); font-size: var(--fs-read); line-height: var(--lh-read); }
+    .intro .launch { margin: 0; }
+    .launch {
+      display: inline-flex; align-items: flex-start; gap: var(--s-3);
+      padding: var(--s-3) var(--s-4);
+      border: var(--hair) solid var(--rule-strong);
+      font-family: var(--font-ui);
+      font-variation-settings: "wdth" var(--wdth-legend);
+      font-size: var(--fs-body);
+      font-weight: 600;
+      line-height: var(--lh-ui);
+      text-decoration: none;
+    }
+    .launch .lamp { flex: none; width: var(--lamp); height: var(--lamp); border-radius: 50%; margin-top: 0.45em; }
+    .launch .sub { display: block; font-weight: 400; font-size: var(--fs-small); }
+    .launch.is-offline { color: var(--legend-faint); border-color: var(--rule); }
+    .launch.is-offline .lamp { border: var(--hair) solid var(--inactive); }
+    .launch.is-live { color: var(--legend); transition: border-color var(--t-quick) var(--ease); }
+    .launch.is-live .lamp { background: var(--nominal); }
+    .launch.is-live:hover { border-color: var(--legend-dim); }
+    .host { font-family: var(--font-mono); font-weight: 400; overflow-wrap: anywhere; }
+
+    /* ticket rail: the world's one extra material (DESIGN §5.4) */
+    .rail { margin-top: var(--s-5); }
+    .rail h3 { font-size: var(--fs-small); color: var(--legend-dim); margin-bottom: var(--s-2); }
+    .rail ul {
+      list-style: none; margin: 0; padding: var(--s-3) 0 0;
+      border-top: 2px solid var(--rule-strong);
+      display: flex; flex-wrap: wrap; gap: var(--s-4);
+    }
+    .ticket {
+      position: relative;
+      width: 220px;
+      background: var(--strip);
+      border: var(--hair) solid var(--rule);
+      padding: var(--s-3) var(--s-3) var(--s-2);
+      display: flex; flex-direction: column;
+    }
+    .ticket::before { /* the clip holding the ticket on the rail */
+      content: ""; position: absolute; top: calc(-1 * var(--s-3) - 1px); left: var(--s-4);
+      width: 2px; height: var(--s-3); background: var(--rule-strong);
+    }
+    .ticket h4 {
+      margin: 0 0 var(--s-1); font-size: var(--fs-body); font-weight: 600; line-height: var(--lh-tight);
+      font-variation-settings: "wdth" var(--wdth-legend);
+    }
+    .ticket p { margin: 0; font-size: var(--fs-small); color: var(--legend-dim); flex: 1; }
+    .ticket .price {
+      margin-top: var(--s-3); padding-top: var(--s-2);
+      border-top: var(--hair) dashed var(--rule-strong);
+      font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero;
+      font-size: var(--fs-small);
+    }
+
+    /* smoker channel */
+    .smoker { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+    .smoker li, .axis {
+      display: grid; grid-template-columns: 7.5rem 1fr 3.5rem; align-items: center; gap: var(--s-3);
+      font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero;
+    }
+    .smoker li { padding: var(--s-2) 0; border-bottom: var(--hair) solid var(--rule); font-size: var(--fs-small); }
+    .smoker .track { position: relative; height: var(--s-2); }
+    .smoker .bar { position: absolute; inset: 0 auto 0 0; background: var(--legend-dim); }
+    .smoker .val { text-align: right; }
+    .axis { max-width: 760px; margin-top: var(--s-1); font-size: var(--fs-id); color: var(--legend-faint); }
+    .axis .ticks { display: flex; justify-content: space-between; }
+
+    /* covers */
+    .covers { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
+    .covers li {
+      padding: var(--s-2) var(--s-5);
+      border: var(--hair) solid var(--rule-strong);
+      margin: 0 -1px -1px 0;
+      font-variation-settings: "wdth" var(--wdth-legend);
+      font-weight: 600;
+    }
+
+    /* facts */
+    .facts { margin: 0; padding-left: var(--s-5); max-width: var(--measure); }
+    .facts li { margin-bottom: var(--s-2); }
+    .origin { font-family: var(--font-mono); font-size: var(--fs-small); color: var(--legend-dim); margin: var(--s-4) 0; }
+    .links { display: flex; flex-wrap: wrap; gap: var(--s-5); margin: 0; }
+
+    .print-only { display: none; }
+    @media print { .print-only { display: block; } }
+
+    @media (max-width: 640px) {
+      .asset-tag { padding: var(--s-5) var(--s-4); }
+      .ticket { width: 100%; }
+      .smoker li, .axis { grid-template-columns: 6rem 1fr 3rem; }
+    }
+  </style>
+</head>
 <body>
-<!-- PLACEHOLDER: lead scaffold. The owning agent replaces this file. -->
-<main>
-<h1>Sweet-Bite</h1>
-<p>In progress. Source: <a href="https://github.com/TADebugs/Sweet-Bite">TADebugs/Sweet-Bite</a>.</p>
-<p><a href="/red">Back</a></p>
-</main>
-</body></html>
+  <div class="page">
+    <p class="print-only">Printable version: tanmaydesai.xyz/blue</p>
+
+    <header class="asset-tag">
+      <span class="rivet tl" aria-hidden="true"></span><span class="rivet tr" aria-hidden="true"></span>
+      <span class="rivet bl" aria-hidden="true"></span><span class="rivet br" aria-hidden="true"></span>
+      <div class="tag-head">
+        <span class="id">CH-04</span>
+        <h1>Sweet-Bite</h1>
+      </div>
+      <p class="tag-line mono"><span>html · css · javascript</span><span>2024</span></p>
+      <p class="tag-line mono"><span><span class="label">src</span><a href="https://github.com/TADebugs/Sweet-Bite">github.com/TADebugs/Sweet-Bite</a></span></p>
+    </header>
+    <div class="trace-rail" id="rail"></div>
+
+    <main>
+      <div class="intro">
+        <p>Restaurant site for a fictional BBQ spot; menu, hours and a reservation form in plain HTML/CSS/JS.</p>
+        <p class="launch is-offline" id="launch">
+          <span class="lamp" aria-hidden="true"></span>
+          <span>Not connected yet · <span class="host">sweetbite.tanmaydesai.xyz</span>
+            <span class="sub">the app is being deployed; source is live</span></span>
+        </p>
+      </div>
+
+      <section aria-labelledby="h-rail">
+        <h2 id="h-rail">Ticket rail</h2>
+        <div class="rail">
+          <h3>Apps to Share (or Not)</h3>
+          <ul>
+            <li class="ticket"><h4>Bucket o' Biscuits</h4><p>World-famous buttermilk biscuits served with honey butter.</p><span class="price">$16</span></li>
+            <li class="ticket"><h4>Texas Nachos</h4><p>Salt and pepper potatoes, jack &amp; cheddar, ranch beans. Add pulled chicken, pork, or beef for $2.</p><span class="price">$16</span></li>
+            <li class="ticket"><h4>SCQ Smoked Wings</h4><p>Tossed in gold sauce, chipotle buffalo, or dry rubbed.</p><span class="price">$14</span></li>
+          </ul>
+        </div>
+        <div class="rail">
+          <h3>Trays &amp; Sandwiches</h3>
+          <ul>
+            <li class="ticket"><h4>Sliced Prime Brisket</h4><p>All-natural USDA prime beef brisket, slow-smoked for 14 hours with salt &amp; pepper.</p><span class="price">$28 Tray / $20 Sandwich</span></li>
+            <li class="ticket"><h4>Heritage Pulled Pork</h4><p>All-natural pork with SCQ spice rub, smoked for 14 hours.</p><span class="price">$21 Tray / $16.5 Sandwich</span></li>
+            <li class="ticket"><h4>Half Smoked Chicken</h4><p>All-natural chicken, brined and slow-smoked for three hours.</p><span class="price">$24 Tray / $16.50 Half Bird</span></li>
+          </ul>
+        </div>
+        <div class="rail">
+          <h3>Specialty Sandos</h3>
+          <ul>
+            <li class="ticket"><h4>The Big Papi</h4><p>Sliced brisket &amp; chopped brisket with smoked jalapeño cream cheese, pickles, crispy onions.</p><span class="price">$23</span></li>
+            <li class="ticket"><h4>The Carolina Cuban</h4><p>Pulled pork, house-smoked ham, Swiss &amp; cheddar cheese, BBQ mustard, and pickles.</p><span class="price">$19</span></li>
+          </ul>
+        </div>
+        <div class="rail">
+          <h3>Sides</h3>
+          <ul>
+            <li class="ticket"><h4>Mac 'n' Cheese</h4><p>Creamy and cheesy goodness.</p><span class="price">$9 Pint / $5 Half Pint</span></li>
+            <li class="ticket"><h4>Collard Greens</h4><p>Slow-cooked greens with a hint of spice.</p><span class="price">$9 Pint / $5 Half Pint</span></li>
+          </ul>
+        </div>
+        <div class="rail">
+          <h3>Desserts</h3>
+          <ul>
+            <li class="ticket"><h4>Giant Nutter Butter Cookie*</h4><p>A massive version of the classic treat.</p><span class="price">$12</span></li>
+            <li class="ticket"><h4>Chocolate Fudgy Brownie</h4><p>Rich and decadent chocolate brownie.</p><span class="price">$8</span></li>
+          </ul>
+        </div>
+        <p class="note">Items and prices from the site's menu page, as written.</p>
+      </section>
+
+      <section aria-labelledby="h-smoker">
+        <h2 id="h-smoker">Smoker channel</h2>
+        <ul class="smoker">
+          <li><span>brisket</span><span class="track" aria-hidden="true"><span class="bar" style="inline-size:100%"></span></span><span class="val">14<span class="unit">&#8201;h</span></span></li>
+          <li><span>pulled pork</span><span class="track" aria-hidden="true"><span class="bar" style="inline-size:100%"></span></span><span class="val">14<span class="unit">&#8201;h</span></span></li>
+          <li><span>chicken</span><span class="track" aria-hidden="true"><span class="bar" style="inline-size:21.43%"></span></span><span class="val">3<span class="unit">&#8201;h</span></span></li>
+        </ul>
+        <div class="axis" aria-hidden="true">
+          <span></span>
+          <span class="ticks"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span><span>12</span><span>14&#8201;h</span></span>
+          <span></span>
+        </div>
+        <p class="note">Smoke times from the menu copy.</p>
+      </section>
+
+      <section aria-labelledby="h-covers">
+        <h2 id="h-covers">Covers by section</h2>
+        <ul class="covers">
+          <li>indoor</li><li>outdoor</li><li>bar</li>
+        </ul>
+        <p class="note">The table types on the reservation form. No counts: nothing is booked or stored.</p>
+      </section>
+
+      <section aria-labelledby="h-facts">
+        <h2 id="h-facts">Facts</h2>
+        <ul class="facts">
+          <li>Four pages: home, menu, reservations, about us.</li>
+          <li>The reservation form takes name, time, table type, email and phone, validates in the browser and confirms with an alert. There is no backend; nothing is sent.</li>
+          <li>Plain HTML, CSS and JavaScript, no build step. Chart.js draws the one chart on the about page.</li>
+        </ul>
+        <p class="origin">first program · plain HTML/CSS/JS</p>
+        <p class="links"><a href="https://github.com/TADebugs/Sweet-Bite">Source · github.com/TADebugs/Sweet-Bite</a><a href="/red">Back to the board</a></p>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    // STUB imports: swap to '/shared/motion/index.js' and '/construct/shell.js' once motion and construct merge.
+    import { mountProgram } from '/sweet-bite/_stub/index.js';
+    import { mountShell } from '/sweet-bite/_stub/shell.js';
+
+    const shell = mountShell({ channel: 'sweet-bite' });
+
+    // Launch state comes from projects.json only (DESIGN §5.6). The offline control is the default markup.
+    const ready = fetch('/shared/projects.json')
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error(`projects.json ${r.status}`))))
+      .then(({ projects }) => {
+        const p = projects.find(x => x.slug === 'sweet-bite');
+        if (!p || p.status !== 'live' || !p.launch) return;
+        const a = document.createElement('a');
+        a.className = 'launch is-live';
+        a.id = 'launch';
+        a.href = p.launch;
+        a.innerHTML = '<span class="lamp" aria-hidden="true"></span><span>Launch · <span class="host"></span></span>';
+        a.querySelector('.host').textContent = new URL(p.launch).host;
+        document.getElementById('launch').replaceWith(a);
+      });
+
+    mountProgram('sweet-bite', { ready, rail: document.getElementById('rail') })
+      .then(trace => shell.logTrace(trace));
+  </script>
+</body>
+</html>

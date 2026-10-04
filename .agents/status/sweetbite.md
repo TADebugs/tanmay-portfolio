@@ -1,6 +1,6 @@
 # sweetbite
 
-status: running
+status: ready for merge
 branch: agent/sweet-bite
 updated: 2026-10-04
-note: app PR Sweet-Bite#2 ready; now building /sweet-bite program page
+note: /sweet-bite program page PR open (stubs for motion + shell). App PR Sweet-Bite#2 open; launch stays "Not connected yet" until lead flips projects.json
