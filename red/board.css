@@ -126,3 +126,4 @@ ul, ol { padding: 0; list-style: none; }
   body { background: #fff; color: #111; }
   .btn, .src, .rail { display: none; }
 }
+.rail:not(:empty) { margin-block-start: var(--s-3); }

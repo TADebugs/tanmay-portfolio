@@ -1,6 +1,6 @@
 // /red: the board (DESIGN.md §4.1–4.2, §4.6). Channels come from shared/projects.json at runtime.
 import { mountShell, projects, statusOf } from '/construct/shell.js';
-import { loadProgram, lampTest } from '/construct/_stub/motion.js';
+import { loadProgram, lampTest } from '/shared/motion/index.js';
 
 const shell = mountShell({ channel: null });
 const board = document.getElementById('board');

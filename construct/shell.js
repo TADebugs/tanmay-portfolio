@@ -1,7 +1,7 @@
 // construct/shell.js: the Shell API (DESIGN.md §9). Status line (§4.4), comms loop
 // terminal (§4.5), déjà vu cat log side (§4.6). Contract: mountShell / Shell#log /
 // logTrace / register / open / close. Extra exports (projects, statusOf) are for /red.
-import { loadProgram, bell, sessionClock, formatClock, formatMs } from '/construct/_stub/motion.js';
+import { loadProgram, bell, sessionClock, formatClock, formatMs } from '/shared/motion/index.js';
 
 const store = (area) => ({
   get(k, d) { try { const v = area().getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },

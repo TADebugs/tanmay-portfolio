@@ -1,4 +1,0 @@
-/* Stand-in for /shared/motion/motion.css until agent/motion merges. */
-html.is-bell { filter: invert(1); }
-[data-lamp].is-test { background: var(--legend) !important; border-color: var(--legend) !important; }
-[data-lamp].is-fault { background: var(--fault) !important; }
