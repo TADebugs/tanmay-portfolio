@@ -64,7 +64,7 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 - **Ephemeral disk.** Each session is a fresh clone. Push after every meaningful step; unpushed work is lost.
 - **No access to Tanmay's Mac:** no Unity editor, no SSD, no local paths. Tanmay pushes those artifacts himself (§7).
 - **No secrets in the sandbox.** Tanmay sets keys in Vercel env vars. Agents build against mocks (e.g. `MOCK_VISION=1`), and the real calls are verified on Vercel preview.
-- **One repo per session.** `docs` runs one session per project repo.
+- **Repos per session.** `docs` runs one session per project repo. `algolend` and `sweetbite` work in their app repo first, then attach this repo (`add_repo`) for their program page.
 - **Network may be restricted.**
   - Prefer zero-dependency static files.
   - If a package install fails, vendor it or write plain JS.
@@ -78,29 +78,31 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 
 | id | role | model | ~budget | branch | owns (write access) |
 |---|---|---|---|---|---|
-| `lead` | Scaffolds, owns shared files, merges, final gate | Opus | $10 | `lead/*` | `.agents/BOARD.md`, `shared/`, `index.html`, `vercel.json`, `public/` |
+| `lead` | Scaffolds, owns shared files, reviews PR previews, merges, final gate | Opus | $10 | `lead/*` | `.agents/decisions.md`, `shared/` (except `motion/`, `trace/`), `vercel.json`, root files like `resume.pdf` (not `index.html`: that's the gate, owned by `entry`) |
 | `artdirector` | Concepts, DESIGN.md, critiques every page. Never writes product code | Opus / strongest | $16 | `art/*` | `DESIGN.md`, `.agents/critique/` |
 | `construct` | The construct (replaces `/red`): shared navigation, the terminal, easter eggs. Per CONCEPT.md | Opus | $16 | `agent/construct` | `construct/`, `red/` |
-| `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | `gate/`, `blue/` |
-| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/` (delegated by lead) |
-| `sweetbite` | `/sweet-bite` live | Opus | $5 | `agent/sweet-bite` | `sweet-bite/` |
-| `algolend` | `/algolend` seeded demo | Opus | $9 | `agent/algolend` | `algolend/` |
+| `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | root `index.html` (the gate), `gate/`, `blue/` |
+| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/`, `shared/trace/` (delegated by lead) |
+| `sweetbite` | Sweet-Bite app (own repo + Vercel project, served at `sweetbite.tanmaydesai.xyz`) + the `/sweet-bite` program page here | Opus | $5 | `agent/sweet-bite` in both repos | `TADebugs/Sweet-Bite` (except `README.md`), `sweet-bite/` here |
+| `algolend` | AlgoLend app (own repo + Vercel project `algolend-ai-frontend-v2`, served at `algolend.tanmaydesai.xyz`) + the `/algolend` program page here | Opus | $9 | `agent/algolend` in both repos | `TADebugs/ALGOLEND_AI` (except `README.md`), `algolend/` here |
 | `godseye` | `/gods-eye` WebGL + `api/vision` proxy | Opus | $10 | `agent/gods-eye` | `gods-eye/`, `api/vision*` |
 | `trinity` | `/trinity` case study | Opus | $6 | `agent/trinity` | `trinity/` |
 | `rag` | `/rag` recorded demo | Opus | $7 | `agent/rag` | `rag/` |
-| `docs` | READMEs for the 4 project repos | Sonnet | $5 | `docs/readme` per repo | those repos' `README.md` |
+| `docs` | READMEs for the 4 project repos | Sonnet | $5 | `docs/readme` per repo | those repos' `README.md` (only that file) |
 
-Budgets are rough. If quality needs more rounds, spend it. Tanmay watches the meter.
+Every agent also owns `.agents/status/<id>.md` and `.agents/handoff/<id>.md`, and may create new files in other agents' inbox folders (§4).
+
+Budgets are rough. If quality needs more rounds, spend it. Tanmay watches the meter. **Hard deadline: credits expire Oct 8.**
 
 ---
 
 ## 3. The artdirector loop (this is what prevents slop)
 
-### Phase A — develop the locked concept (Sat, before any page is built)
+### Phase A — develop the locked concept (wave 1, before any page is built)
 
 The premise is **locked in `CONCEPT.md`**: the construct as a place, the terminal, programs as sub-worlds, max 2 easter eggs, and the boring blue pill. Do not pitch new premises.
 
-1. Read `CONCEPT.md`, `CLAUDE.md`, the CV facts, and every project repo's README and code summary.
+1. Read `CONCEPT.md`, `CLAUDE.md`, the CV facts (`shared/cv.md`), and every project repo's README and code summary.
 2. Write `.agents/critique/concepts.md` with **3 execution directions for that concept**. They should differ in the visual and material language of the shared system, e.g. a VT100/phosphor lineage vs. an ops-console/telemetry lineage vs. a technical-manual/schematic lineage.
 
    Each direction covers:
@@ -121,6 +123,7 @@ The chosen concept becomes `DESIGN.md`, the contract every builder follows:
 - copy voice with 5 example lines
 - how each project's page differs inside the shared system
 - the `/blue` contrast rule (plain, fast, printable)
+- **Motion API:** the module names and exported function signatures of `shared/motion/` (e.g. `loadProgram(slug, { from, onMount }) → Promise<void>`), with what each does and its reduced-motion behavior. `construct` and `entry` code against this contract while `motion` implements it in parallel. If it can't be pinned down precisely, say so, and `motion` goes first.
 
 ### Phase C — critique rounds (every page)
 
@@ -148,8 +151,9 @@ The repo is the only channel between sessions.
 
 ```
 .agents/
-  BOARD.md              status, one row per agent; each agent edits only its row
-  inbox/<id>.md         requests TO an agent (append-only)
+  status/<id>.md        one file per agent; only <id> edits it
+  inbox/<to>/           requests TO an agent: one new file per message,
+                        named <YYYYMMDD-HHMM>-<from>.md; never edit an existing one
   handoff/<id>.md       builder → lead + artdirector when a round is done
   critique/             artdirector's concepts and critiques
   decisions.md          lead-only rules everyone follows
@@ -157,11 +161,15 @@ DESIGN.md               artdirector-owned contract
 shared/                 lead-owned: tokens.css, projects.json, motion/ (delegated to motion)
 ```
 
-**Status values:** `not started` · `running` · `blocked` · `in critique` · `revising` · `ready for merge` · `merged`
+One file per writer means parallel branches never edit the same file, so merges don't conflict.
+
+**Status values:** `not started` · `waiting on Tanmay` · `running` · `blocked` · `in critique` · `revising` · `ready for merge` · `merged`
+
+`waiting on Tanmay` = needs a file or setting only Tanmay can provide (§7). `blocked` = stuck on an error or another agent.
 
 **Inbox message format:**
 ```
-## Sat 15:02 — from: godseye — to: motion
+## 2026-10-05 15:02 — from: godseye — to: motion
 need: transition hook that fires before the WebGL canvas mounts
 why: the jack-in effect flashes over a black frame
 blocking: no
@@ -181,23 +189,26 @@ screenshots: .agents/critique/shots/algolend-r2-*.png (or "need Tanmay")
 **Rules**
 - **Never edit outside your folders.** Need a change elsewhere? Write in that agent's inbox.
 - **Builders never touch other pages.** `construct` and `entry` read `shared/projects.json` at runtime, so new projects appear without anyone editing those pages.
-- **Before every commit:** `git pull origin main`, then re-read `DESIGN.md` and `decisions.md`.
+- **Before every commit:** merge the latest `main` into your branch (`git pull origin main`), then re-read `DESIGN.md` and `decisions.md`.
+- **Nothing goes straight to `main`.** When a round is ready, open a PR from your branch to `main` and set your status to `ready for merge`. `lead` reviews the PR's Vercel preview, then merges. Push to `main` = production deploy.
 - **Conflicts between agents** go to `lead`. Design disputes go to `artdirector`, whose call is final unless Tanmay overrides.
 
 ---
 
 ## 5. Order of operations
 
-**Saturday**
-1. `lead` setup: scaffold `.agents/`, `shared/projects.json`, placeholder pages so no route 404s. Merge.
-2. `artdirector` Phase A: 3 concepts. **Tanmay picks.**
-3. `artdirector` Phase B: `DESIGN.md`. `lead` derives `shared/tokens.css` from it. Merge.
-4. Parallel wave: `construct`, `entry`, `motion`, `sweetbite`, `algolend`, plus `docs` (one session per repo).
-5. `artdirector` critiques each handoff → builders revise → repeat.
-6. `lead` merges everything marked `ready for merge`.
+Waves are order, not days. Start immediately; **everything must be merged before credits expire Oct 8.**
 
-**Tuesday**
-1. Parallel: `godseye`, `trinity`, `rag`, plus any Saturday page still in critique.
+**Wave 1**
+1. `lead` setup: scaffold `.agents/`, `shared/projects.json`, placeholder pages so no route 404s. PR → merge.
+2. `artdirector` Phase A: 3 execution directions for CONCEPT.md. **Tanmay picks.**
+3. `artdirector` Phase B: `DESIGN.md`, including the Motion API. `lead` derives `shared/tokens.css` from it. PR → merge.
+4. Parallel: `construct`, `entry`, `motion` (all coding against the Motion API), `sweetbite`, `algolend`, plus `docs` (one session per repo).
+5. `artdirector` critiques each handoff → builders revise → repeat.
+6. `lead` reviews each `ready for merge` PR's preview and merges.
+
+**Wave 2** (as soon as Tanmay's files land; see §7)
+1. Parallel: `godseye`, `trinity`, `rag`, plus any wave 1 page still in critique.
 2. Critique rounds.
 3. Final gate: `lead` + `artdirector` together.
    - full crawl, zero 404s
@@ -210,64 +221,69 @@ screenshots: .agents/critique/shots/algolend-r2-*.png (or "need Tanmay")
 ## 6. Prompts
 
 **Preamble (paste first in every session):**
-> You are agent `<id>` in a multi-agent setup, running in a cloud sandbox. Push after every meaningful step; unpushed work is lost. Read `CLAUDE.md`, `CONCEPT.md`, `AGENTS.md` (especially §0, the anti-generic doctrine), and `DESIGN.md` if it exists. Then pull `main` and read everything in `.agents/`. Write only to folders you own (§2), on branch `<branch>`. Update your BOARD row on start, blocked, and done. Finish by writing your handoff (§4) and stop. If the same error fails 3 times, mark `blocked` with the error and stop.
+> You are agent `<id>` in a multi-agent setup, running in a cloud sandbox. Push after every meaningful step; unpushed work is lost. Read `CLAUDE.md`, `CONCEPT.md`, `AGENTS.md` (especially §0, the anti-generic doctrine), and `DESIGN.md` if it exists. Then pull `main` and read everything in `.agents/`. Write only to folders you own (§2), on branch `<branch>`. Update `.agents/status/<id>.md` on start, blocked, and done. Finish by writing your handoff (§4), opening a PR to `main`, and stopping. Never push to `main`. If the same error fails 3 times, mark `blocked` with the error and stop.
 
 **`lead` — setup**
-> - Scaffold `.agents/` per §4, with BOARD rows for all 11 agents.
+> - Scaffold `.agents/` per §4, with a status file and inbox folder for all 11 agents.
 > - Create `shared/projects.json` from CLAUDE.md §4, plus `rag` (status `todo`).
 > - Put a minimal "in progress" page in every project route so nothing 404s.
-> - Don't design anything. Merge to `main` and stop.
+> - Don't design anything. PR to `main`, check the preview, merge, and stop.
 
 **`artdirector` — Phase A**
 > Do Phase A from §3. Research only the reference sources allowed in §0; no web design galleries. Write `.agents/critique/concepts.md` and stop for Tanmay's pick.
 
 **`artdirector` — Phase B / C**
-> Phase B: turn concept `<X>` (+ Tanmay's notes) into `DESIGN.md`.
+> Phase B: turn direction `<X>` (+ Tanmay's notes) into `DESIGN.md`, including the Motion API contract (§3).
 > Phase C: critique `<id>` round `<n>` using the §3 table. Be specific and ruthless; cite file and line.
 
 **`construct`**
-> Build the main experience per DESIGN.md. It replaces `red/`; delete v1 entirely.
-> - Include the in-site terminal: opens with `` ` ``, supports `help`, `ls`, `open <project>`, `cat resume`, `contact`, fully keyboard-driven, screen-reader friendly.
+> Build the construct per CONCEPT.md and DESIGN.md. It replaces `red/`; delete v1 entirely.
+> - The terminal is the signature: every command, behavior, and accessibility rule in CONCEPT.md §1. It never replaces normal click navigation.
+> - The easter eggs DESIGN.md picks (max 2).
 > - Read projects from `shared/projects.json`.
-> - Use `shared/motion/` for transitions; don't write your own.
+> - Import transitions from `shared/motion/` per DESIGN.md's Motion API; don't write your own. If `motion` hasn't merged yet, code against the contract with a no-op stub inside `construct/` and remove the stub once it lands.
 
 **`entry`**
 > - Build the gate at `/` per DESIGN.md's signature for the choice moment.
 > - Build `/blue` as the deliberate plain contrast: fast, printable, no canvas.
 > - Remember the choice; include a way back.
+> - Same Motion API rule as `construct`: code against the contract, stub until `motion` merges.
 
 **`motion`**
-> Build `shared/motion/` per DESIGN.md: the page-transition system (View Transitions API with fallback) plus the signature effect(s) DESIGN.md names, as small importable modules.
+> Implement DESIGN.md's Motion API in `shared/motion/` exactly as specified (module names and signatures are a contract; changing one needs artdirector + an inbox note to `construct` and `entry`): the "loading a program" transition (View Transitions API with fallback) plus the signature effect(s) DESIGN.md names, as small importable modules.
 > - Respect reduced motion.
 > - Publish usage docs in `shared/motion/README.md`.
 
 **Project agents** (`sweetbite` / `algolend` / `godseye` / `trinity` / `rag`)
 > Build `/<slug>` per CLAUDE.md §4 and DESIGN.md's per-project direction.
+>
+> AlgoLend and Sweet-Bite are **not ported** into this repo. Their apps stay in their own repos and Vercel projects, served at `algolend.tanmaydesai.xyz` / `sweetbite.tanmaydesai.xyz`. Here, `/algolend` and `/sweet-bite` are **program pages**: the sub-world intro plus a launch link to the subdomain. Until the subdomain resolves, the launch control says so instead of linking (no broken launches).
 
 | agent | specifics |
 |---|---|
-| `algolend` | seeded demo, no backend, never errors |
+| `algolend` | **App repo first:** check the existing Vercel project `algolend-ai-frontend-v2`; make seeded demo mode the default (no backend, never errors); remove the hardcoded 94.2 / 98.7 / 91.5 figures; no invented metrics anywhere. If the risk model and data exist in the repo, run a real eval and report that number in your handoff; otherwise describe the agents without a number. "90%+" stays unverified until measured. Name the agent "Risk Analyzer" everywhere. **Then** the `/algolend` program page here |
 | `godseye` | wrap `gods-eye/build/`; `api/vision` proxy with `VISION_API_KEY`, per-IP rate limit, daily cap, `MOCK_VISION=1` for sandbox |
 | `trinity` | case study with committed video + architecture |
 | `rag` | recorded Q&A from `rag/data/qa.json`, labeled as recorded |
-| `sweetbite` | read repo, deploy, real one-liner |
+| `sweetbite` | **App repo first:** remove the reservation form's card-number field, fix the missing `images/giftcard.jpg`, strip the Bing tracking URL from the gift-card link. Copy is Tanmay's own; keep it. Make it deploy cleanly as its own Vercel project. **Then** the `/sweet-bite` program page here |
 
 **`docs`**
-> Use github-portfolio-builder. Rewrite this repo's README: pitch, live link `https://tanmaydesai.xyz/<slug>`, stack, run steps, architecture, license. Only verifiable claims. PR it.
+> Rewrite this repo's README: pitch, live link `https://tanmaydesai.xyz/<slug>`, screenshots, stack, run steps, architecture, license. Only claims you can verify in the repo or the CV. PR it.
 
 ---
 
 ## 7. Tanmay's prereqs
 
-**Before Sat**
-- Push `CLAUDE.md` + `AGENTS.md`.
-- `public/resume.pdf`. Strip the phone number from that copy; it's public.
-- Connect the repo to Vercel and attach both domains.
+**Before wave 1 builders start**
+- Push `CLAUDE.md` + `AGENTS.md` + `CONCEPT.md`. (done)
+- `resume.pdf` at the repo root (not `public/`; see `decisions.md`). Strip the phone number from that copy; it's public.
+- Connect the repo to Vercel and attach both domains. PR previews depend on it.
+- Attach `algolend.tanmaydesai.xyz` to `algolend-ai-frontend-v2` and `sweetbite.tanmaydesai.xyz` to a Sweet-Bite Vercel project.
 
-**Sat midday**
-- Pick a concept from `concepts.md`.
+**After Phase A**
+- Pick a direction from `concepts.md`.
 
-**Before Tue**
+**Before wave 2** (each agent starts as soon as its files land)
 - God's Eye WebGL build (Brotli) in `gods-eye/build/`
 - 30s TRINITY mp4 under 15MB in `trinity/`
 - `rag/data/qa.json` with 10–20 real Q&As + metrics
@@ -279,4 +295,4 @@ screenshots: .agents/critique/shots/algolend-r2-*.png (or "need Tanmay")
 
 - **Same error 3x,** or a session going in circles: stop it. Start fresh with the error and the latest critique pasted in.
 - **A page failing critique round 4:** Tanmay decides. Usually that means the concept doesn't fit that page, not that the builder failed.
-- **Leftover credit Tue night:** a `tests` agent (Opus) adds CI + tests to the 4 project repos.
+- **Leftover credit before Oct 8:** a `tests` agent (Opus) adds CI + tests to the 4 project repos.

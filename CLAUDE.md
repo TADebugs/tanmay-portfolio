@@ -8,7 +8,7 @@ Owner talks casual and direct. Skip intros and summaries, show code first, keep 
 
 ## 1. Source of truth: the CV
 
-The CV facts below are the only source for facts on the site. The CV file itself is NOT committed (public repo, contains phone). Never invent metrics, dates, titles, or stack items. If something isn't in the CV or a project's repo, leave a `<!-- PLACEHOLDER: ... -->` and ask.
+The CV facts below are the only source for facts on the site. The CV file itself is NOT committed (public repo, contains phone and age). Its site-safe facts, with full project bullets, are in `shared/cv.md`. Never invent metrics, dates, titles, or stack items. If something isn't in the CV or a project's repo, leave a `<!-- PLACEHOLDER: ... -->` and ask.
 
 **Use on site**
 - Name, Boston MA, email `t.desai240305@gmail.com`
@@ -28,7 +28,7 @@ The CV facts below are the only source for facts on the site. The CV file itself
 - Home address
 - The CV's "Working style" section, which is written in third person for resumes, not the web
 
-`/resume.pdf` is the downloadable resume. Tanmay drops it into `public/`, and it's served at `/resume.pdf`.
+`/resume.pdf` is the downloadable resume. Tanmay drops `resume.pdf` into the repo root (no `public/` folder; see `.agents/decisions.md`), and it's served at `/resume.pdf`. Until then a rewrite serves the `/resume` placeholder.
 
 ---
 
@@ -61,7 +61,7 @@ Static HTML/CSS/JS, no build step, no framework unless a project needs one. Ever
 /algolend         live demo in seeded demo mode
 /trinity          case study + demo video
 /sweet-bite       live site
-/resume.pdf       public/resume.pdf
+/resume.pdf       resume.pdf (repo root)
 ```
 
 **Gate**
@@ -90,9 +90,9 @@ Each project lives at `/<slug>` and appears as a card or row on both `/red` and 
 | slug | project | repo | treatment | status |
 |---|---|---|---|---|
 | `gods-eye` | God's Eye: AI-driven Unity dungeon crawler, dual-persona vision AI | https://github.com/TADebugs/Gods_Eye | Unity WebGL build served as static files. Vision API calls go through a Vercel serverless function (`/api/vision`) holding the key in env vars, with a per-IP rate limit and daily spend cap. The key never ships to the client | TODO |
-| `algolend` | AlgoLend AI: DeFi lending, 3 AI agents, Algorand | https://github.com/TADebugs/ALGOLEND_AI | React frontend on Vercel, Algorand **testnet**. **Seeded demo mode** with canned agent outputs so it never cold-starts or 500s. Live backend is optional and behind a toggle | TODO |
+| `algolend` | AlgoLend AI: DeFi lending, 3 AI agents, Algorand | https://github.com/TADebugs/ALGOLEND_AI | App stays in its own repo + Vercel project (`algolend-ai-frontend-v2`) at `algolend.tanmaydesai.xyz`, Algorand **testnet**, **seeded demo mode** so it never cold-starts or 500s; live backend optional behind a toggle. `/algolend` here is a program page linking to it | TODO |
 | `trinity` | TRINITY: multi-personality voice desktop assistant (ARIA / ECHO / NEXUS) | https://github.com/TADebugs/TRINITY | Desktop app with paid Gemini audio, so **no public live demo**. Case study page: 30s demo video (Tanmay records it), architecture diagram, orb animation | TODO |
-| `sweet-bite` | Sweet-Bite | https://github.com/TADebugs/Sweet-Bite | Not in CV. Read the repo first, then deploy as-is if it's a web app. Needs a one-liner and stack from repo/Tanmay | TODO |
+| `sweet-bite` | Sweet-Bite: restaurant site for a fictional BBQ spot | https://github.com/TADebugs/Sweet-Bite | Not in CV; copy is Tanmay's own. App stays in its own repo + Vercel project at `sweetbite.tanmaydesai.xyz`. `/sweet-bite` here is a program page linking to it | TODO |
 
 Possible later additions, from the CV only:
 - Production RAG system (demo mode with cached answers)
@@ -149,19 +149,14 @@ Direction: matrix / CRT phosphor terminal. Dark is the real look; light mode is 
 
 ## 6. Skills — when to use which
 
-Tanmay has these installed. Use the right one for the task, not all of them.
+These are the skills installed in the cloud sessions. Use the right one for the task, not all of them.
 
 | skill | use it for | don't use it for |
 |---|---|---|
 | `design-taste-frontend` | **primary design skill**, but its suggestions never override DESIGN.md or AGENTS.md §0. Any new page (gate, `/blue`, project pages). Start with its one-line "design read" and dials (portfolio ≈ variance 8 / motion 7 / density 4) | backend or deploy work |
-| `frontend-design` | plan → review → build → critique loop for new UI. Pairs with the above | |
-| `interaction-design` | gate pill choice, project expand states, demo-mode toggles, error and empty states | static text pages |
-| `21st-ui` | pulling a specific component (terminal, timeline) as a starting point, then restyle to the tokens above | dropping in components unstyled |
 | `theme-factory` | only if we try an alternate theme. The current tokens are the theme | |
 | `web-artifacts-builder` | only if a project demo genuinely needs React + shadcn state complexity | the portfolio pages (stay static) |
-| `github-portfolio-builder` | auditing and rewriting READMEs for Gods_Eye, ALGOLEND_AI, TRINITY, Sweet-Bite so the "source" links land well (screenshots, run steps, license, verified claims) | site code |
 | `ponytail` | any code: simplest thing that works, native platform before deps, no framework unless needed | |
-| `caveman` | quick answers when Tanmay asks a short question | written content on the site |
 | `imagegen-frontend-web` / `canvas-design` | optional: OG images, project thumbnails. Not needed for v1 | |
 
 ---
@@ -195,12 +190,12 @@ Tanmay has these installed. Use the right one for the task, not all of them.
 ## 9. Build order (superseded by AGENTS.md §5)
 
 1. Gate at `/` (replace the redirect)
-2. `/blue` recruiter view + `public/resume.pdf`
+2. `/blue` recruiter view + `resume.pdf`
 3. `/sweet-bite`, the easiest live deploy
 4. `/algolend` demo mode
 5. `/gods-eye` WebGL + `/api/vision` proxy
 6. `/trinity` case study (waiting on video)
-7. READMEs for all 4 repos via `github-portfolio-builder`
+7. READMEs for all 4 repos (`docs` agent, checklist in AGENTS.md §6)
 8. Attach domains in Vercel and verify no route 404s
 
 Commit small, one feature per commit. Push to `main` deploys to production, so check locally first with `npx serve .`

@@ -10,6 +10,10 @@ Personal portfolio. Static HTML, no build step, deployed on Vercel.
 /algolend    demo (todo)
 /trinity     case study (todo)
 /sweet-bite  (todo)
+/rag         recorded demo (todo)
+/resume.pdf  resume.pdf at repo root (placeholder at /resume until it lands)
 ```
 
 Local preview: `npx serve .`
+
+Multi-agent build: see `AGENTS.md`, `CONCEPT.md`, and `.agents/`.
