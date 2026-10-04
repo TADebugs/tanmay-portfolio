@@ -16,3 +16,4 @@
    - Sweet-Bite: copy is Tanmay's own. One-liner approved.
    - TRINITY (docs agent, 2026-10-04): `WakeWordDetector` and the Chirp 3 HD voices exist only in the CV, not in the repo, and the desktop app is a scaffold (`chat_stream` / `send_message` are TODO stubs). The site must not present wake words or per-personality voices as working features unless Tanmay confirms they exist in code he hasn't pushed.
    - AlgoLend (docs agent): Market Oracle data is simulated, and Yield Optimizer isn't wired into `app.py`. Describe them as such; don't imply three live agents.
+9. **Status files have one writer, lead included.** Lead never edits another agent's `.agents/status/<id>.md`. If lead needs to record something about an agent, it goes in that agent's inbox or in this file.
