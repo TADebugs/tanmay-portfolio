@@ -1,6 +1,6 @@
 # construct
 
-status: not started
+status: ready for merge
 branch: agent/construct
 updated: 2026-10-04
-note: starts when DESIGN.md merges (codes against the Motion API)
+note: construct-r2 conditional pass; C1 fixed. PR #7 ready for lead diff check.
