@@ -83,6 +83,7 @@
     /* weights bar: segment widths are the real weights */
     .weights { display: grid; gap: var(--s-1); }
     .weights > p { margin-bottom: var(--s-1); }
+    .vh { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
     .w-key { margin-top: var(--s-1); }
     .weights .bar { display: flex; block-size: 12px; gap: 1px; }
     .weights .bar span { background: var(--legend-dim); }
@@ -195,7 +196,7 @@
             <ol class="w-row w-idx" aria-hidden="true"><li style="flex:25">1</li><li style="flex:20">2</li><li style="flex:15">3</li><li style="flex:15">4</li><li style="flex:10">5</li><li style="flex:10">6</li><li style="flex:5">7</li></ol>
             <div class="bar" role="img" aria-labelledby="w-cap w-list"><span style="flex:25"></span><span style="flex:20"></span><span style="flex:15"></span><span style="flex:15"></span><span style="flex:10"></span><span style="flex:10"></span><span style="flex:5"></span></div>
             <ol class="w-row w-vals" aria-hidden="true"><li style="flex:25">.25</li><li style="flex:20">.20</li><li style="flex:15">.15</li><li style="flex:15">.15</li><li style="flex:10">.10</li><li style="flex:10">.10</li><li style="flex:5">.05</li></ol>
-            <ol class="w-key" id="w-list"><li><span class="faint">1</span> balance</li><li><span class="faint">2</span> age</li><li><span class="faint">3</span> freq</li><li><span class="faint">4</span> consistency</li><li><span class="faint">5</span> amounts</li><li><span class="faint">6</span> network</li><li><span class="faint">7</span> reputation</li></ol>
+            <ol class="w-key" id="w-list"><li><span class="faint">1</span> balance<span class="vh"> .25</span></li><li><span class="faint">2</span> age<span class="vh"> .20</span></li><li><span class="faint">3</span> freq<span class="vh"> .15</span></li><li><span class="faint">4</span> consistency<span class="vh"> .15</span></li><li><span class="faint">5</span> amounts<span class="vh"> .10</span></li><li><span class="faint">6</span> network<span class="vh"> .10</span></li><li><span class="faint">7</span> reputation<span class="vh"> .05</span></li></ol>
           </div>
           <table>
             <caption><span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>SEEDED</span> <span class="dim">real <code>analyze_account</code> output on synthetic accounts, from <code>backend/scripts/generate_demo_seed.py</code></span></caption>
