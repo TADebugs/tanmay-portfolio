@@ -96,7 +96,7 @@
       border-top: 2px solid var(--rule-strong);
       display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s-4);
     }
-    .rail:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
+    .rail-scroll:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
     .ticket {
       position: relative;
       width: 176px;
@@ -149,11 +149,9 @@
 
     @media (max-width: 640px) {
       .asset-tag { padding: var(--s-5) var(--s-4); }
-      .rail {
-        flex-wrap: nowrap; overflow-x: auto;
-        scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
-      }
-      .ticket { flex: 0 0 72%; scroll-snap-align: start; }
+      .rail-scroll { overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
+      .rail { flex-wrap: nowrap; width: max-content; }
+      .ticket { flex: none; width: calc((100vw - 2 * var(--s-4)) * 0.72); scroll-snap-align: start; }
       .smoker li, .axis { grid-template-columns: 6rem 1fr 3rem; }
     }
   </style>
@@ -186,7 +184,8 @@
 
       <section aria-labelledby="h-rail">
         <h2 id="h-rail">Ticket rail</h2>
-        <ul class="rail" id="ticket-rail" role="region" aria-label="Ticket rail, 12 items" tabindex="0">
+        <div class="rail-scroll" id="ticket-rail" role="region" aria-label="Ticket rail, 12 items" tabindex="0">
+        <ul class="rail">
           <li class="ticket"><span class="station">APP</span><h3>Bucket o' Biscuits</h3><p>World-famous buttermilk biscuits served with honey butter.</p><span class="price"><span>$16</span></span></li>
           <li class="ticket"><span class="station">APP</span><h3>Texas Nachos</h3><p>Salt and pepper potatoes, jack &amp; cheddar, ranch beans. Add pulled chicken, pork, or beef for $2.</p><span class="price"><span>$16</span></span></li>
           <li class="ticket"><span class="station">APP</span><h3>SCQ Smoked Wings</h3><p>Tossed in gold sauce, chipotle buffalo, or dry rubbed.</p><span class="price"><span>$14</span></span></li>
@@ -200,6 +199,7 @@
           <li class="ticket"><span class="station">DESSERT</span><h3>Giant Nutter Butter Cookie*</h3><p>A massive version of the classic treat.</p><span class="price"><span>$12</span></span></li>
           <li class="ticket"><span class="station">DESSERT</span><h3>Chocolate Fudgy Brownie</h3><p>Rich and decadent chocolate brownie.</p><span class="price"><span>$8</span></span></li>
         </ul>
+        </div>
         <p class="note">APP apps to share (or not) · TRAY trays &amp; sandwiches · SANDO specialty sandos · SIDE sides · DESSERT desserts — items and prices as written on the menu page.</p>
       </section>
 

@@ -36,3 +36,11 @@ measured (Playwright):
 - at 375, the rail takes focus and ArrowRight scrolls it (scrollLeft 0 → 263)
 - no page errors. Live-launch sim still renders the <a>
 shots: .agents/critique/shots/sweetbite-r2-{1280,375,375-reduced,1280-live-sim}.png
+
+## sweetbite: A1 (critique .agents/critique/sweetbite-r2.md, conditional pass)
+- The scroll region is now a wrapper <div class="rail-scroll" id="ticket-rail" role="region" aria-label="Ticket rail, 12 items" tabindex="0"> around <ul class="rail">, so the list keeps its list role. At ≤640px, overflow-x, scroll-snap and overscroll moved onto .rail-scroll, and so did :focus-visible
+- The ul is width:max-content at ≤640px so the rail line spans every ticket. Ticket width is 72% of the content width, computed from 100vw because a % of a max-content parent would be circular
+- syncRail is unchanged
+- verified: the ARIA snapshot reads region "Ticket rail, 12 items" > list > listitem. Metrics match round 2 (625 / 268 px, no page h-scroll at 375). ArrowRight still scrolls the rail. No page errors
+- shots: .agents/critique/shots/sweetbite-r2a-*.png
+later: when motion and construct merge, swap the 4 stub paths (listed above), delete sweet-bite/_stub/ and drop "Back to the board"
