@@ -13,7 +13,7 @@
     {
       "slug": "algolend",
       "name": "AlgoLend AI",
-      "oneLiner": "DeFi lending on Algorand testnet with three AI agent modules, as a seeded demo",
+      "oneLiner": "DeFi lending on Algorand testnet with three AI agent modules: Risk Analyzer is wired in, Market Oracle runs on simulated market data, Yield Optimizer is not wired yet.",
       "repo": "https://github.com/TADebugs/ALGOLEND_AI",
       "route": "/algolend",
       "treatment": "program-page+subdomain",
@@ -24,7 +24,7 @@
     {
       "slug": "trinity",
       "name": "TRINITY",
-      "oneLiner": "Multi-personality voice desktop assistant (ARIA / ECHO / NEXUS)",
+      "oneLiner": "Desktop assistant with three personalities (ARIA / ECHO / NEXUS). Desktop app in progress.",
       "repo": "https://github.com/TADebugs/TRINITY",
       "route": "/trinity",
       "treatment": "case-study",
