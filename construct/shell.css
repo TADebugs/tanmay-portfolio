@@ -47,7 +47,8 @@ body.has-shell { padding-bottom: calc(var(--sl-h, 32px) + env(safe-area-inset-bo
 .sl-btn:hover, .sl-btn[aria-expanded="true"] { color: var(--legend) !important; }
 .sl-key { font: inherit; color: var(--legend-faint); }
 @media (hover: none) and (pointer: coarse) { .sl-key { display: none; } }
-@media (max-width: 480px) { .sl { gap: 10px; font-size: 12px; } .sl-op-k, .sl-loc, .sl-msg, .sl-key { display: none; } .sl-btn { padding: 0; } }
+@media (max-width: 480px) { .sl { gap: 10px; font-size: 12px; } .sl-op-k, .sl-loc-ch, .sl-msg, .sl-key { display: none; }
+  .sl-loc { flex: none; overflow: visible; } .sl-loc a { display: inline-flex; align-items: center; min-block-size: 24px; } .sl-btn { padding: 0; } }
 
 /* ---------- terminal ---------- */
 .term {
@@ -123,4 +124,4 @@ body.has-shell { padding-bottom: calc(var(--sl-h, 32px) + env(safe-area-inset-bo
   body.has-shell { padding-bottom: 0; }
 }
 .sl { overflow: hidden; }
-@media (max-width: 400px) { .sl-clock { display: none; } }
+@media (max-width: 400px) { .sl-clock { display: none; } .sl { gap: var(--s-2); } }

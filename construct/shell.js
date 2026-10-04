@@ -373,7 +373,7 @@ export function mountShell({ channel = null } = {}) {
   document.addEventListener('visibilitychange', tick);
   if (!isBoard) projects().then(ps => {
     const p = ps.find(x => x.slug === channel);
-    if (p) loc.append(` › ${p.ch} ${p.name}`);
+    if (p) loc.append(el('span', { class: 'sl-loc-ch' }, ` › ${p.ch} ${p.name}`));
   }).catch(() => {});
 
   // ---------- déjà vu (§4.6): once per session, 45 s idle on /red ----------
