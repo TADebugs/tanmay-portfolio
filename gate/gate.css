@@ -26,16 +26,21 @@ p { margin: 0; }
   text-wrap: balance;
 }
 
+/* Subgrid rows [control][state][legend]: names share a baseline, legends share a row. */
 .choices {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--s-6);
-  align-items: end;
+  column-gap: var(--s-6);
+  row-gap: var(--s-3);
 }
-.choice { display: grid; gap: var(--s-3); justify-items: start; }
+.choice { display: grid; grid-row: span 3; grid-template-rows: subgrid; justify-items: start; }
+.plain, .switch { grid-row: 1; align-self: last baseline; }
+.state { grid-row: 2; }
+.choice .legend { grid-row: 3; }
 .legend {
   font-size: var(--fs-small);
   color: var(--legend-dim);
+  max-inline-size: 26ch;
   text-wrap: balance;
 }
 kbd { font: 500 var(--fs-small) var(--font-mono); color: var(--legend); }
@@ -145,6 +150,6 @@ kbd { font: 500 var(--fs-small) var(--font-mono); color: var(--legend); }
 .switch[aria-expanded="true"] + .state { color: var(--fault); }
 
 @media (max-width: 479px) {
-  .choices { grid-template-columns: 1fr; gap: var(--s-7); }
-  .red { order: 2; }
+  .choices { grid-template-columns: 1fr; }
+  .red { margin-block-start: var(--s-6); }
 }

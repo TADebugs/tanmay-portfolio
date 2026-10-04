@@ -15,3 +15,16 @@ notes for lead:
 - Per lead (DESIGN.md §5.2/§5.3 amendments): AlgoLend now names each agent module with its true wiring state (no "3 AI agents" claim); TRINITY says "Desktop app in progress", with no wake-word or voice claim. Both differ from projects.json oneLiners on purpose.
 - Google Fonts fail TLS in the sandbox proxy; screenshots used ignoreHTTPSErrors to render the real fonts.
 screenshots: .agents/critique/shots/entry-r1-*.png (gate-desktop, gate-guard-open, gate-focus-red, gate-reduced-open, gate-375, blue-desktop, blue-375, blue-print)
+
+## entry — round 2
+branch: agent/entry
+route: / (gate), /blue
+changes since last critique (.agents/critique/entry-r1.md):
+- B1 /blue print: `.pdf` line hidden in print; project link lines are `.links` → print sets text to 0 and `::after` prints `tanmaydesai.xyz/<route>` for internal and the full URL for external, 9pt, one per line. `:root { color-scheme: light }` added.
+- G1 throw paints: `gate.js` navigates on the lever's `transitionend` or a 300ms fallback, guarded by a `gone` flag (reset on bfcache restore); reduced motion navigates immediately. Measured: commit to /red ~200ms after the click, lever caught mid-throw in `entry-r2-gate-thrown.png`.
+- N1 shared baseline: `.choices` is a 3-row grid, each `.choice` a subgrid; `.plain` and `.switch` use `align-self: last baseline` in row 1, state row 2, legends row 3. At 1280 both legends end at the same y; the two names share a baseline.
+- N2 `.legend { max-inline-size: 26ch }` (with `text-wrap: balance`).
+- A1 `aria-describedby` removed from `#switch`; the live region alone announces state.
+- Lead: AlgoLend line on /blue now matches projects.json word for word: "DeFi lending on Algorand testnet with three AI agent modules, as a seeded demo".
+tested: full r1 suite re-run (keyboard, Esc/blur, remembered choice, ?reconsider, reduced motion, 375px, links), all pass; only local misses are python's /blue→/blue/ redirect and /resume.pdf (Vercel rewrite).
+screenshots: .agents/critique/shots/entry-r2-*.png (gate-desktop, gate-thrown, gate-375, blue-print)

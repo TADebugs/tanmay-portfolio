@@ -14,12 +14,19 @@
 
   sw.addEventListener('click', function () {
     if (sw.getAttribute('aria-expanded') !== 'true') return setGuard(true);
+    if (sw.classList.contains('is-thrown')) return;
     sw.classList.add('is-thrown');
     state.textContent = 'switch thrown · loading the console';
     remember('red');
     try { sessionStorage.setItem('td.from-gate', '1'); } catch (e) {}
-    location.assign('/red');
+    // Let the throw paint, then go: lever transitionend or 300ms, whichever is first.
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return go();
+    sw.querySelector('.lever').addEventListener('transitionend', go, { once: true });
+    setTimeout(go, 300);
   });
+
+  var gone = false;
+  function go() { if (!gone) { gone = true; location.assign('/red'); } }
 
   sw.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && sw.getAttribute('aria-expanded') === 'true') setGuard(false);
@@ -28,6 +35,6 @@
 
   // Back from /red via bfcache: reset to the closed state.
   addEventListener('pageshow', function (e) {
-    if (e.persisted) { sw.classList.remove('is-thrown'); setGuard(false); }
+    if (e.persisted) { gone = false; sw.classList.remove('is-thrown'); setGuard(false); }
   });
 })();
