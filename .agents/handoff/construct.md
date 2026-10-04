@@ -20,3 +20,15 @@ motion: real /shared/motion/index.js + motion.css (PR #5) since main merge; cons
 tested (python3 -m http.server + Playwright Chromium, 46 checks, all pass): keyboard-only (focus-visible 2px on every control), every command, tab completion, history, error + bell, both eggs (déjà vu with fake clock), reduced motion (lamp fault instead of invert, panel and caret static), 375px no h-scroll, Shell API on a program page (location, logTrace, register, rabbit link), every internal link 200 (/resume.pdf 404s locally; vercel rewrite → /resume), console clean.
 known: the sandbox proxy blocks fonts.gstatic.com, so the screenshots render Archivo/Azeret in fallback faces. Check the Vercel preview for real type. Wide `ls programs` rows scroll sideways inside the log at 375px.
 screenshots: .agents/critique/shots/construct-r1-*.png
+
+## construct — round 2
+branch: agent/construct (PR #7), main merged (DESIGN.md v1.2)
+changes since construct-r1 critique:
+- F1 → §4.4 v1.2 message line: `<button class="sl-msg">` between location and spacer, latest record's level + text in --legend-faint mono, ellipsis, aria-label "Open terminal. Last message: …", updated only from push(), hidden ≤480px. The déjà vu duplicate shows there with the cat glyph, so the glitch is visible with the panel closed (construct/shell.js annunciate())
+- F2: TRINITY readout = DESIGN §5.3 verbatim (red/board.js:14); logTrace treats `(failed|timeout)` spans as warn (shell.js)
+- F3: plate 112px, `.state` nowrap (red/board.css)
+- F4: ≤480px `.rec.is-pre .tx` wraps (pre-wrap + anywhere). 0 clipped rows at 375
+- N1: ts column `max-content` + column-gap
+- also: backtick key glyph hidden ≤480px so `reconsider` never clips at 375
+tested: full suite (46 checks) + r2 checks: message line fresh/after déjà vu/opens terminal, bell caught mid-flash, 375 help with no clipped rows, console clean
+screenshots: .agents/critique/shots/construct-r2-{board-1280,board-375,msgline-fresh-1280,msgline-dejavu-1280,plate-not-connected-1280,bell-flash-1280,terminal-help-375}.png

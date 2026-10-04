@@ -85,11 +85,12 @@ export function mountShell({ channel = null } = {}) {
   const lamp = el('span', { class: 'lamp', 'data-lamp': 'session', 'aria-hidden': 'true' });
   const clock = el('span', { class: 'sl-clock' });
   const loc = el('span', { class: 'sl-loc' }, el('a', { href: '/red' }, '/red'));
+  const msg = el('button', { type: 'button', class: 'sl-msg', 'aria-controls': 'td-term' });
   const termBtn = el('button', { type: 'button', class: 'sl-btn', 'aria-expanded': 'false', 'aria-controls': 'td-term' },
     el('kbd', { class: 'sl-key', 'aria-hidden': 'true' }, '`'), 'terminal');
   const status = el('footer', { class: 'sl', 'aria-label': 'Status line' },
     el('span', { class: 'sl-op' }, lamp, el('span', { class: 'sl-op-k' }, 'op'), clock),
-    loc, el('span', { class: 'sl-gap' }), termBtn,
+    loc, msg, el('span', { class: 'sl-gap' }), termBtn,
     el('a', { class: 'sl-btn', href: '/blue' }, 'plain version'),
     el('a', { class: 'sl-btn', href: '/?reconsider' }, 'reconsider'));
 
@@ -114,6 +115,17 @@ export function mountShell({ channel = null } = {}) {
   root.append(panel, status);
   document.body.prepend(el('p', { class: 'print-note', hidden: '' }, 'Printable version: tanmaydesai.xyz/blue'));
   records.forEach(r => log.append(renderRec(r)));
+  // §4.4 v1.2 message line: the latest record, updated only by push().
+  function annunciate(r) {
+    msg.replaceChildren();
+    msg.hidden = !r;
+    if (!r) return;
+    if (r.cat) { const c = el('span', { class: 'sl-cat' }); c.innerHTML = CAT; msg.append(c); }
+    msg.append(el('span', { class: 'sl-msg-lv' }, r.level), el('span', { class: 'sl-msg-tx' }, (r.text ?? '') + (r.linkText ?? '')));
+    msg.setAttribute('aria-label', `Open terminal. Last message: ${r.level} ${(r.text ?? '') + (r.linkText ?? '')}`.trim());
+  }
+  annunciate(records.at(-1));
+  msg.addEventListener('click', () => open());
 
   // shell.css is part of the shell; inject it if the page didn't link it.
   let link = document.querySelector('link[href="/construct/shell.css"]');
@@ -149,6 +161,7 @@ export function mountShell({ channel = null } = {}) {
     ss.set('td.log', records);
     log.append(renderRec(r));
     log.scrollTop = log.scrollHeight;
+    annunciate(r);
   }
   const say = (level, text, more = {}) => push({ t: formatClock(sessionClock()), level, text, ...more });
   const warn = (text) => { say('warn', text); bell(); };
@@ -385,7 +398,7 @@ export function mountShell({ channel = null } = {}) {
       const p = ps.find(x => x.slug === trace.slug);
       const id = p ? `${p.ch} ${p.name}` : trace.slug;
       const failed = [];
-      (function walk(s) { if (/\(failed\)/.test(s.name)) failed.push(s.name); s.children.forEach(walk); })(trace.root);
+      (function walk(s) { if (/\((failed|timeout)\)/.test(s.name)) failed.push(s.name); s.children.forEach(walk); })(trace.root);
       loaded(trace.slug);
       if (failed.length) say('warn', `${id} loaded in ${formatMs(trace.total ?? 0)} · ${failed.join(', ')}`);
       else say('ok', `${id} loaded in ${formatMs(trace.total ?? 0)}`);
