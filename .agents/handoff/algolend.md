@@ -9,7 +9,9 @@ changes since r1 (critique .agents/critique/algolend-r1.md):
   Verified programmatically: every value and index starts at its segment's left edge at 1280 and 375.
 tested: 1280, 375, 375 + reduced motion; no horizontal scroll, no 4xx, no banned strings, keyboard order (src → /red → plain version → reconsider), offline launch not focusable.
 screenshots: .agents/critique/shots/algolend-r2-desktop.png, algolend-r2-375.png
-stub swap list: unchanged, see round 1 below.
+- Merged origin/main (motion #5). Swapped to the real modules: `/shared/motion/beat.js`, `/shared/motion/motion.css` (now linked), `mountProgram` from `/shared/motion/index.js`. Deleted `algolend/_stub/{beat,index}.js` and the page's `.t-*` trace CSS (motion.css defaults render the rail).
+  Verified: arrival via `loadProgram('algolend')` from `/shared/motion/demo.html` sets `html.is-beat` and clears it after mount; reduced motion skips the beat; rail renders load/request/parse/mount with real values.
+- Remaining stub: `algolend/_stub/shell.js` (imports sessionClock/formatMs from the real `/shared/motion/index.js`). When construct (#7) merges: change the import to `/construct/shell.js`, delete `algolend/_stub/`, and drop the page's `.status-line` CSS.
 
 ## algolend — round 1
 branch: agent/algolend

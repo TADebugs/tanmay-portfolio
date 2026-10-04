@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>CH-02 AlgoLend AI · Tanmay Desai</title>
   <meta name="description" content="AlgoLend AI: a lending-pool contract on Algorand testnet and three agent modules. Which desks are wired, what each reads and calls.">
-  <!-- STUB: swap to /shared/motion/beat.js when motion merges -->
-  <script src="/algolend/_stub/beat.js"></script>
+  <script src="/shared/motion/beat.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="/shared/tokens.css">
-  <!-- STUB: add <link rel="stylesheet" href="/shared/motion/motion.css"> when motion merges -->
+  <link rel="stylesheet" href="/shared/motion/motion.css">
   <style>
     * { box-sizing: border-box; margin: 0; }
     html { background: var(--panel); }
@@ -64,13 +63,6 @@
 
     /* trace rail */
     .trace-rail { border-bottom: var(--hair) solid var(--rule); padding: var(--s-3) 0; min-block-size: 44px; font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-faint); }
-    .t-label { color: var(--legend-dim); margin-bottom: var(--s-1); }
-    .t-spans { list-style: none; padding: 0; display: grid; gap: 2px; }
-    .t-spans li { display: grid; grid-template-columns: 9rem 1fr 5rem; gap: var(--s-3); align-items: center; }
-    .t-spans .t-name { padding-inline-start: calc(var(--d) * var(--s-3)); }
-    .t-bar { display: block; block-size: 4px; background: var(--rule); }
-    .t-bar i { display: block; block-size: 100%; background: var(--legend-dim); }
-    .t-dur { text-align: end; color: var(--legend-dim); }
 
     main { display: grid; gap: var(--s-7); margin-top: var(--s-6); }
     .lede { font-size: var(--fs-read); line-height: var(--lh-read); max-inline-size: var(--measure); }
@@ -145,7 +137,6 @@
       .desk + .desk { border-top: var(--hair) solid var(--rule); }
       .contract { grid-template-columns: 1fr; }
       .asset-tag { padding: var(--s-5); }
-      .t-spans li { grid-template-columns: 6rem 1fr 4.5rem; }
       .status-line .loc { display: none; }
     }
     @media print {
@@ -273,8 +264,8 @@
   </div>
 
   <script type="module">
-    // STUB: swap both imports to /shared/motion/index.js and /construct/shell.js when they merge
-    import { mountProgram } from '/algolend/_stub/index.js';
+    import { mountProgram } from '/shared/motion/index.js';
+    // STUB: swap to /construct/shell.js when construct merges
     import { mountShell } from '/algolend/_stub/shell.js';
 
     // Launch state comes from projects.json only (DESIGN.md §5.6); the offline markup is the default

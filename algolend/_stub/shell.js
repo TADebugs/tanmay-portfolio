@@ -1,7 +1,7 @@
 // STUB for /construct/shell.js (DESIGN.md §9). Same exports and signatures.
 // Renders a minimal status line (session lamp + clock, location, plain version, reconsider);
-// no terminal. Delete this file when construct merges.
-import { sessionClock, formatMs } from './index.js';
+// no terminal. Delete this file when construct (#7) merges.
+import { sessionClock, formatMs } from '/shared/motion/index.js';
 
 let shell = null;
 
