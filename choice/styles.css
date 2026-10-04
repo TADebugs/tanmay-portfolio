@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #0f0;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.choice-screen {
+    animation: fadeIn 2s ease-in;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #0f0;
+    animation: glow 2s ease-in-out infinite;
+}
+
+.quote {
+    font-size: 1.2rem;
+    margin-bottom: 50px;
+    text-shadow: 0 0 5px #0f0;
+    opacity: 0.8;
+}
+
+.pills-container {
+    padding-left: 10px;
+    padding-top: 100px;
+    display: flex;
+    gap: 315px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pill {
+    width: 50px;
+    height: 120px;
+    border-radius: 60px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+}
+
+.pill:hover {
+    transform: scale(1.5) translateY(-10px);
+}
+
+.red-pill {
+    border: 1px solid #000;
+    transform: rotate(-85deg);
+    background: linear-gradient(145deg, #ff0000, #cc0000);
+    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.5);
+}
+
+.red-pill:hover {
+    transform: scale(1.2) rotate(-85deg);
+    box-shadow: 0 15px 50px rgba(255, 0, 0, 0.8);
+}
+
+.blue-pill {
+    border: 1px solid hsl(0, 0%, 0%);
+    transform: rotate(85deg);
+    background: linear-gradient(145deg, #0066ff, #0044cc);
+    box-shadow: 0 10px 30px rgba(0, 102, 255, 0.5);
+}
+
+.blue-pill:hover {
+    transform: scale(1.2) rotate(85deg);
+    box-shadow: 0 15px 50px rgba(0, 102, 255, 0.8);
+}
+
+.pill-label {
+    margin-top: 20px;
+    margin-left: -17px;
+    text-shadow: 0 0 8px #000;
+    animation: glow;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.outcome-screen {
+    display: none;
+    animation: fadeIn 1s ease-in;
+    text-align: center;
+    max-width: 800px;
+    padding: 40px;
+}
+
+.outcome-screen.active {
+    display: block;
+}
+
+.outcome-screen h2 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 20px currentColor;
+}
+
+.outcome-screen p {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.red-outcome {
+    color: #ff0000;
+}
+
+.blue-outcome {
+    color: #0066ff;
+}
+
+.back-button {
+    margin-top: 40px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    background: transparent;
+    border: 2px solid currentColor;
+    color: inherit;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: currentColor;
+    color: #000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+    }
+    50% {
+        text-shadow: 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0;
+    }
+}
+
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.background-image {
+    position: fixed;
+    top: 50%;
+    left: 48%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    background-image: url('/assets/background/matrix.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    z-index: 5;
+}
+
+
+/* ---- static port additions (tanmay-portfolio) ---- */
+
+/* pills are real buttons now, so keyboard users can choose */
+button.pill {
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.pill:focus-visible,
+.back-button:focus-visible {
+    outline: 2px solid #0f0;
+    outline-offset: 6px;
+}
+
+.noscript {
+    position: fixed;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    text-align: center;
+}
+.noscript a { color: #0f0; }
+
+/* phones: let the page scroll and bring the pills in */
+@media (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 32px 16px calc(32px + env(safe-area-inset-bottom));
+    }
+    h1 { font-size: 1.6rem; }
+    .quote { font-size: 1rem; margin-bottom: 24px; }
+    .pills-container { gap: 110px; padding-top: 56px; padding-left: 0; }
+    .pill-label { font-size: 1.1rem; }
+    .outcome-screen { padding: 24px 16px; }
+    .outcome-screen h2 { font-size: 2rem; }
+    .outcome-screen p { font-size: 1.05rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .choice-screen,
+    .outcome-screen,
+    h1 { animation: none; }
+    .pill,
+    .back-button { transition: none; }
+}
