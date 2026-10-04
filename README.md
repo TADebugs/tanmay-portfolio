@@ -1,19 +1,12 @@
 # tanmaydesai.xyz
 
-Personal portfolio. Static HTML, no build step, deployed on Vercel.
+Personal portfolio. Static HTML/CSS/JS, no build step, deployed on Vercel.
 
 ```
-/            gate (red / blue pill) — placeholder redirect for now
-/red         full portfolio
-/blue        recruiter view (todo)
-/gods-eye    Unity WebGL build (todo)
-/algolend    demo (todo)
-/trinity     case study (todo)
-/sweet-bite  (todo)
-/rag         recorded demo (todo)
-/resume.pdf  resume.pdf at repo root (placeholder at /resume until it lands)
+/            the choice: red pill or blue pill
+/red         full portfolio (Matrix style)
+/blue        simple version (coming soon)
+/resume.pdf  résumé
 ```
 
-Local preview: `npx serve .`
-
-Multi-agent build: see `AGENTS.md`, `CONCEPT.md`, and `.agents/`.
+Local preview: `python3 -m http.server` (or `npx serve .`).
