@@ -83,7 +83,7 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 | `construct` | The construct (replaces `/red`): shared navigation, the terminal, easter eggs. Per CONCEPT.md | Opus | $16 | `agent/construct` | `construct/`, `red/` |
 | `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | root `index.html` (the gate), `gate/`, `blue/` |
 | `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/`, `shared/trace/` (delegated by lead) |
-| `sweetbite` | Sweet-Bite app (own repo + Vercel project, served at `sweetbite.tanmaydesai.xyz`) + the `/sweet-bite` program page here | Opus | $5 | `agent/sweet-bite` in both repos | `TADebugs/Sweet-Bite` (except `README.md`), `sweet-bite/` here |
+| `sweetbite` | Sweet-Bite app (own repo, **GitHub Pages**, served at `sweetbite.tanmaydesai.xyz`) + the `/sweet-bite` program page here | Opus | $5 | `agent/sweet-bite` in both repos | `TADebugs/Sweet-Bite` (except `README.md`), `sweet-bite/` here |
 | `algolend` | AlgoLend app (own repo + Vercel project `algolend-ai-frontend-v2`, served at `algolend.tanmaydesai.xyz`) + the `/algolend` program page here | Opus | $9 | `agent/algolend` in both repos | `TADebugs/ALGOLEND_AI` (except `README.md`), `algolend/` here |
 | `godseye` | `/gods-eye` WebGL + `api/vision` proxy | Opus | $10 | `agent/gods-eye` | `gods-eye/`, `api/vision*` |
 | `trinity` | `/trinity` case study | Opus | $6 | `agent/trinity` | `trinity/` |
@@ -265,7 +265,7 @@ Waves are order, not days. Start immediately; **everything must be merged before
 | `godseye` | wrap `gods-eye/build/`; `api/vision` proxy with `VISION_API_KEY`, per-IP rate limit, daily cap, `MOCK_VISION=1` for sandbox |
 | `trinity` | case study with committed video + architecture |
 | `rag` | recorded Q&A from `rag/data/qa.json`, labeled as recorded |
-| `sweetbite` | **App repo first:** remove the reservation form's card-number field, fix the missing `images/giftcard.jpg`, strip the Bing tracking URL from the gift-card link. Copy is Tanmay's own; keep it. Make it deploy cleanly as its own Vercel project. **Then** the `/sweet-bite` program page here |
+| `sweetbite` | **App repo first:** remove the reservation form's card-number field, fix the missing `images/giftcard.jpg`, strip the Bing tracking URL from the gift-card link. Copy is Tanmay's own; keep it. It's served by GitHub Pages: add a `CNAME` file containing `sweetbite.tanmaydesai.xyz`, delete `Final.zip`, and use the CV email. **Then** the `/sweet-bite` program page here |
 
 **`docs`**
 > Rewrite this repo's README: pitch, live link `https://tanmaydesai.xyz/<slug>`, screenshots, stack, run steps, architecture, license. Only claims you can verify in the repo or the CV. PR it.
@@ -278,7 +278,7 @@ Waves are order, not days. Start immediately; **everything must be merged before
 - Push `CLAUDE.md` + `AGENTS.md` + `CONCEPT.md`. (done)
 - `resume.pdf` at the repo root (not `public/`; see `decisions.md`). Strip the phone number from that copy; it's public.
 - Connect the repo to Vercel and attach both domains. PR previews depend on it.
-- Attach `algolend.tanmaydesai.xyz` to `algolend-ai-frontend-v2` and `sweetbite.tanmaydesai.xyz` to a Sweet-Bite Vercel project.
+- Attach `algolend.tanmaydesai.xyz` to `algolend-ai-frontend-v2` and point `sweetbite.tanmaydesai.xyz` at GitHub Pages (DNS `CNAME sweetbite → tadebugs.github.io`; custom domain set in the Sweet-Bite repo's Pages settings).
 
 **After Phase A**
 - Pick a direction from `concepts.md`.
