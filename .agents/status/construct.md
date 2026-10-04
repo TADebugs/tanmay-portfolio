@@ -1,6 +1,6 @@
 # construct
 
 status: ready for merge
-branch: agent/construct
+branch: agent/construct-loc
 updated: 2026-10-04
-note: construct-r2 conditional pass; C1 fixed. PR #7 ready for lead diff check.
+note: PR #7 merged. Follow-up: status line keeps a compact /red link on phones (≤480px), fits at 360/375 on board and program pages.
