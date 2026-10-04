@@ -1,6 +1,6 @@
 # entry
 
-status: not started
+status: ready for merge
 branch: agent/entry
 updated: 2026-10-04
-note: starts when DESIGN.md merges (codes against the Motion API)
+note: artdirector r2 PASS (.agents/critique/entry-r2.md). PR #4. Open: gate question copy awaits Tanmay (copy-only swap in index.html, PLACEHOLDER comment kept).
