@@ -89,12 +89,18 @@
     .desk .why { font-size: var(--fs-small); color: var(--legend-dim); }
 
     /* weights bar: segment widths are the real weights */
-    .weights { display: grid; gap: var(--s-2); }
+    .weights { display: grid; gap: var(--s-1); }
+    .weights > p { margin-bottom: var(--s-1); }
+    .w-key { margin-top: var(--s-1); }
     .weights .bar { display: flex; block-size: 12px; gap: 1px; }
-    .weights .bar span { background: var(--legend-faint); }
-    .weights .bar span:nth-child(odd) { background: var(--legend-dim); }
-    .weights ol { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-dim); }
-    .weights ol b { color: var(--legend); font-weight: 400; }
+    .weights .bar span { background: var(--legend-dim); }
+    .weights .bar span:nth-child(even) { background: var(--legend-faint); }
+    .w-row { list-style: none; padding: 0; display: flex; gap: 1px; font-family: var(--font-mono); font-size: var(--fs-id); font-variant-numeric: tabular-nums slashed-zero; white-space: nowrap; }
+    .w-row li { min-inline-size: 0; }
+    .w-row li:last-child { display: flex; justify-content: flex-end; }
+    .w-idx { color: var(--legend-faint); }
+    .w-vals { color: var(--legend); }
+    .w-key { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-dim); }
 
     table { border-collapse: collapse; inline-size: 100%; font-size: var(--fs-small); }
     caption { text-align: start; margin-bottom: var(--s-2); }
@@ -170,6 +176,18 @@
         <p class="lede">A lending pool on Algorand with three agent desks beside it. Each desk shows what its Python module reads, what it calls, and whether the API actually serves it.</p>
       </section>
 
+      <section aria-labelledby="launch-h">
+        <h2 id="launch-h" class="section-head">Launch</h2>
+        <div class="controls">
+          <p class="launch is-offline" id="launch">
+            <span class="lamp is-off" aria-hidden="true"></span>
+            <span>Not connected yet · <span class="host">algolend.tanmaydesai.xyz</span></span>
+            <span class="sub">the app is being deployed; source is live</span>
+          </p>
+        </div>
+        <p class="dim note">The app runs as a seeded demo on testnet: no backend calls, nothing sent on-chain. A live backend sits behind a switch that is off by default.</p>
+      </section>
+
       <section class="floor" aria-label="Agent desks">
         <article class="desk" aria-labelledby="d-risk">
           <header>
@@ -183,12 +201,10 @@
           </dl>
           <div class="weights">
             <p class="dim" id="w-cap">Weights, fixed in code, sum to <span class="num">1.00</span></p>
-            <div class="bar" role="img" aria-labelledby="w-cap w-list">
-              <span style="flex:25"></span><span style="flex:20"></span><span style="flex:15"></span><span style="flex:15"></span><span style="flex:10"></span><span style="flex:10"></span><span style="flex:5"></span>
-            </div>
-            <ol id="w-list">
-              <li>balance <b>.25</b></li><li>age <b>.20</b></li><li>freq <b>.15</b></li><li>consistency <b>.15</b></li><li>amounts <b>.10</b></li><li>network <b>.10</b></li><li>reputation <b>.05</b></li>
-            </ol>
+            <ol class="w-row w-idx" aria-hidden="true"><li style="flex:25">1</li><li style="flex:20">2</li><li style="flex:15">3</li><li style="flex:15">4</li><li style="flex:10">5</li><li style="flex:10">6</li><li style="flex:5">7</li></ol>
+            <div class="bar" role="img" aria-labelledby="w-cap w-list"><span style="flex:25"></span><span style="flex:20"></span><span style="flex:15"></span><span style="flex:15"></span><span style="flex:10"></span><span style="flex:10"></span><span style="flex:5"></span></div>
+            <ol class="w-row w-vals" aria-hidden="true"><li style="flex:25">.25</li><li style="flex:20">.20</li><li style="flex:15">.15</li><li style="flex:15">.15</li><li style="flex:10">.10</li><li style="flex:10">.10</li><li style="flex:5">.05</li></ol>
+            <ol class="w-key" id="w-list"><li><span class="faint">1</span> balance</li><li><span class="faint">2</span> age</li><li><span class="faint">3</span> freq</li><li><span class="faint">4</span> consistency</li><li><span class="faint">5</span> amounts</li><li><span class="faint">6</span> network</li><li><span class="faint">7</span> reputation</li></ol>
           </div>
           <table>
             <caption><span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>SEEDED</span> <span class="dim">real <code>analyze_account</code> output on synthetic accounts, from <code>backend/scripts/generate_demo_seed.py</code></span></caption>
@@ -245,18 +261,6 @@
         </div>
       </section>
 
-      <section aria-labelledby="launch-h">
-        <h2 id="launch-h" class="section-head">Launch</h2>
-        <div class="controls">
-          <p class="launch is-offline" id="launch">
-            <span class="lamp is-off" aria-hidden="true"></span>
-            <span>Not connected yet · <span class="host">algolend.tanmaydesai.xyz</span></span>
-            <span class="sub">the app is being deployed; source is live</span>
-          </p>
-          <a href="https://github.com/TADebugs/ALGOLEND_AI">Source</a>
-        </div>
-        <p class="dim note">The app runs as a seeded demo on testnet: no backend calls, nothing sent on-chain. A live backend sits behind a switch that is off by default.</p>
-      </section>
 
       <section class="facts" aria-labelledby="facts-h">
         <h2 id="facts-h" class="section-head">What was built</h2>

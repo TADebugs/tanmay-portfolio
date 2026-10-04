@@ -1,3 +1,16 @@
+## algolend — round 2
+branch: agent/algolend
+route: /algolend
+changes since r1 (critique .agents/critique/algolend-r1.md):
+- F1: Launch section moved to directly after the lede (second thing read). Duplicate `Source` link removed (asset tag keeps `src`). Launch control top: y=512 at 1280x800, y=605 at 375x812 (both above the fold).
+- F2: weights legend rebuilt as aligned rows sharing the bar's flex values (25/20/15/15/10/10/5, gap 1px):
+  index row 1–7 (`--legend-faint`, mono `--fs-id`) above the segments, values row (.25 … .05, mono `--fs-id`) under them, names as a numbered key (`1 balance · 2 age …`).
+  Segment fills alternate `--legend-dim` / `--legend-faint`. Last label right-aligned so `.05` stays inside the bar at 375. `role="img"` + `aria-labelledby="w-cap w-list"` unchanged.
+  Verified programmatically: every value and index starts at its segment's left edge at 1280 and 375.
+tested: 1280, 375, 375 + reduced motion; no horizontal scroll, no 4xx, no banned strings, keyboard order (src → /red → plain version → reconsider), offline launch not focusable.
+screenshots: .agents/critique/shots/algolend-r2-desktop.png, algolend-r2-375.png
+stub swap list: unchanged, see round 1 below.
+
 ## algolend — round 1
 branch: agent/algolend
 route: /algolend
