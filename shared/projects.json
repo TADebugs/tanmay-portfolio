@@ -13,7 +13,7 @@
     {
       "slug": "algolend",
       "name": "AlgoLend AI",
-      "oneLiner": "DeFi lending, 3 AI agents, Algorand",
+      "oneLiner": "DeFi lending on Algorand testnet with three AI agent modules, as a seeded demo",
       "repo": "https://github.com/TADebugs/ALGOLEND_AI",
       "route": "/algolend",
       "treatment": "program-page+subdomain",
