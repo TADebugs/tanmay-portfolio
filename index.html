@@ -1,5 +1,59 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta http-equiv="refresh" content="0; url=/red">
-<title>Tanmay Desai</title></head>
-<body><!-- placeholder until the red/blue pill gate lands --><a href="/red">Enter</a></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tanmay Desai</title>
+<meta name="description" content="Tanmay Desai, software engineer in Boston. Plain résumé, or the console.">
+<script>
+// Pre-paint: a remembered choice skips the gate unless ?reconsider.
+(function () {
+  try {
+    if (new URLSearchParams(location.search).has('reconsider')) localStorage.removeItem('td.choice');
+    else {
+      var c = localStorage.getItem('td.choice');
+      if (c === 'red' || c === 'blue') location.replace('/' + c);
+    }
+  } catch (e) {}
+  document.documentElement.classList.add('js');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/shared/tokens.css">
+<link rel="stylesheet" href="/gate/gate.css">
+</head>
+<body>
+<main class="gate">
+  <p class="who">Tanmay Desai</p>
+  <!-- PLACEHOLDER: Tanmay approves gate copy -->
+  <h1 class="q">Plain résumé, or the console?</h1>
+
+  <div class="choices">
+    <div class="choice blue">
+      <a class="plain" href="/blue" data-choice="blue">Plain résumé</a>
+      <p class="legend">fast · printable · everything in 10 seconds</p>
+    </div>
+
+    <div class="choice red">
+      <noscript><a class="plain" href="/red">The console</a></noscript>
+      <button class="switch" type="button" id="switch" aria-expanded="false" aria-describedby="switch-state">
+        <span class="housing" aria-hidden="true">
+          <span class="mark on">ON</span>
+          <span class="lever"></span>
+          <span class="mark off">OFF</span>
+          <span class="guard">
+            <svg width="100%" height="100%"><defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="currentColor" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#hatch)"/></svg>
+          </span>
+        </span>
+        <span class="name">The console</span>
+      </button>
+      <p class="state" id="switch-state" aria-live="polite">guard closed</p>
+      <p class="legend">the full thing · keyboard friendly · press <kbd>`</kbd> for the terminal</p>
+    </div>
+  </div>
+</main>
+<script src="/gate/gate.js"></script>
+</body>
+</html>
