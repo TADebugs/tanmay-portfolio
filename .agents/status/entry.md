@@ -1,6 +1,6 @@
 # entry
 
-status: not started
+status: running
 branch: agent/entry
 updated: 2026-10-04
-note: starts when DESIGN.md merges (codes against the Motion API)
+note: building gate (/) + /blue per DESIGN.md §7. reducedMotion stubbed in gate/_stub/ until agent/motion merges.
