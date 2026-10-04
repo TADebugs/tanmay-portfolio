@@ -8,7 +8,7 @@ Owner talks casual and direct. Skip intros and summaries, show code first, keep 
 
 ## 1. Source of truth: the CV
 
-The CV facts below are the only source for facts on the site. The CV file itself is NOT committed (public repo, contains phone). Never invent metrics, dates, titles, or stack items. If something isn't in the CV or a project's repo, leave a `<!-- PLACEHOLDER: ... -->` and ask.
+The CV facts below are the only source for facts on the site. The CV file itself is NOT committed (public repo, contains phone and age). Its site-safe facts, with full project bullets, are in `shared/cv.md`. Never invent metrics, dates, titles, or stack items. If something isn't in the CV or a project's repo, leave a `<!-- PLACEHOLDER: ... -->` and ask.
 
 **Use on site**
 - Name, Boston MA, email `t.desai240305@gmail.com`
