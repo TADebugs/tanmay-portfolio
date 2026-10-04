@@ -80,7 +80,7 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 |---|---|---|---|---|---|
 | `lead` | Scaffolds, owns shared files, merges, final gate | Opus | $10 | `lead/*` | `.agents/BOARD.md`, `shared/`, `index.html`, `vercel.json`, `public/` |
 | `artdirector` | Concepts, DESIGN.md, critiques every page. Never writes product code | Opus / strongest | $16 | `art/*` | `DESIGN.md`, `.agents/critique/` |
-| `construct` | The main experience (replaces `/red`) + the in-site terminal | Opus | $16 | `agent/construct` | `construct/`, `red/` |
+| `construct` | The construct (replaces `/red`): shared navigation, the terminal, easter eggs. Per CONCEPT.md | Opus | $16 | `agent/construct` | `construct/`, `red/` |
 | `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | `gate/`, `blue/` |
 | `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/` (delegated by lead) |
 | `sweetbite` | `/sweet-bite` live | Opus | $5 | `agent/sweet-bite` | `sweet-bite/` |
@@ -96,18 +96,21 @@ Budgets are rough. If quality needs more rounds, spend it. Tanmay watches the me
 
 ## 3. The artdirector loop (this is what prevents slop)
 
-### Phase A — concepts (Sat, before any page is built)
+### Phase A — develop the locked concept (Sat, before any page is built)
 
-1. Read `CLAUDE.md`, the CV facts, and every project repo's README/code summary.
-2. Write `.agents/critique/concepts.md` with **3 distinct concepts**. Each concept has:
-   - **Premise:** one paragraph. What the site *is*, as an idea, traced to the source rule.
-   - **Signature moment:** the one thing a recruiter retells later.
-   - **How a project is presented:** what clicking into God's Eye feels like vs. AlgoLend.
-   - **Type, color, and motion:** stated as decisions with reasons, not a mood board.
-   - **Swap-test argument:** why this only works for Tanmay.
-   - **Risks:** what could make it fall flat or annoy a recruiter.
-3. The three concepts must differ in premise, not just styling. "Same layout, different palette" doesn't count.
-4. **Stop. Tanmay picks one, or mixes them.** No page work starts until he does.
+The premise is **locked in `CONCEPT.md`**: the construct as a place, the terminal, programs as sub-worlds, max 2 easter eggs, and the boring blue pill. Do not pitch new premises.
+
+1. Read `CONCEPT.md`, `CLAUDE.md`, the CV facts, and every project repo's README and code summary.
+2. Write `.agents/critique/concepts.md` with **3 execution directions for that concept**. They should differ in the visual and material language of the shared system, e.g. a VT100/phosphor lineage vs. an ops-console/telemetry lineage vs. a technical-manual/schematic lineage.
+
+   Each direction covers:
+   - what the shared system looks like (type, color, texture), with the reason it traces to the source rule
+   - what the terminal looks and feels like
+   - one paragraph per world: God's Eye, AlgoLend, TRINITY, plus Sweet-Bite and RAG derived from their repos
+   - the "loading a program" transition
+   - which 2 easter eggs, and where they hide
+   - a swap-test argument and risks
+3. **Stop. Tanmay picks one direction, or mixes them.**
 
 ### Phase B — DESIGN.md
 
@@ -207,7 +210,7 @@ screenshots: .agents/critique/shots/algolend-r2-*.png (or "need Tanmay")
 ## 6. Prompts
 
 **Preamble (paste first in every session):**
-> You are agent `<id>` in a multi-agent setup, running in a cloud sandbox. Push after every meaningful step; unpushed work is lost. Read `CLAUDE.md`, `AGENTS.md` (especially §0, the anti-generic doctrine), and `DESIGN.md` if it exists. Then pull `main` and read everything in `.agents/`. Write only to folders you own (§2), on branch `<branch>`. Update your BOARD row on start, blocked, and done. Finish by writing your handoff (§4) and stop. If the same error fails 3 times, mark `blocked` with the error and stop.
+> You are agent `<id>` in a multi-agent setup, running in a cloud sandbox. Push after every meaningful step; unpushed work is lost. Read `CLAUDE.md`, `CONCEPT.md`, `AGENTS.md` (especially §0, the anti-generic doctrine), and `DESIGN.md` if it exists. Then pull `main` and read everything in `.agents/`. Write only to folders you own (§2), on branch `<branch>`. Update your BOARD row on start, blocked, and done. Finish by writing your handoff (§4) and stop. If the same error fails 3 times, mark `blocked` with the error and stop.
 
 **`lead` — setup**
 > - Scaffold `.agents/` per §4, with BOARD rows for all 11 agents.
