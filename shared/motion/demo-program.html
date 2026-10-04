@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script src="/shared/motion/beat.js"></script>
+  <title>Motion demo · program side</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <link rel="stylesheet" href="/shared/motion/motion.css">
+  <style>
+    body { margin: 0; padding: var(--s-5) var(--gutter); background: var(--panel); color: var(--legend); font: var(--fs-body)/var(--lh-ui) var(--font-ui); }
+    main { max-width: 720px; display: grid; gap: var(--s-5); }
+    h1 { font-size: var(--fs-h1); margin: 0; }
+    a { color: var(--legend); } a:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
+    pre { font: var(--fs-id)/1.4 var(--font-mono); color: var(--legend-dim); white-space: pre-wrap; margin: 0; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>CH-00 demo program</h1>
+  <div class="trace-rail" id="rail"></div>
+  <pre id="out">mounting</pre>
+  <p><a href="demo.html">Back to the board demo</a></p>
+</main>
+<script type="module">
+  import { mountProgram } from '/shared/motion/index.js';
+  const q = new URLSearchParams(location.search);
+  // A real wait, measured as such: stands in for a page that mounts something slow (e.g. WebGL).
+  const ready = q.has('fail') ? Promise.reject(new Error('demo mount failure'))
+              : q.has('ready') ? new Promise(r => setTimeout(r, Number(q.get('ready'))))
+              : undefined;
+  mountProgram('demo', { ready, rail: document.getElementById('rail') }).then(trace => {
+    window.__trace = trace;
+    document.getElementById('out').textContent = JSON.stringify(trace, null, 2);
+  });
+</script>
+</body>
+</html>
