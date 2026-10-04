@@ -1,6 +1,6 @@
 # docs
 
-status: not started
+status: running
 branch: docs/readme
 updated: 2026-10-04
-note: one session per project repo
+note: 4 sessions, one per repo: Gods_Eye, ALGOLEND_AI, TRINITY, Sweet-Bite
