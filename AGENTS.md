@@ -78,11 +78,11 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 
 | id | role | model | ~budget | branch | owns (write access) |
 |---|---|---|---|---|---|
-| `lead` | Scaffolds, owns shared files, reviews PR previews, merges, final gate | Opus | $10 | `lead/*` | `.agents/decisions.md`, `shared/` (except `motion/`), `index.html`, `vercel.json`, root files like `resume.pdf` |
+| `lead` | Scaffolds, owns shared files, reviews PR previews, merges, final gate | Opus | $10 | `lead/*` | `.agents/decisions.md`, `shared/` (except `motion/`, `trace/`), `index.html`, `vercel.json`, root files like `resume.pdf` |
 | `artdirector` | Concepts, DESIGN.md, critiques every page. Never writes product code | Opus / strongest | $16 | `art/*` | `DESIGN.md`, `.agents/critique/` |
 | `construct` | The construct (replaces `/red`): shared navigation, the terminal, easter eggs. Per CONCEPT.md | Opus | $16 | `agent/construct` | `construct/`, `red/` |
 | `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | `gate/`, `blue/` |
-| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/` (delegated by lead) |
+| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/`, `shared/trace/` (delegated by lead) |
 | `sweetbite` | Sweet-Bite app (own repo + Vercel project, served at `sweetbite.tanmaydesai.xyz`) + the `/sweet-bite` program page here | Opus | $5 | `agent/sweet-bite` in both repos | `TADebugs/Sweet-Bite` (except `README.md`), `sweet-bite/` here |
 | `algolend` | AlgoLend app (own repo + Vercel project `algolend-ai-frontend-v2`, served at `algolend.tanmaydesai.xyz`) + the `/algolend` program page here | Opus | $9 | `agent/algolend` in both repos | `TADebugs/ALGOLEND_AI` (except `README.md`), `algolend/` here |
 | `godseye` | `/gods-eye` WebGL + `api/vision` proxy | Opus | $10 | `agent/gods-eye` | `gods-eye/`, `api/vision*` |
