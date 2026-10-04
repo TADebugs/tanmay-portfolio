@@ -1,5 +1,5 @@
 {
-  "_note": "Lead-owned. Facts come only from CLAUDE.md §4 / the CV / the repo. null = unknown, ask Tanmay; never invent. status: todo | in-progress | live",
+  "_note": "Lead-owned. Facts come only from CLAUDE.md §4 / the CV / the repo. null = unknown, ask Tanmay; never invent. status: todo | in-progress | live. statusChangedAt: ISO date lead sets whenever it flips status",
   "projects": [
     {
       "slug": "gods-eye",
@@ -8,27 +8,30 @@
       "repo": "https://github.com/TADebugs/Gods_Eye",
       "route": "/gods-eye",
       "treatment": "webgl",
-      "status": "todo"
+      "status": "todo",
+      "statusChangedAt": "2026-10-04"
     },
     {
       "slug": "algolend",
       "name": "AlgoLend AI",
-      "oneLiner": "DeFi lending, 3 AI agents, Algorand",
+      "oneLiner": "DeFi lending on Algorand testnet with three AI agent modules, as a seeded demo",
       "repo": "https://github.com/TADebugs/ALGOLEND_AI",
       "route": "/algolend",
       "treatment": "program-page+subdomain",
       "status": "todo",
       "launch": "https://algolend.tanmaydesai.xyz",
-      "vercelProject": "algolend-ai-frontend-v2"
+      "vercelProject": "algolend-ai-frontend-v2",
+      "statusChangedAt": "2026-10-04"
     },
     {
       "slug": "trinity",
       "name": "TRINITY",
-      "oneLiner": "Multi-personality voice desktop assistant (ARIA / ECHO / NEXUS)",
+      "oneLiner": "Desktop assistant with three personalities (ARIA / ECHO / NEXUS). Desktop app in progress.",
       "repo": "https://github.com/TADebugs/TRINITY",
       "route": "/trinity",
       "treatment": "case-study",
-      "status": "todo"
+      "status": "todo",
+      "statusChangedAt": "2026-10-04"
     },
     {
       "slug": "sweet-bite",
@@ -38,7 +41,8 @@
       "route": "/sweet-bite",
       "treatment": "program-page+subdomain",
       "status": "todo",
-      "launch": "https://sweetbite.tanmaydesai.xyz"
+      "launch": "https://sweetbite.tanmaydesai.xyz",
+      "statusChangedAt": "2026-10-04"
     },
     {
       "slug": "rag",
@@ -47,7 +51,8 @@
       "repo": null,
       "route": "/rag",
       "treatment": "recorded-demo",
-      "status": "todo"
+      "status": "todo",
+      "statusChangedAt": "2026-10-04"
     }
   ]
 }
