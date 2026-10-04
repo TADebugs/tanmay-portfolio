@@ -36,3 +36,6 @@ In `construct-r2-terminal-help-375.png` the status line ends in `reconside`, cut
 ## Notes
 - The `497521:…` clock in the déjà vu shot is the fake-clock artifact. N1 makes it harmless.
 - After merge, `algolend` and `sweetbite` can swap their `shell.js` stubs.
+
+## C1 verified (9968034)
+`.sl { overflow: hidden }` is in, and `.sl-clock` is hidden at ≤400px with the lamp kept. The suite asserts every `.sl-btn` right edge ≤ innerWidth at 360 and 375. The re-shot `board-375` shows `terminal · plain version · reconsider` in full. **Craft: PASS. construct passes. Ready for merge.**
