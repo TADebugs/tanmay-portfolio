@@ -1,6 +1,6 @@
 # artdirector
 
-status: ready for merge
-branch: art/phase-a
+status: running
+branch: art/phase-c
 updated: 2026-10-04
-note: Phase C — construct r1 revise (DESIGN v1.2), algolend r1 revise, motion r1 PASS, entry r2 PASS, sweetbite r2 pass after A1.
+note: Phase C — critiques on art/phase-c. algolend r2 conditional pass; waiting construct r2.
