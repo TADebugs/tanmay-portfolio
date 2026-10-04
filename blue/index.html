@@ -1,12 +1,144 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blue pill — in progress · Tanmay Desai</title></head>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tanmay Desai · résumé</title>
+<meta name="description" content="Tanmay Desai, software engineer in Boston. Experience, projects, skills and education on one plain page.">
+<!-- Boring on purpose (DESIGN.md §7): no tokens.css, no web fonts, no JS. Projects copied by hand from shared/projects.json. -->
+<style>
+html { background: #FFFFFF; color: #111111; }
+body {
+  margin: 0 auto;
+  max-width: 68ch;
+  padding: 24px max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: #1A44C2; }
+a:focus-visible { outline: 2px solid #111111; outline-offset: 2px; }
+h1 { font-size: 1.75rem; margin: 0 0 4px; }
+h2 { font-size: 1.125rem; margin: 32px 0 8px; padding-bottom: 4px; border-bottom: 1px solid #111111; }
+h3 { font-size: 1rem; margin: 16px 0 0; }
+p, ul { margin: 4px 0; }
+ul { padding-left: 20px; }
+.meta { color: #444444; }
+dl { margin: 0; }
+dt { font-weight: 600; margin-top: 8px; }
+dd { margin: 0; }
+footer { margin-top: 40px; padding-top: 8px; border-top: 1px solid #CCCCCC; color: #444444; }
+@media print {
+  body { padding: 0; font-size: 11pt; }
+  footer { display: none; }
+  a { color: #111111; text-decoration: none; }
+  .contact a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+  h2, h3 { break-after: avoid; }
+  li, .project { break-inside: avoid; }
+}
+</style>
+</head>
 <body>
-<!-- PLACEHOLDER: lead scaffold. The owning agent replaces this file. -->
+<header>
+  <h1>Tanmay Desai</h1>
+  <p class="contact">Boston, MA · <a href="mailto:t.desai240305@gmail.com">t.desai240305@gmail.com</a> · <a href="https://www.linkedin.com/in/tanmaydesai2126/">LinkedIn</a> · <a href="https://github.com/TADebugs">GitHub</a></p>
+  <p><a href="/resume.pdf">Résumé (PDF)</a></p>
+</header>
+
 <main>
-<h1>Blue pill</h1>
-<p>In progress. The plain recruiter view is being built. Until then: <a href="mailto:t.desai240305@gmail.com">t.desai240305@gmail.com</a> · <a href="https://www.linkedin.com/in/tanmaydesai2126/">LinkedIn</a> · <a href="https://github.com/TADebugs">GitHub</a>.</p>
-<p><a href="/red">Back</a></p>
+<section>
+  <h2>Experience</h2>
+
+  <h3>Medidata Solutions · SDET Intern</h3>
+  <p class="meta">Jul 2026 – Nov 2026 · New York City, NY</p>
+  <ul>
+    <li>Built a CI/CD-integrated testing engine parsing 500+ JSON test results into interactive, time-stamped HTML reports via GitHub Actions, eliminating manual QA reporting and improving monitoring by surfacing failures inline per pipeline run.</li>
+    <li>Took end-to-end ownership of automated regression coverage, applying best practices for code health, documentation, testing, and monitoring, and influencing engineers across teams to adopt standardized reporting conventions.</li>
+  </ul>
+
+  <h3>Medidata Solutions · Data Engineering Intern</h3>
+  <p class="meta">Apr 2026 – Jul 2026 · New York City, NY</p>
+  <ul>
+    <li>Trained a TensorFlow/Keras classifier in Python to auto-tag and sort feature files across 10+ repositories, building scalable internal tooling that standardized lookup conventions and boosted developer productivity.</li>
+    <li>Designed data parsing and transformation workflows feeding downstream pipelines, evaluating complex data to resolve technical issues and collaborating cross-functionally with QA and platform engineers.</li>
+  </ul>
+
+  <h3>Electronic Arts · Software Engineering Intern</h3>
+  <p class="meta">Nov 2025 – Jan 2026 · Remote</p>
+  <ul>
+    <li>Resolved a critical performance bottleneck in a production C++ codebase and architected object-oriented systems for EA Sports College Football, applying design patterns with cross-functional teams to maximize reusability, maintainability, and performance at scale.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Projects</h2>
+
+  <div class="project">
+    <h3>God's Eye</h3>
+    <p>AI-driven Unity dungeon crawler, dual-persona vision AI</p>
+    <p><a href="/gods-eye">Open</a> · <a href="https://github.com/TADebugs/Gods_Eye">Source</a></p>
+  </div>
+
+  <div class="project">
+    <h3>AlgoLend AI</h3>
+    <p>DeFi lending, 3 AI agents, Algorand</p>
+    <p><a href="/algolend">Open</a> · <a href="https://github.com/TADebugs/ALGOLEND_AI">Source</a></p>
+  </div>
+
+  <div class="project">
+    <h3>TRINITY</h3>
+    <p>Multi-personality voice desktop assistant (ARIA / ECHO / NEXUS)</p>
+    <p><a href="/trinity">Open</a> · <a href="https://github.com/TADebugs/TRINITY">Source</a></p>
+  </div>
+
+  <div class="project">
+    <h3>Sweet-Bite</h3>
+    <p>Restaurant site for a fictional BBQ spot; menu, hours and a reservation form in plain HTML/CSS/JS.</p>
+    <p><a href="/sweet-bite">Open</a> · <a href="https://github.com/TADebugs/Sweet-Bite">Source</a></p>
+  </div>
+
+  <div class="project">
+    <h3>Production RAG system</h3>
+    <p>Hybrid BM25 + vector retrieval with reranking, Langfuse observability, RAGAS-gated CI</p>
+    <p><a href="/rag">Open</a></p>
+  </div>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <dl>
+    <dt>Languages</dt>
+    <dd>Java, Python, C/C++, Kotlin, TypeScript, JavaScript, C#, SQL, HTML/CSS</dd>
+    <dt>Engineering practices</dt>
+    <dd>Object-Oriented Design, Design Patterns, Data Structures and Algorithms, RESTful API Design, Unit and Integration Testing, Code Health, Documentation, Monitoring, CI/CD, Collaborative Git Workflows</dd>
+    <dt>Backend and cloud</dt>
+    <dd>AWS, Azure, Docker, FastAPI, Node.js, MySQL, Firebase, Microservices</dd>
+    <dt>Data and ML</dt>
+    <dd>TensorFlow/Keras, Langfuse, RAGAS, Pandas, NumPy, ETL Pipelines, Vector Search</dd>
+    <dt>Tools</dt>
+    <dd>GitHub Actions, GitLab, IntelliJ IDEA, Android Studio, React, Figma, Claude Code, GitHub Copilot, Amazon Q Developer</dd>
+  </dl>
+</section>
+
+<section>
+  <h2>Education</h2>
+
+  <h3>Northeastern University · B.S. Information Technology</h3>
+  <p class="meta">Jul 2024 – May 2027 · Boston, MA · GPA 3.7</p>
+  <p>Coursework (Java): Data Structures and Algorithms, Object-Oriented Design, Operating Systems, Software Engineering, Database Systems, Cloud Computing (AWS), Machine Learning, Discrete Mathematics, Probability and Statistics, Optimization</p>
+
+  <h3>Golden Gate University · Associate's, Computer Science</h3>
+  <p class="meta">2023 – 2024 · San Francisco, CA · GPA 3.9</p>
+</section>
+
+<section>
+  <h2>Leadership</h2>
+  <h3>SCI-TECH Club, Golden Gate University · Vice President and Software Development Lead</h3>
+  <p class="meta">2023 – 2024</p>
+  <p>Organized coding competitions and hackathon-style STEM innovation contests, mentored junior students, and led team discussions on AI algorithms and mathematical modeling.</p>
+</section>
 </main>
-</body></html>
+
+<footer>
+  <p>Prefer the console? <a href="/red">/red</a> · <a href="/?reconsider">reconsider</a></p>
+</footer>
+</body>
+</html>
