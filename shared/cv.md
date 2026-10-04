@@ -55,11 +55,13 @@ Associate's, Computer Science · GPA 3.9
 ### AlgoLend AI — DeFi Lending Platform (`/algolend`)
 - Built a full-stack decentralized lending platform with React, TypeScript, and FastAPI (Python), integrating Algorand smart contracts with fast finality and sub-cent fees.
 - Implemented 3 autonomous AI agents for market analysis, risk scoring, and yield optimization, achieving 90%+ risk-assessment accuracy and roughly 3x better capital utilization than static lending models.
+- ⚠ **On site:** both numbers are unverified until `algolend` measures them. Describe the agents without a number (decisions.md #8).
 - Proposed, experimented with, and launched features including instant loan approvals, wallet integration, and real-time portfolio analytics.
 
 ### God's Eye — AI-Driven Dungeon Crawler (`/gods-eye`)
 - Built a Unity dungeon crawler with a dual-persona Vision AI analyzing real-time screenshots to dynamically control enemy spawns and difficulty, enabling 100% non-scripted gameplay.
 - Implemented a REST-based Vision API integration parsing structured JSON action plans and executing 5–10 timed AI actions per request with sub-second in-game response.
+- ⚠ **On site:** never "sub-second". Use "executes 5–10 timed AI actions per vision plan"; if latency is mentioned, the real vision round-trip is 1–3s (decisions.md #8).
 
 ### Not routed yet (CLAUDE.md §4 "possible later additions")
 **SpeakEasy — Public Speaking Practice Tool**
