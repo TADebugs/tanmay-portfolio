@@ -324,6 +324,15 @@ This page is a **channel that hands off to an external app**. It is the intro to
 - Each desk shows what the agent **reads** and what it **calls**, taken from the Python modules in the repo. Examples:
   - Risk Analyzer reads balance, account age, tx frequency, tx consistency, tx amounts, network activity, reputation, and calls `credit_score · risk_level · risk_factors`.
   - Market Oracle and Yield Optimizer: the same treatment, from their modules.
+- **Each desk carries its true wiring state as a lamp** (decisions.md #8, verified in the repo). The page must not imply three live agents:
+
+  | desk | lamp | label | why |
+  |---|---|---|---|
+  | Risk Analyzer | `--nominal` | `WIRED` | imported and served by `backend/app.py` |
+  | Market Oracle | `--caution` | `SIMULATED` | imported by `app.py`, but its market data is generated (`random`) |
+  | Yield Optimizer | `--inactive` outline | `NOT WIRED` | module exists; `app.py` doesn't use it |
+
+  If `algolend` changes the wiring in the app repo, it updates these lamps in its handoff. The lamp is the truth, not the design.
 - **No accuracy or utilization numbers anywhere** (decisions.md #8). The desks work without them: the content is *what each desk does*, not how well.
 - Name the second agent **Risk Analyzer**, never "Fraud Detective".
 
@@ -334,27 +343,28 @@ This page is a **channel that hands off to an external app**. It is the intro to
 
 **Launch control** (shared rule for every external hand-off, §5.6): `Launch · algolend.tanmaydesai.xyz`.
 
-**Readout on the board strip:** `3 agents · LendingPool on Algorand testnet · seeded demo`
+**Readout on the board strip:** `3 agent modules · LendingPool on Algorand testnet · seeded demo`
 
 ### 5.3 CH-03 TRINITY: the three-way call (`/trinity`, owner `trinity`)
 
-**Extra material:** a **conference bridge**. Three channel rows on one loop: ARIA, ECHO, NEXUS. Each row has:
-- a voice lamp (`--voice-*`)
-- a level meter (a 12-segment bar), which moves **only while the recorded video's audio plays for that speaker**, driven by the video's timeline cue data. It never animates on its own.
+**Truth first** (decisions.md #8, verified in the repo): the desktop app is a **scaffold**; `chat_stream` / `send_message` are TODO stubs. `WakeWordDetector` and the Chirp 3 HD voices exist only in the CV, not in code. So this world shows the three personalities **as configured**, not as a running conversation. The board lamp is `IN PROGRESS`.
+
+**Extra material:** a **conference bridge** wired but not yet carrying audio. Three channel rows on one loop: ARIA, ECHO, NEXUS. Each row has:
+- a personality lamp (`--voice-*`), solid: it marks identity, not activity
 - the tagline from the YAML (`Assistant Mode` / `Creative Mode` / `Developer Mode`)
-- `voice: Chirp 3 HD` (CV)
-- `wake word: aria` (YAML)
+- the YAML's config fields as a mono readout: `humor: sarcastic · local model: phi3:mini`, etc.
+- **No level meters, no WAKE lamps, no per-voice channels.** If wake words or voices are mentioned at all, it's as a single line under the bridge: `planned (CV): wake-word detection, per-personality voices`, in `--legend-faint`, with no lamp
 
 **Content:**
-- **Transcript.** Lines tagged with the speaker's channel. The lines are written from the YAML's own example voice: NEXUS "That's O(n²). We don't do that here.", ECHO "Let me layer on some ideas for you." Tanmay approves the final script. <!-- PLACEHOLDER: transcript lines from Tanmay's 30s video -->
-- **Video.** The 30s video is `PLAYBACK · RECORDED`, framed like a monitor (1px bezel), with native controls and captions required.
-- **Permission matrix.** A table of personality × tool (`●` enabled / `○` disabled), straight from the YAML. This is the real `ToolRouter` behavior.
-- **Architecture.** A plain block diagram in hairlines: `WakeWordDetector → PersonalityManager → ToolRouter → Gemini 2.5 (native audio) / Ollama fallback`.
+- **Idents.** Each channel row carries its personality's own example line from the YAML system prompt, labeled `ident (from config)`: NEXUS "That's O(n²). We don't do that here.", ECHO "Let me layer on some ideas for you.", ARIA "Believe it or not, I don't have that one memorized. Searching now..." These are quotes from config, not a recorded conversation.
+- **Video.** Only if Tanmay records it: `PLAYBACK · RECORDED`, framed like a monitor (1px bezel), native controls, captions required. Until then the frame reads `NO SIGNAL · video pending`, lamp `--inactive`. <!-- PLACEHOLDER: Tanmay's 30s video -->
+- **Permission matrix.** A table of personality × tool (`●` enabled / `○` disabled), straight from the YAML `tools.enabled` / `tools.disabled`. Label it `config`.
+- **Architecture.** A plain block diagram in hairlines of what exists in the repo: `Tauri (Rust) shell → personality YAML → provider: Gemini 2.5 Flash / Ollama local fallback`. Stubbed stages (`chat_stream`, `send_message`) are drawn with a dashed 1px `--inactive` outline and labeled `TODO in repo`.
 - **Orb.** The app's orb appears as a still or the video. No new Three.js on this site unless `trinity` justifies it in a critique round.
 
 **Voice colors are for lamps and meters only.** `--voice-echo` fails AA as text. Text stays `--legend`.
 
-**Readout on the board strip:** `3 personalities · per-personality tools + voices · desktop app (video)`
+**Readout on the board strip:** `3 personalities · per-personality tools (config) · desktop app in progress`
 
 ### 5.4 CH-04 Sweet-Bite: the kitchen pass (`/sweet-bite` program page, owner `sweetbite`; app at `sweetbite.tanmaydesai.xyz`)
 
