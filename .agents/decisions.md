@@ -14,3 +14,5 @@
    - God's Eye: never claim "sub-second". Say "executes 5–10 timed AI actions per vision plan"; if latency is mentioned, it's the real 1–3s round-trip.
    - AlgoLend: no invented metrics anywhere. The demo UI's 94.2 / 98.7 / 91.5 are removed. "90%+ risk-assessment accuracy" is unverified until `algolend` measures it; until then describe the agents with no number. "Roughly 3x capital utilization" is also unmeasured in the repo: same rule.
    - Sweet-Bite: copy is Tanmay's own. One-liner approved.
+   - TRINITY (docs agent, 2026-10-04): `WakeWordDetector` and the Chirp 3 HD voices exist only in the CV, not in the repo, and the desktop app is a scaffold (`chat_stream` / `send_message` are TODO stubs). The site must not present wake words or per-personality voices as working features unless Tanmay confirms they exist in code he hasn't pushed.
+   - AlgoLend (docs agent): Market Oracle data is simulated, and Yield Optimizer isn't wired into `app.py`. Describe them as such; don't imply three live agents.
