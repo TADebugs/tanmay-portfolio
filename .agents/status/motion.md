@@ -1,6 +1,6 @@
 # motion
 
-status: in critique
+status: ready for merge
 branch: agent/motion
 updated: 2026-10-04
-note: DESIGN.md §8 implemented + both amendments; 25/25 Playwright checks. Handoff in .agents/handoff/motion.md
+note: r1 PASS (artdirector, .agents/critique/motion-r1.md); nits N1+N2 applied

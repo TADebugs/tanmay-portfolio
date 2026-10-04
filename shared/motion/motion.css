@@ -34,7 +34,7 @@ html.is-bell { filter: invert(1); }
 
 /* Trace waterfall defaults (renderTrace). Zero specificity: restyle freely. */
 :where(.trace) { list-style: none; margin: 0; padding: 0; font: var(--fs-id, 0.6875rem)/var(--lh-ui, 1.35) var(--font-mono, ui-monospace, monospace); font-variant-numeric: tabular-nums slashed-zero; }
-:where(.trace-span) { display: grid; grid-template-columns: 14ch 1fr 9ch; gap: var(--s-2, 8px); align-items: center; padding-inline-start: calc(var(--depth, 0) * var(--s-3, 12px)); }
+:where(.trace-span) { display: grid; grid-template-columns: 18ch 1fr 9ch; gap: var(--s-2, 8px); align-items: center; padding-inline-start: calc(var(--depth, 0) * var(--s-3, 12px)); }
 :where(.trace-name) { color: var(--legend-dim, #A39E94); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 :where(.trace-track) { display: block; block-size: 6px; border-block-end: var(--hair, 1px) solid var(--rule, #2A2F35); }
 :where(.trace-bar) { display: block; block-size: 100%; background: var(--legend, #E6E1D6); }

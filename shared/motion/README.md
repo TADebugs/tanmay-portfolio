@@ -27,6 +27,16 @@ import { loadProgram, mountProgram, bell, lampTest, reducedMotion,
 loadBtn.onclick = () => loadProgram('gods-eye', { href: '/gods-eye', rail: strip.querySelector('.trace-rail') });
 ```
 
+Caller rule: intercept only unmodified primary clicks. Let Ctrl/Cmd/Shift/Alt and middle clicks fall through to the link's `href`:
+
+```js
+link.addEventListener('click', e => {
+  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  loadProgram(slug, { href: link.href, rail });
+});
+```
+
 Records a `"request"` span around a real `fetch(href)`, saves the trace to sessionStorage, fades to `--construct`, then navigates. It never blocks: a failed fetch is named `request (failed)`, and a fetch still pending after 5 s (1.5 s under reduced motion) is named `request (timeout)`. Either way it navigates. Repeated calls while one is running return the same promise.
 
 - **Fade:** a fixed `--construct` layer fades in over the body (`html.is-leaving::after`, opacity only). It works whatever element the page paints its ground on.
