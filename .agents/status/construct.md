@@ -1,6 +1,6 @@
 # construct
 
-status: not started
+status: running
 branch: agent/construct
 updated: 2026-10-04
-note: starts when DESIGN.md merges (codes against the Motion API)
+note: session_01GKK88ZJrEzVc6W5F9hQVyW, branch agent/construct
