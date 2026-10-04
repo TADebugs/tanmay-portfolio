@@ -23,6 +23,8 @@ let inflight = null, liveRail = null;
 addEventListener('pageshow', e => {
   if (!e.persisted) return;
   html.classList.remove('is-leaving'); // drops the fade instantly, no transition back
+  document.body.style.transition = 'none';
+  document.body.style.opacity = '1';
   liveRail?.stop();
   liveRail = null;
   inflight = null;
