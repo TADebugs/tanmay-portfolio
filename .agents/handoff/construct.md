@@ -13,7 +13,8 @@ eggs (§4.6), exactly 2:
 - white rabbit: `follow white rabbit` / `knock knock` → CH-00 · UNLISTED at the top of the board (origin: SCI-TECH VP + Golden Gate Associate's). `ls -a programs` lists it dimmed. Never in help, completion or suggestions. Off-board it links to /red#ch-00
 
 lamp mapping (§4.2): live → LIVE (or RECORDED for treatment recorded-demo); not live with a `launch` subdomain → NOT CONNECTED; else IN PROGRESS
-readouts: DESIGN §5, with the AlgoLend and TRINITY amendments from the lead brief (TRINITY: "3 personalities · per-personality tools · desktop app (video)", which differs from DESIGN.md §5.3's text. Artdirector: please sync §5.3). No "sub-second", no AlgoLend numbers.
+readouts: DESIGN.md §5 verbatim (TRINITY per lead correction: "3 personalities · per-personality tools (config) · desktop app in progress"). No "sub-second", no AlgoLend numbers.
+Motion API v1.1 caller rule: Load buttons call loadProgram only on unmodified primary clicks; modified and middle clicks fall through to the href.
 
 swap to real motion when agent/motion merges: replace '/construct/_stub/motion.js' with '/shared/motion/index.js' in construct/shell.js and red/board.js, the /construct/_stub/motion.css link in red/index.html with /shared/motion/motion.css, then delete construct/_stub/.
 

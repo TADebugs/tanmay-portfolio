@@ -7,11 +7,11 @@ const board = document.getElementById('board');
 const T = ' '; // thin space before units
 const u = s => `<span class="u">${s}</span>`;
 
-// DESIGN.md §5 board readouts (AlgoLend + TRINITY amended 2026-10-04). True facts only.
+// DESIGN.md §5 board readouts (v1.1). True facts only.
 const READOUT = {
   'gods-eye': `5–10 timed actions / vision plan · round-trip 1–3${T}${u('s')} · press T to be seen`,
   'algolend': '3 agent modules · LendingPool on Algorand testnet · seeded demo',
-  'trinity': '3 personalities · per-personality tools · desktop app (video)',
+  'trinity': '3 personalities · per-personality tools (config) · desktop app in progress',
   'sweet-bite': 'menu · hours · reservations · plain HTML/CSS/JS',
   'rag': 'BM25 ∥ vector → rerank → cite · Langfuse p50/p95 · RAGAS-gated CI',
 };
