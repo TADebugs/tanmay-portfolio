@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <!-- STUB: swap to /shared/motion/beat.js once motion merges -->
-  <script src="/sweet-bite/_stub/beat.js"></script>
+  <script src="/shared/motion/beat.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="/shared/tokens.css">
-  <!-- STUB: swap to /shared/motion/motion.css once motion merges -->
-  <link rel="stylesheet" href="/sweet-bite/_stub/motion.css">
+  <link rel="stylesheet" href="/shared/motion/motion.css">
   <title>CH-04 Sweet-Bite · Tanmay Desai</title>
   <meta name="description" content="Sweet-Bite: restaurant site for a fictional BBQ spot; menu, hours and a reservation form in plain HTML/CSS/JS.">
   <style>
@@ -232,15 +230,14 @@
           <li>Plain HTML, CSS and JavaScript, no build step. Chart.js draws the one chart on the about page.</li>
         </ul>
         <p class="origin">first program · plain HTML/CSS/JS</p> <!-- PLACEHOLDER: Tanmay confirms "first program" -->
-        <p class="links"><a href="https://github.com/TADebugs/Sweet-Bite">Source · github.com/TADebugs/Sweet-Bite</a><a href="/red">Back to the board</a></p>
+        <p class="links"><a href="https://github.com/TADebugs/Sweet-Bite">Source · github.com/TADebugs/Sweet-Bite</a></p>
       </section>
     </main>
   </div>
 
   <script type="module">
-    // STUB imports: swap to '/shared/motion/index.js' and '/construct/shell.js' once motion and construct merge.
-    import { mountProgram } from '/sweet-bite/_stub/index.js';
-    import { mountShell } from '/sweet-bite/_stub/shell.js';
+    import { mountProgram } from '/shared/motion/index.js';
+    import { mountShell } from '/construct/shell.js';
 
     const shell = mountShell({ channel: 'sweet-bite' });
 
