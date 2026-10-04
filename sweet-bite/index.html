@@ -91,36 +91,33 @@
     .host { font-family: var(--font-mono); font-weight: 400; overflow-wrap: anywhere; }
 
     /* ticket rail: the world's one extra material (DESIGN §5.4) */
-    .rail { margin-top: var(--s-5); }
-    .rail h3 { font-size: var(--fs-small); color: var(--legend-dim); margin-bottom: var(--s-2); }
-    .rail ul {
+    .rail {
       list-style: none; margin: 0; padding: var(--s-3) 0 0;
       border-top: 2px solid var(--rule-strong);
-      display: flex; flex-wrap: wrap; gap: var(--s-4);
+      display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s-4);
     }
+    .rail:focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
     .ticket {
       position: relative;
-      width: 220px;
+      width: 176px;
       background: var(--strip);
       border: var(--hair) solid var(--rule);
-      padding: var(--s-3) var(--s-3) var(--s-2);
-      display: flex; flex-direction: column;
+      padding: var(--s-2) var(--s-3);
     }
     .ticket::before { /* the clip holding the ticket on the rail */
       content: ""; position: absolute; top: calc(-1 * var(--s-3) - 1px); left: var(--s-4);
       width: 2px; height: var(--s-3); background: var(--rule-strong);
     }
-    .ticket h4 {
-      margin: 0 0 var(--s-1); font-size: var(--fs-body); font-weight: 600; line-height: var(--lh-tight);
-      font-variation-settings: "wdth" var(--wdth-legend);
-    }
-    .ticket p { margin: 0; font-size: var(--fs-small); color: var(--legend-dim); flex: 1; }
+    .ticket .station { display: block; font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-dim); margin-bottom: var(--s-1); }
+    .ticket h3 { margin-bottom: var(--s-1); font-size: var(--fs-body); }
+    .ticket p { margin: 0; font-size: var(--fs-small); color: var(--legend-dim); }
     .ticket .price {
-      margin-top: var(--s-3); padding-top: var(--s-2);
+      display: block; margin-top: var(--s-2); padding-top: var(--s-2);
       border-top: var(--hair) dashed var(--rule-strong);
       font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero;
       font-size: var(--fs-small);
     }
+    .price > span { white-space: nowrap; }
 
     /* smoker channel */
     .smoker { list-style: none; margin: 0; padding: 0; max-width: 760px; }
@@ -136,13 +133,9 @@
     .axis .ticks { display: flex; justify-content: space-between; }
 
     /* covers */
-    .covers { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
-    .covers li {
-      padding: var(--s-2) var(--s-5);
-      border: var(--hair) solid var(--rule-strong);
-      margin: 0 -1px -1px 0;
-      font-variation-settings: "wdth" var(--wdth-legend);
-      font-weight: 600;
+    .readout {
+      margin: 0; max-width: 760px; padding: var(--s-2) 0; border-bottom: var(--hair) solid var(--rule);
+      font-size: var(--fs-small);
     }
 
     /* facts */
@@ -156,7 +149,11 @@
 
     @media (max-width: 640px) {
       .asset-tag { padding: var(--s-5) var(--s-4); }
-      .ticket { width: 100%; }
+      .rail {
+        flex-wrap: nowrap; overflow-x: auto;
+        scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+      }
+      .ticket { flex: 0 0 72%; scroll-snap-align: start; }
       .smoker li, .axis { grid-template-columns: 6rem 1fr 3rem; }
     }
   </style>
@@ -189,44 +186,21 @@
 
       <section aria-labelledby="h-rail">
         <h2 id="h-rail">Ticket rail</h2>
-        <div class="rail">
-          <h3>Apps to Share (or Not)</h3>
-          <ul>
-            <li class="ticket"><h4>Bucket o' Biscuits</h4><p>World-famous buttermilk biscuits served with honey butter.</p><span class="price">$16</span></li>
-            <li class="ticket"><h4>Texas Nachos</h4><p>Salt and pepper potatoes, jack &amp; cheddar, ranch beans. Add pulled chicken, pork, or beef for $2.</p><span class="price">$16</span></li>
-            <li class="ticket"><h4>SCQ Smoked Wings</h4><p>Tossed in gold sauce, chipotle buffalo, or dry rubbed.</p><span class="price">$14</span></li>
-          </ul>
-        </div>
-        <div class="rail">
-          <h3>Trays &amp; Sandwiches</h3>
-          <ul>
-            <li class="ticket"><h4>Sliced Prime Brisket</h4><p>All-natural USDA prime beef brisket, slow-smoked for 14 hours with salt &amp; pepper.</p><span class="price">$28 Tray / $20 Sandwich</span></li>
-            <li class="ticket"><h4>Heritage Pulled Pork</h4><p>All-natural pork with SCQ spice rub, smoked for 14 hours.</p><span class="price">$21 Tray / $16.5 Sandwich</span></li>
-            <li class="ticket"><h4>Half Smoked Chicken</h4><p>All-natural chicken, brined and slow-smoked for three hours.</p><span class="price">$24 Tray / $16.50 Half Bird</span></li>
-          </ul>
-        </div>
-        <div class="rail">
-          <h3>Specialty Sandos</h3>
-          <ul>
-            <li class="ticket"><h4>The Big Papi</h4><p>Sliced brisket &amp; chopped brisket with smoked jalapeño cream cheese, pickles, crispy onions.</p><span class="price">$23</span></li>
-            <li class="ticket"><h4>The Carolina Cuban</h4><p>Pulled pork, house-smoked ham, Swiss &amp; cheddar cheese, BBQ mustard, and pickles.</p><span class="price">$19</span></li>
-          </ul>
-        </div>
-        <div class="rail">
-          <h3>Sides</h3>
-          <ul>
-            <li class="ticket"><h4>Mac 'n' Cheese</h4><p>Creamy and cheesy goodness.</p><span class="price">$9 Pint / $5 Half Pint</span></li>
-            <li class="ticket"><h4>Collard Greens</h4><p>Slow-cooked greens with a hint of spice.</p><span class="price">$9 Pint / $5 Half Pint</span></li>
-          </ul>
-        </div>
-        <div class="rail">
-          <h3>Desserts</h3>
-          <ul>
-            <li class="ticket"><h4>Giant Nutter Butter Cookie*</h4><p>A massive version of the classic treat.</p><span class="price">$12</span></li>
-            <li class="ticket"><h4>Chocolate Fudgy Brownie</h4><p>Rich and decadent chocolate brownie.</p><span class="price">$8</span></li>
-          </ul>
-        </div>
-        <p class="note">Items and prices from the site's menu page, as written.</p>
+        <ul class="rail" id="ticket-rail" role="region" aria-label="Ticket rail, 12 items" tabindex="0">
+          <li class="ticket"><span class="station">APP</span><h3>Bucket o' Biscuits</h3><p>World-famous buttermilk biscuits served with honey butter.</p><span class="price"><span>$16</span></span></li>
+          <li class="ticket"><span class="station">APP</span><h3>Texas Nachos</h3><p>Salt and pepper potatoes, jack &amp; cheddar, ranch beans. Add pulled chicken, pork, or beef for $2.</p><span class="price"><span>$16</span></span></li>
+          <li class="ticket"><span class="station">APP</span><h3>SCQ Smoked Wings</h3><p>Tossed in gold sauce, chipotle buffalo, or dry rubbed.</p><span class="price"><span>$14</span></span></li>
+          <li class="ticket"><span class="station">TRAY</span><h3>Sliced Prime Brisket</h3><p>All-natural USDA prime beef brisket, slow-smoked for 14 hours with salt &amp; pepper.</p><span class="price"><span>$28 Tray</span> / <span>$20 Sandwich</span></span></li>
+          <li class="ticket"><span class="station">TRAY</span><h3>Heritage Pulled Pork</h3><p>All-natural pork with SCQ spice rub, smoked for 14 hours.</p><span class="price"><span>$21 Tray</span> / <span>$16.5 Sandwich</span></span></li>
+          <li class="ticket"><span class="station">TRAY</span><h3>Half Smoked Chicken</h3><p>All-natural chicken, brined and slow-smoked for three hours.</p><span class="price"><span>$24 Tray</span> / <span>$16.50 Half Bird</span></span></li>
+          <li class="ticket"><span class="station">SANDO</span><h3>The Big Papi</h3><p>Sliced brisket &amp; chopped brisket with smoked jalapeño cream cheese, pickles, crispy onions.</p><span class="price"><span>$23</span></span></li>
+          <li class="ticket"><span class="station">SANDO</span><h3>The Carolina Cuban</h3><p>Pulled pork, house-smoked ham, Swiss &amp; cheddar cheese, BBQ mustard, and pickles.</p><span class="price"><span>$19</span></span></li>
+          <li class="ticket"><span class="station">SIDE</span><h3>Mac 'n' Cheese</h3><p>Creamy and cheesy goodness.</p><span class="price"><span>$9 Pint</span> / <span>$5 Half Pint</span></span></li>
+          <li class="ticket"><span class="station">SIDE</span><h3>Collard Greens</h3><p>Slow-cooked greens with a hint of spice.</p><span class="price"><span>$9 Pint</span> / <span>$5 Half Pint</span></span></li>
+          <li class="ticket"><span class="station">DESSERT</span><h3>Giant Nutter Butter Cookie*</h3><p>A massive version of the classic treat.</p><span class="price"><span>$12</span></span></li>
+          <li class="ticket"><span class="station">DESSERT</span><h3>Chocolate Fudgy Brownie</h3><p>Rich and decadent chocolate brownie.</p><span class="price"><span>$8</span></span></li>
+        </ul>
+        <p class="note">APP apps to share (or not) · TRAY trays &amp; sandwiches · SANDO specialty sandos · SIDE sides · DESSERT desserts — items and prices as written on the menu page.</p>
       </section>
 
       <section aria-labelledby="h-smoker">
@@ -246,9 +220,7 @@
 
       <section aria-labelledby="h-covers">
         <h2 id="h-covers">Covers by section</h2>
-        <ul class="covers">
-          <li>indoor</li><li>outdoor</li><li>bar</li>
-        </ul>
+        <p class="readout mono">indoor · outdoor · bar</p>
         <p class="note">The table types on the reservation form. No counts: nothing is booked or stored.</p>
       </section>
 
@@ -259,7 +231,7 @@
           <li>The reservation form takes name, time, table type, email and phone, validates in the browser and confirms with an alert. There is no backend; nothing is sent.</li>
           <li>Plain HTML, CSS and JavaScript, no build step. Chart.js draws the one chart on the about page.</li>
         </ul>
-        <p class="origin">first program · plain HTML/CSS/JS</p>
+        <p class="origin">first program · plain HTML/CSS/JS</p> <!-- PLACEHOLDER: Tanmay confirms "first program" -->
         <p class="links"><a href="https://github.com/TADebugs/Sweet-Bite">Source · github.com/TADebugs/Sweet-Bite</a><a href="/red">Back to the board</a></p>
       </section>
     </main>
@@ -286,6 +258,13 @@
         a.querySelector('.host').textContent = new URL(p.launch).host;
         document.getElementById('launch').replaceWith(a);
       });
+
+    // The rail only scrolls at ≤640px; elsewhere it shouldn't be a tab stop.
+    const rail = document.getElementById('ticket-rail');
+    const narrow = matchMedia('(max-width: 640px)');
+    const syncRail = () => (narrow.matches ? rail.setAttribute('tabindex', '0') : rail.removeAttribute('tabindex'));
+    syncRail();
+    narrow.addEventListener('change', syncRail);
 
     mountProgram('sweet-bite', { ready, rail: document.getElementById('rail') })
       .then(trace => shell.logTrace(trace));

@@ -21,3 +21,18 @@ open:
 - menu copy uses "SCQ" (concepts.md placeholder: possibly from a real restaurant). Kept verbatim per decisions #8; Tanmay to confirm
 - the "first program" line follows DESIGN §5.4 wording; Tanmay to confirm it's accurate
 - lead: flip projects.json sweet-bite.status to "live" after Sweet-Bite#2 merges and sweetbite.tanmaydesai.xyz serves the app
+
+## sweetbite: round 2 (critique .agents/critique/sweetbite-r1.md)
+- F1: the five rails are now ONE <ul class="rail"> with role=region and aria-label "Ticket rail, 12 items", holding 12 tickets in menu order. Each ticket is stamped with a station code (APP/TRAY/SANDO/SIDE/DESSERT). The h3 category headings are gone and the h4s are now h3s. There's one key line under the rail. Tickets are 176px with align-items:flex-start. At ≤640px the rail is a scroll-snap strip (ticket flex 0 0 72%, overscroll-behavior-x contain) with a focus-visible outline. tabindex=0 is set only at ≤640px: it's in the markup and a matchMedia listener removes it on wider screens, so desktop gets no dead tab stop
+- F2: each price part is a nowrap span, so lines break only at " / ". Copy is verbatim, including $16.5
+- F3: covers are now a mono readout line `indoor · outdoor · bar` in the .smoker row style
+- optional: added the PLACEHOLDER comment beside "first program". "Back to the board" stays until the stub swap
+measured (Playwright):
+- rail section is 625px tall at 1280 (target ≤700) and 268px at 375 (target ≤420)
+- page height at 375 went from 3137 to 1613px
+- scrollWidth == innerWidth at 375
+- ticket heights vary (145–180 px)
+- every price part sits on one line
+- at 375, the rail takes focus and ArrowRight scrolls it (scrollLeft 0 → 263)
+- no page errors. Live-launch sim still renders the <a>
+shots: .agents/critique/shots/sweetbite-r2-{1280,375,375-reduced,1280-live-sim}.png
