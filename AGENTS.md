@@ -64,7 +64,7 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 - **Ephemeral disk.** Each session is a fresh clone. Push after every meaningful step; unpushed work is lost.
 - **No access to Tanmay's Mac:** no Unity editor, no SSD, no local paths. Tanmay pushes those artifacts himself (§7).
 - **No secrets in the sandbox.** Tanmay sets keys in Vercel env vars. Agents build against mocks (e.g. `MOCK_VISION=1`), and the real calls are verified on Vercel preview.
-- **One repo per session.** `docs` runs one session per project repo.
+- **Repos per session.** `docs` runs one session per project repo. `algolend` and `sweetbite` work in their app repo first, then attach this repo (`add_repo`) for their program page.
 - **Network may be restricted.**
   - Prefer zero-dependency static files.
   - If a package install fails, vendor it or write plain JS.
@@ -78,17 +78,17 @@ No Awwwards, Dribbble, Behance, or "best developer portfolios" lists. That's whe
 
 | id | role | model | ~budget | branch | owns (write access) |
 |---|---|---|---|---|---|
-| `lead` | Scaffolds, owns shared files, reviews PR previews, merges, final gate | Opus | $10 | `lead/*` | `.agents/decisions.md`, `shared/` (except `motion/`), `index.html`, `vercel.json`, root files like `resume.pdf` |
+| `lead` | Scaffolds, owns shared files, reviews PR previews, merges, final gate | Opus | $10 | `lead/*` | `.agents/decisions.md`, `shared/` (except `motion/`, `trace/`), `index.html`, `vercel.json`, root files like `resume.pdf` |
 | `artdirector` | Concepts, DESIGN.md, critiques every page. Never writes product code | Opus / strongest | $16 | `art/*` | `DESIGN.md`, `.agents/critique/` |
 | `construct` | The construct (replaces `/red`): shared navigation, the terminal, easter eggs. Per CONCEPT.md | Opus | $16 | `agent/construct` | `construct/`, `red/` |
 | `entry` | Gate at `/` + `/blue` recruiter view | Opus | $8 | `agent/entry` | `gate/`, `blue/` |
-| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/` (delegated by lead) |
-| `sweetbite` | `/sweet-bite` live | Opus | $5 | `agent/sweet-bite` | `sweet-bite/` |
-| `algolend` | `/algolend` seeded demo | Opus | $9 | `agent/algolend` | `algolend/` |
+| `motion` | The shared motion system: page transitions, signature effects | Opus | $8 | `agent/motion` | `shared/motion/`, `shared/trace/` (delegated by lead) |
+| `sweetbite` | Sweet-Bite app (own repo + Vercel project, served at `sweetbite.tanmaydesai.xyz`) + the `/sweet-bite` program page here | Opus | $5 | `agent/sweet-bite` in both repos | `TADebugs/Sweet-Bite` (except `README.md`), `sweet-bite/` here |
+| `algolend` | AlgoLend app (own repo + Vercel project `algolend-ai-frontend-v2`, served at `algolend.tanmaydesai.xyz`) + the `/algolend` program page here | Opus | $9 | `agent/algolend` in both repos | `TADebugs/ALGOLEND_AI` (except `README.md`), `algolend/` here |
 | `godseye` | `/gods-eye` WebGL + `api/vision` proxy | Opus | $10 | `agent/gods-eye` | `gods-eye/`, `api/vision*` |
 | `trinity` | `/trinity` case study | Opus | $6 | `agent/trinity` | `trinity/` |
 | `rag` | `/rag` recorded demo | Opus | $7 | `agent/rag` | `rag/` |
-| `docs` | READMEs for the 4 project repos | Sonnet | $5 | `docs/readme` per repo | those repos' `README.md` |
+| `docs` | READMEs for the 4 project repos | Sonnet | $5 | `docs/readme` per repo | those repos' `README.md` (only that file) |
 
 Every agent also owns `.agents/status/<id>.md` and `.agents/handoff/<id>.md`, and may create new files in other agents' inbox folders (§4).
 
@@ -256,14 +256,16 @@ Waves are order, not days. Start immediately; **everything must be merged before
 
 **Project agents** (`sweetbite` / `algolend` / `godseye` / `trinity` / `rag`)
 > Build `/<slug>` per CLAUDE.md §4 and DESIGN.md's per-project direction.
+>
+> AlgoLend and Sweet-Bite are **not ported** into this repo. Their apps stay in their own repos and Vercel projects, served at `algolend.tanmaydesai.xyz` / `sweetbite.tanmaydesai.xyz`. Here, `/algolend` and `/sweet-bite` are **program pages**: the sub-world intro plus a launch link to the subdomain. Until the subdomain resolves, the launch control says so instead of linking (no broken launches).
 
 | agent | specifics |
 |---|---|
-| `algolend` | seeded demo, no backend, never errors. **First** check the existing Vercel deploy (project `algolend-ai-frontend-v2`): if it already runs a usable frontend, reuse or link it instead of porting; only port what's missing |
+| `algolend` | **App repo first:** check the existing Vercel project `algolend-ai-frontend-v2`; make seeded demo mode the default (no backend, never errors); remove the hardcoded 94.2 / 98.7 / 91.5 figures; no invented metrics anywhere. If the risk model and data exist in the repo, run a real eval and report that number in your handoff; otherwise describe the agents without a number. "90%+" stays unverified until measured. Name the agent "Risk Analyzer" everywhere. **Then** the `/algolend` program page here |
 | `godseye` | wrap `gods-eye/build/`; `api/vision` proxy with `VISION_API_KEY`, per-IP rate limit, daily cap, `MOCK_VISION=1` for sandbox |
 | `trinity` | case study with committed video + architecture |
 | `rag` | recorded Q&A from `rag/data/qa.json`, labeled as recorded |
-| `sweetbite` | read repo, deploy, real one-liner |
+| `sweetbite` | **App repo first:** remove the reservation form's card-number field, fix the missing `images/giftcard.jpg`, strip the Bing tracking URL from the gift-card link. Copy is Tanmay's own; keep it. Make it deploy cleanly as its own Vercel project. **Then** the `/sweet-bite` program page here |
 
 **`docs`**
 > Rewrite this repo's README: pitch, live link `https://tanmaydesai.xyz/<slug>`, screenshots, stack, run steps, architecture, license. Only claims you can verify in the repo or the CV. PR it.
@@ -276,6 +278,7 @@ Waves are order, not days. Start immediately; **everything must be merged before
 - Push `CLAUDE.md` + `AGENTS.md` + `CONCEPT.md`. (done)
 - `resume.pdf` at the repo root (not `public/`; see `decisions.md`). Strip the phone number from that copy; it's public.
 - Connect the repo to Vercel and attach both domains. PR previews depend on it.
+- Attach `algolend.tanmaydesai.xyz` to `algolend-ai-frontend-v2` and `sweetbite.tanmaydesai.xyz` to a Sweet-Bite Vercel project.
 
 **After Phase A**
 - Pick a direction from `concepts.md`.

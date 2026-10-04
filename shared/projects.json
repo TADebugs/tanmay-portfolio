@@ -16,9 +16,10 @@
       "oneLiner": "DeFi lending, 3 AI agents, Algorand",
       "repo": "https://github.com/TADebugs/ALGOLEND_AI",
       "route": "/algolend",
-      "treatment": "seeded-demo",
+      "treatment": "program-page+subdomain",
       "status": "todo",
-      "existingDeploy": "Vercel project algolend-ai-frontend-v2 (check before porting)"
+      "launch": "https://algolend.tanmaydesai.xyz",
+      "vercelProject": "algolend-ai-frontend-v2"
     },
     {
       "slug": "trinity",
@@ -32,11 +33,12 @@
     {
       "slug": "sweet-bite",
       "name": "Sweet-Bite",
-      "oneLiner": null,
+      "oneLiner": "Restaurant site for a fictional BBQ spot; menu, hours and a reservation form in plain HTML/CSS/JS.",
       "repo": "https://github.com/TADebugs/Sweet-Bite",
       "route": "/sweet-bite",
-      "treatment": "live",
-      "status": "todo"
+      "treatment": "program-page+subdomain",
+      "status": "todo",
+      "launch": "https://sweetbite.tanmaydesai.xyz"
     },
     {
       "slug": "rag",
