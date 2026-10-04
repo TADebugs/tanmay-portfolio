@@ -1,12 +1,294 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AlgoLend AI — in progress · Tanmay Desai</title></head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CH-02 AlgoLend AI · Tanmay Desai</title>
+  <meta name="description" content="AlgoLend AI: a lending-pool contract on Algorand testnet and three agent modules. Which desks are wired, what each reads and calls.">
+  <!-- STUB: swap to /shared/motion/beat.js when motion merges -->
+  <script src="/algolend/_stub/beat.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/shared/tokens.css">
+  <!-- STUB: add <link rel="stylesheet" href="/shared/motion/motion.css"> when motion merges -->
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    html { background: var(--panel); }
+    body {
+      background: var(--panel);
+      color: var(--legend);
+      font: var(--fs-body)/var(--lh-ui) var(--font-ui);
+      font-variation-settings: "wdth" var(--wdth-body);
+      padding: var(--s-6) max(16px, env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom) + var(--s-7)) var(--gutter);
+    }
+    .wrap { max-width: 1120px; margin-inline: auto; }
+    a { color: var(--legend); text-underline-offset: 3px; text-decoration-color: var(--legend-dim); }
+    a:hover { text-decoration-color: var(--legend); }
+    :focus-visible { outline: 2px solid var(--legend); outline-offset: 2px; }
+    .mono, code, .num {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums slashed-zero;
+    }
+    code { font-size: 0.92em; }
+    .unit, .dim { color: var(--legend-dim); }
+    .faint { color: var(--legend-faint); }
+    h1, h2, h3 { font-variation-settings: "wdth" var(--wdth-legend); font-weight: 600; line-height: var(--lh-tight); }
+    h2 { font-size: var(--fs-h2); }
+    h3 { font-size: var(--fs-h3); }
+    .code { font-family: var(--font-mono); font-size: var(--fs-id); letter-spacing: .04em; }
+    .print-note { display: none; }
+
+    /* lamps: color is never the only signal; a code label always sits beside */
+    .lamp { display: inline-block; inline-size: var(--lamp); block-size: var(--lamp); border-radius: 50%; flex: none; }
+    .is-nominal { background: var(--nominal); }
+    .is-caution { background: var(--caution); }
+    .is-off { border: 1px solid var(--inactive); }
+    .tag { display: inline-flex; align-items: center; gap: var(--s-2); }
+
+    /* asset tag §4.3 */
+    .asset-tag {
+      position: relative;
+      background: var(--strip);
+      border: var(--hair) solid var(--rule-strong);
+      border-radius: var(--radius-plate);
+      padding: var(--s-5) var(--s-6);
+      display: grid; gap: var(--s-1);
+    }
+    .rivet { position: absolute; inline-size: 3px; block-size: 3px; border-radius: 50%; background: var(--rule-strong); }
+    .rivet:nth-of-type(1) { top: 6px; left: 6px; } .rivet:nth-of-type(2) { top: 6px; right: 6px; }
+    .rivet:nth-of-type(3) { bottom: 6px; left: 6px; } .rivet:nth-of-type(4) { bottom: 6px; right: 6px; }
+    .asset-tag h1 { font-size: var(--fs-h1); }
+    .asset-tag .row { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-5); font-family: var(--font-mono); font-size: var(--fs-small); color: var(--legend-dim); }
+    .asset-tag .row .num { margin-inline-start: auto; }
+
+    /* trace rail */
+    .trace-rail { border-bottom: var(--hair) solid var(--rule); padding: var(--s-3) 0; min-block-size: 44px; font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-faint); }
+    .t-label { color: var(--legend-dim); margin-bottom: var(--s-1); }
+    .t-spans { list-style: none; padding: 0; display: grid; gap: 2px; }
+    .t-spans li { display: grid; grid-template-columns: 9rem 1fr 5rem; gap: var(--s-3); align-items: center; }
+    .t-spans .t-name { padding-inline-start: calc(var(--d) * var(--s-3)); }
+    .t-bar { display: block; block-size: 4px; background: var(--rule); }
+    .t-bar i { display: block; block-size: 100%; background: var(--legend-dim); }
+    .t-dur { text-align: end; color: var(--legend-dim); }
+
+    main { display: grid; gap: var(--s-7); margin-top: var(--s-6); }
+    .lede { font-size: var(--fs-read); line-height: var(--lh-read); max-inline-size: var(--measure); }
+    .section-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-4); margin-bottom: var(--s-4); }
+
+    /* the floor: three desks at unequal widths, hairlines not cards */
+    .floor { display: grid; grid-template-columns: 5fr 3fr 2fr; border-block: var(--hair) solid var(--rule); }
+    .desk { min-inline-size: 0; padding: var(--s-5) var(--s-5) var(--s-5) 0; display: grid; align-content: start; gap: var(--s-4); }
+    .desk + .desk { border-inline-start: var(--hair) solid var(--rule); padding-inline-start: var(--s-5); }
+    .desk:last-child { padding-inline-end: 0; }
+    .desk header { display: grid; gap: var(--s-1); }
+    .desk .file { font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-faint); overflow-wrap: anywhere; }
+    .desk dl { display: grid; gap: var(--s-3); }
+    .desk dt { font-size: var(--fs-small); color: var(--legend-dim); font-variation-settings: "wdth" var(--wdth-legend); }
+    .desk dd { font-family: var(--font-mono); font-size: var(--fs-small); overflow-wrap: anywhere; }
+    .desk .why { font-size: var(--fs-small); color: var(--legend-dim); }
+
+    /* weights bar: segment widths are the real weights */
+    .weights { display: grid; gap: var(--s-2); }
+    .weights .bar { display: flex; block-size: 12px; gap: 1px; }
+    .weights .bar span { background: var(--legend-faint); }
+    .weights .bar span:nth-child(odd) { background: var(--legend-dim); }
+    .weights ol { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); font-family: var(--font-mono); font-size: var(--fs-id); color: var(--legend-dim); }
+    .weights ol b { color: var(--legend); font-weight: 400; }
+
+    table { border-collapse: collapse; inline-size: 100%; font-size: var(--fs-small); }
+    caption { text-align: start; margin-bottom: var(--s-2); }
+    th, td { text-align: start; padding: var(--s-1) var(--s-3) var(--s-1) 0; border-bottom: var(--hair) solid var(--rule); vertical-align: baseline; }
+    th { font-weight: 400; color: var(--legend-dim); font-variation-settings: "wdth" var(--wdth-legend); }
+    td.num, th.num { text-align: end; }
+    td:last-child, th:last-child { padding-inline-end: 0; }
+
+    /* contract */
+    .contract { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-5); }
+    .methods { list-style: none; padding: 0; border-top: var(--hair) solid var(--rule); }
+    .methods li { display: grid; grid-template-columns: 6.5rem 1fr; gap: var(--s-3); padding: var(--s-2) 0; border-bottom: var(--hair) solid var(--rule); font-size: var(--fs-small); }
+    .contract > p { line-height: var(--lh-read); }
+
+    /* launch control §5.6 */
+    .launch { display: inline-grid; grid-template-columns: auto 1fr; column-gap: var(--s-3); align-items: center; padding: var(--s-3) var(--s-5); border: var(--hair) solid var(--rule-strong); min-inline-size: min(100%, 26rem); }
+    a.launch { background: var(--strip); text-decoration: none; transition: border-color var(--t-quick) var(--ease); }
+    a.launch:hover { border-color: var(--legend-dim); }
+    .launch .host { font-family: var(--font-mono); }
+    .launch.is-offline { color: var(--legend-faint); border-color: var(--rule); }
+    .launch .sub { grid-column: 2; font-size: var(--fs-small); }
+    .controls { display: flex; flex-wrap: wrap; gap: var(--s-4) var(--s-6); align-items: center; }
+    .note { margin-top: var(--s-3); max-inline-size: var(--measure); }
+
+    .facts ul { padding-inline-start: 1.1em; display: grid; gap: var(--s-2); max-inline-size: var(--measure); line-height: var(--lh-read); }
+
+    /* status line: the stub renders it; construct owns the real one */
+    .status-line {
+      position: fixed; inset: auto 0 0 0; z-index: 10;
+      display: flex; align-items: center; gap: var(--s-4);
+      min-block-size: calc(32px + env(safe-area-inset-bottom));
+      padding: 0 max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
+      background: var(--panel); border-top: var(--hair) solid var(--rule);
+      font-size: var(--fs-small); white-space: nowrap; overflow: hidden;
+    }
+    .status-line .spacer { flex: 1; }
+    .status-line .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero; }
+
+    @media (max-width: 760px) {
+      .floor { grid-template-columns: 1fr; }
+      .desk, .desk + .desk { padding: var(--s-5) 0; border-inline-start: 0; }
+      .desk + .desk { border-top: var(--hair) solid var(--rule); }
+      .contract { grid-template-columns: 1fr; }
+      .asset-tag { padding: var(--s-5); }
+      .t-spans li { grid-template-columns: 6rem 1fr 4.5rem; }
+      .status-line .loc { display: none; }
+    }
+    @media print {
+      .print-note { display: block; margin-bottom: var(--s-4); }
+      .status-line, .trace-rail { display: none; }
+    }
+  </style>
+</head>
 <body>
-<!-- PLACEHOLDER: lead scaffold. The owning agent replaces this file. -->
-<main>
-<h1>AlgoLend AI</h1>
-<p>In progress. Source: <a href="https://github.com/TADebugs/ALGOLEND_AI">TADebugs/ALGOLEND_AI</a>.</p>
-<p><a href="/red">Back</a></p>
-</main>
-</body></html>
+  <div class="wrap">
+    <p class="print-note">Printable version: tanmaydesai.xyz/blue</p>
+
+    <header class="asset-tag">
+      <span class="rivet"></span><span class="rivet"></span><span class="rivet"></span><span class="rivet"></span>
+      <span class="code faint">CH-02</span>
+      <h1>AlgoLend AI</h1>
+      <p class="row"><span>react · typescript · fastapi · algorand typescript</span><span class="num">2025</span></p>
+      <p class="row"><span>src <a href="https://github.com/TADebugs/ALGOLEND_AI">github.com/TADebugs/ALGOLEND_AI</a></span></p>
+    </header>
+    <div class="trace-rail" id="rail" aria-label="Page load trace"></div>
+
+    <main>
+      <section aria-labelledby="floor-h">
+        <div class="section-head">
+          <h2 id="floor-h">The trading floor</h2>
+          <span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>ALGORAND TESTNET</span>
+        </div>
+        <p class="lede">A lending pool on Algorand with three agent desks beside it. Each desk shows what its Python module reads, what it calls, and whether the API actually serves it.</p>
+      </section>
+
+      <section class="floor" aria-label="Agent desks">
+        <article class="desk" aria-labelledby="d-risk">
+          <header>
+            <span class="tag code"><span class="lamp is-nominal" aria-hidden="true"></span>WIRED</span>
+            <h3 id="d-risk">Risk Analyzer</h3>
+            <span class="file">backend/ai/risk_analyzer.py</span>
+          </header>
+          <dl>
+            <div><dt>reads</dt><dd>balance · account age · tx frequency · tx consistency · tx amounts · network activity · reputation</dd></div>
+            <div><dt>calls</dt><dd>credit_score <span class="dim">(0–100)</span> · risk_level <span class="dim">(A+ … D)</span> · risk_factors · recommendations</dd></div>
+          </dl>
+          <div class="weights">
+            <p class="dim" id="w-cap">Weights, fixed in code, sum to <span class="num">1.00</span></p>
+            <div class="bar" role="img" aria-labelledby="w-cap w-list">
+              <span style="flex:25"></span><span style="flex:20"></span><span style="flex:15"></span><span style="flex:15"></span><span style="flex:10"></span><span style="flex:10"></span><span style="flex:5"></span>
+            </div>
+            <ol id="w-list">
+              <li>balance <b>.25</b></li><li>age <b>.20</b></li><li>freq <b>.15</b></li><li>consistency <b>.15</b></li><li>amounts <b>.10</b></li><li>network <b>.10</b></li><li>reputation <b>.05</b></li>
+            </ol>
+          </div>
+          <table>
+            <caption><span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>SEEDED</span> <span class="dim">real <code>analyze_account</code> output on synthetic accounts, from <code>backend/scripts/generate_demo_seed.py</code></span></caption>
+            <thead><tr><th scope="col">profile</th><th scope="col" class="num">score</th><th scope="col" class="num">grade</th></tr></thead>
+            <tbody>
+              <tr><td>established · <span class="num">6,200</span> ALGO, <span class="num">420</span> days</td><td class="num">86</td><td class="num">A+</td></tr>
+              <tr><td>volatile · <span class="num">900</span> ALGO, <span class="num">120</span> days</td><td class="num">67</td><td class="num">B+</td></tr>
+              <tr><td>new · <span class="num">15</span> ALGO, <span class="num">3</span> days</td><td class="num">54</td><td class="num">C+</td></tr>
+            </tbody>
+          </table>
+          <p class="why">Served by <code>backend/app.py</code> at <code>/api/analyze-account</code>. A rule score, not a trained model; no labeled outcomes exist to measure it against.</p>
+        </article>
+
+        <article class="desk" aria-labelledby="d-oracle">
+          <header>
+            <span class="tag code"><span class="lamp is-caution" aria-hidden="true"></span>SIMULATED</span>
+            <h3 id="d-oracle">Market Oracle</h3>
+            <span class="file">backend/ai/market_oracle.py</span>
+          </header>
+          <dl>
+            <div><dt>reads</dt><dd>algo_price · volume_24h · price_change_24h · fear_greed_index</dd></div>
+            <div><dt>calls</dt><dd>market_sentiment · price_prediction · lending_opportunities · risk_factors · recommended_actions</dd></div>
+          </dl>
+          <p class="why">Imported by <code>app.py</code>, but its market data is generated with <code>random</code>, not read from a feed.</p>
+        </article>
+
+        <article class="desk" aria-labelledby="d-yield">
+          <header>
+            <span class="tag code"><span class="lamp is-off" aria-hidden="true"></span>NOT WIRED</span>
+            <h3 id="d-yield">Yield Optimizer</h3>
+            <span class="file">backend/ai/yield_optimizer.py</span>
+          </header>
+          <dl>
+            <div><dt>reads</dt><dd>risk_tolerance · investment_amount · time_horizon · 5 pools</dd></div>
+            <div><dt>calls</dt><dd>optimal_allocation · expected_returns · rebalancing · action_plan</dd></div>
+          </dl>
+          <p class="why">The module exists; <code>app.py</code> doesn't use it.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="pool-h">
+        <div class="section-head">
+          <h2 id="pool-h">LendingPool contract</h2>
+          <span class="tag code"><span class="lamp is-off" aria-hidden="true"></span>NOT DEPLOYED</span>
+        </div>
+        <div class="contract">
+          <ul class="methods">
+            <li><code>deposit</code><span>adds to your balance and the pool total</span></li>
+            <li><code>withdraw</code><span>pays back the amount plus simple interest since your last update</span></li>
+            <li><code>borrow</code><span>checks the pool has the liquidity, then pays out</span></li>
+            <li><code>repay</code><span>clears your borrowed balance</span></li>
+          </ul>
+          <p class="dim">The rate is stored as <code>interestRate</code> in basis points: <span class="num">500</span><span class="unit">&#8201;bps</span> is <span class="num">5</span><span class="unit">&#8201;%</span>. Interest accrues over <code>Global.latestTimestamp</code>. Written in Algorand TypeScript and kept in the repo, not deployed, so the app simulates deposits and loans.</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="launch-h">
+        <h2 id="launch-h" class="section-head">Launch</h2>
+        <div class="controls">
+          <p class="launch is-offline" id="launch">
+            <span class="lamp is-off" aria-hidden="true"></span>
+            <span>Not connected yet · <span class="host">algolend.tanmaydesai.xyz</span></span>
+            <span class="sub">the app is being deployed; source is live</span>
+          </p>
+          <a href="https://github.com/TADebugs/ALGOLEND_AI">Source</a>
+        </div>
+        <p class="dim note">The app runs as a seeded demo on testnet: no backend calls, nothing sent on-chain. A live backend sits behind a switch that is off by default.</p>
+      </section>
+
+      <section class="facts" aria-labelledby="facts-h">
+        <h2 id="facts-h" class="section-head">What was built</h2>
+        <ul>
+          <li>Full-stack decentralized lending platform with React, TypeScript and FastAPI (Python), integrating Algorand smart contracts with fast finality and sub-cent fees.</li>
+          <li>Three AI agent modules for market analysis, risk scoring and yield optimization.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    // STUB: swap both imports to /shared/motion/index.js and /construct/shell.js when they merge
+    import { mountProgram } from '/algolend/_stub/index.js';
+    import { mountShell } from '/algolend/_stub/shell.js';
+
+    // Launch state comes from projects.json only (DESIGN.md §5.6); the offline markup is the default
+    const ready = fetch('/shared/projects.json')
+      .then((r) => r.json())
+      .then(({ projects }) => {
+        const p = projects.find((x) => x.slug === 'algolend');
+        if (p?.status !== 'live' || !p.launch) return;
+        const a = document.createElement('a');
+        a.className = 'launch';
+        a.id = 'launch';
+        a.href = p.launch;
+        a.innerHTML = `<span class="lamp is-nominal" aria-hidden="true"></span><span>Launch · <span class="host">${new URL(p.launch).host}</span></span>`;
+        document.getElementById('launch').replaceWith(a);
+      });
+
+    const shell = mountShell({ channel: 'algolend' });
+    mountProgram('algolend', { ready, rail: document.getElementById('rail') }).then((trace) => shell.logTrace(trace));
+  </script>
+</body>
+</html>
