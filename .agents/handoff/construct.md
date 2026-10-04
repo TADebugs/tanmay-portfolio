@@ -32,3 +32,4 @@ changes since construct-r1 critique:
 - also: backtick key glyph hidden ≤480px so `reconsider` never clips at 375
 tested: full suite (46 checks) + r2 checks: message line fresh/after déjà vu/opens terminal, bell caught mid-flash, 375 help with no clipped rows, console clean
 screenshots: .agents/critique/shots/construct-r2-{board-1280,board-375,msgline-fresh-1280,msgline-dejavu-1280,plate-not-connected-1280,bell-flash-1280,terminal-help-375}.png
+- C1 (construct-r2 conditional pass): `.sl { overflow: hidden }`, `.sl-clock` hidden ≤400px (lamp stays). The suite asserts every `.sl-btn` right edge ≤ innerWidth at 360 and 375, desktop and touch: all pass (reconsider ends at 344 / 359). board-375 re-shot with the status line visible

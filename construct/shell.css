@@ -122,3 +122,5 @@ body.has-shell { padding-bottom: calc(var(--sl-h, 32px) + env(safe-area-inset-bo
   .print-note { display: block !important; position: static; margin: 0 0 12px; font: 12px var(--font-mono); color: #111; }
   body.has-shell { padding-bottom: 0; }
 }
+.sl { overflow: hidden; }
+@media (max-width: 400px) { .sl-clock { display: none; } }
