@@ -1,6 +1,6 @@
 # DESIGN.md: the contract
 
-Owner: `artdirector`. Status: **v1.1, 2026-10-04** (v1.1: §8 additions ruled in motion r1, all additive). This file supersedes CLAUDE.md §5. Builders follow it literally. To change anything here, write to `.agents/inbox/artdirector/`. To change a **Motion API** or **Shell API** signature, artdirector must also notify `construct`, `entry` and `motion` (decisions.md #3).
+Owner: `artdirector`. Status: **v1.2, 2026-10-04** (v1.1: §8 additions ruled in motion r1; v1.2: §4.2 plate width, §4.4 message line, ruled in construct r1. All additive). This file supersedes CLAUDE.md §5. Builders follow it literally. To change anything here, write to `.agents/inbox/artdirector/`. To change a **Motion API** or **Shell API** signature, artdirector must also notify `construct`, `entry` and `motion` (decisions.md #3).
 
 Source of the decisions: `CONCEPT.md` (locked premise), Tanmay's pick in `.agents/decisions.md` #7–8, and the research in `.agents/critique/concepts.md` §0.
 
@@ -173,7 +173,7 @@ Top to bottom, single column, max width `1120px`, `--gutter` sides:
 
 ### 4.2 Channel strip
 
-Grid: `[ID plate 96px] [body 1fr] [controls auto]`. Below 640px it stacks: plate row, then body, then controls.
+Grid: `[ID plate 112px] [body 1fr] [controls auto]` *(v1.2: was 96px; `NOT CONNECTED` must fit on one line)*. Below 640px it stacks: plate row, then body, then controls.
 
 - **ID plate:** `CH-02` in mono `--fs-id`, plus the status lamp.
 - **Body:**
@@ -221,6 +221,7 @@ Every program page opens with an **asset tag**: the riveted ID plate screwed ont
 - **Content, left to right:**
   - session lamp (`--nominal`) and `op 00:03:41`: session clock, mono, ticks 1/s
   - location: `/red` or `/red › CH-02 AlgoLend`
+  - **message line** *(v1.2)*: the latest comms-log record's level code and text (`ok board up · 5 channels`), in `--legend-faint`. It truncates with an ellipsis, and it updates only when a real record is logged. It's a button that opens the terminal. This is how a first-time visitor learns the log exists, the way a real console's annunciator line does. Hidden below 480px.
   - spacer
   - **terminal control**: a button labelled `` ` terminal `` on desktop, `terminal` on touch. Phones have no backtick key, so this button is how the terminal opens on mobile.
   - **`plain version`**: link to `/blue`
