@@ -12,6 +12,6 @@ projects.json entry: n/a (reads it by hand-copy)
 tested (python3 -m http.server + Playwright/Chromium): Tab order blue → red, Space/Enter lift, Esc + blur close, second Enter → /red, mouse two-click, remembered red/blue redirect, ?reconsider, reduced motion (transition 0s, still two steps), 375px no h-scroll on both pages, focus-visible (red = 2px --fault), every internal /blue link 200. No console errors.
 notes for lead:
 - `/resume.pdf` 404s under python http.server; on Vercel the rewrite to /resume covers it (/resume is 200).
-- AlgoLend one-liner "DeFi lending, 3 AI agents, Algorand" is copied verbatim from projects.json. decisions.md #8 says don't imply three *live* agents; if you change the one-liner, /blue needs the same edit (hand-copied, no JS).
+- Per lead (DESIGN.md §5.2/§5.3 amendments): AlgoLend now names each agent module with its true wiring state (no "3 AI agents" claim); TRINITY says "Desktop app in progress", with no wake-word or voice claim. Both differ from projects.json oneLiners on purpose.
 - Google Fonts fail TLS in the sandbox proxy; screenshots used ignoreHTTPSErrors to render the real fonts.
 screenshots: .agents/critique/shots/entry-r1-*.png (gate-desktop, gate-guard-open, gate-focus-red, gate-reduced-open, gate-375, blue-desktop, blue-375, blue-print)
