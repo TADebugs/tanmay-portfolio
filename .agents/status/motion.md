@@ -1,6 +1,6 @@
 # motion
 
-status: running
+status: in critique
 branch: agent/motion
 updated: 2026-10-04
-note: implementing DESIGN.md §8 (shared/motion + shared/trace), incl. beat failsafe + bfcache amendments
+note: DESIGN.md §8 implemented + both amendments; 25/25 Playwright checks. Handoff in .agents/handoff/motion.md
