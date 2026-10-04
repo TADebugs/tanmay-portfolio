@@ -1,3 +1,9 @@
+## algolend — shell swap (no critique round, per artdirector)
+branch: agent/algolend-shell (from main @ 148ffa2)
+- `mountShell` now imported from `/construct/shell.js`; `/construct/shell.css` linked in head (as /red does). Deleted `algolend/_stub/` and the page's temporary `.status-line` CSS and its own print note (the shell injects one).
+- tested 1280 + 375: terminal opens with ` (desktop) and with the status-line `terminal` button, Esc closes; trace logged ("ok CH-02 AlgoLend AI loaded in …"); one status line; no horizontal scroll; no 4xx; no console errors beyond sandbox Google Fonts proxy failures.
+- screenshots: .agents/critique/shots/algolend-r3-{desktop,375}.png
+
 ## algolend — round 2
 branch: agent/algolend
 route: /algolend

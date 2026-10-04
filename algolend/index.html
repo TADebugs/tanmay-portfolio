@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..600&family=Azeret+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="/shared/tokens.css">
   <link rel="stylesheet" href="/shared/motion/motion.css">
+  <link rel="stylesheet" href="/construct/shell.css">
   <style>
     * { box-sizing: border-box; margin: 0; }
     html { background: var(--panel); }
@@ -36,7 +37,6 @@
     h2 { font-size: var(--fs-h2); }
     h3 { font-size: var(--fs-h3); }
     .code { font-family: var(--font-mono); font-size: var(--fs-id); letter-spacing: .04em; }
-    .print-note { display: none; }
 
     /* lamps: color is never the only signal; a code label always sits beside */
     .lamp { display: inline-block; inline-size: var(--lamp); block-size: var(--lamp); border-radius: 50%; flex: none; }
@@ -120,17 +120,6 @@
 
     .facts ul { padding-inline-start: 1.1em; display: grid; gap: var(--s-2); max-inline-size: var(--measure); line-height: var(--lh-read); }
 
-    /* status line: the stub renders it; construct owns the real one */
-    .status-line {
-      position: fixed; inset: auto 0 0 0; z-index: 10;
-      display: flex; align-items: center; gap: var(--s-4);
-      min-block-size: calc(32px + env(safe-area-inset-bottom));
-      padding: 0 max(16px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(16px, env(safe-area-inset-left));
-      background: var(--panel); border-top: var(--hair) solid var(--rule);
-      font-size: var(--fs-small); white-space: nowrap; overflow: hidden;
-    }
-    .status-line .spacer { flex: 1; }
-    .status-line .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums slashed-zero; }
 
     @media (max-width: 760px) {
       .floor { grid-template-columns: 1fr; }
@@ -138,18 +127,14 @@
       .desk + .desk { border-top: var(--hair) solid var(--rule); }
       .contract { grid-template-columns: 1fr; }
       .asset-tag { padding: var(--s-5); }
-      .status-line .loc { display: none; }
     }
     @media print {
-      .print-note { display: block; margin-bottom: var(--s-4); }
-      .status-line, .trace-rail { display: none; }
+      .trace-rail { display: none; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <p class="print-note">Printable version: tanmaydesai.xyz/blue</p>
-
     <header class="asset-tag">
       <span class="rivet"></span><span class="rivet"></span><span class="rivet"></span><span class="rivet"></span>
       <span class="code faint">CH-02</span>
@@ -266,8 +251,7 @@
 
   <script type="module">
     import { mountProgram } from '/shared/motion/index.js';
-    // STUB: swap to /construct/shell.js when construct merges
-    import { mountShell } from '/algolend/_stub/shell.js';
+    import { mountShell } from '/construct/shell.js';
 
     // Launch state comes from projects.json only (DESIGN.md §5.6); the offline markup is the default
     const ready = fetch('/shared/projects.json')
