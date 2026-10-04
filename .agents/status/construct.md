@@ -1,6 +1,6 @@
 # construct
 
-status: running
+status: in critique
 branch: agent/construct
 updated: 2026-10-04
-note: building /red board, construct/shell.js (Shell API §9), terminal §4.5, eggs §4.6. Motion API stubbed in construct/_stub/ until agent/motion merges.
+note: round 1 handed off (.agents/handoff/construct.md). Motion API still stubbed in construct/_stub/ until agent/motion merges.

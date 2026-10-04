@@ -35,7 +35,7 @@ body.has-shell { padding-bottom: calc(var(--sl-h, 32px) + env(safe-area-inset-bo
 .sl-btn:hover, .sl-btn[aria-expanded="true"] { color: var(--legend) !important; }
 .sl-key { font: inherit; color: var(--legend-faint); }
 @media (hover: none) and (pointer: coarse) { .sl-key { display: none; } }
-@media (max-width: 480px) { .sl { gap: var(--s-3); } .sl-op-k { display: none; } }
+@media (max-width: 480px) { .sl { gap: 10px; font-size: 12px; } .sl-op-k, .sl-loc { display: none; } .sl-btn { padding: 0; } }
 
 /* ---------- terminal ---------- */
 .term {
@@ -64,7 +64,7 @@ body.has-shell { padding-bottom: calc(var(--sl-h, 32px) + env(safe-area-inset-bo
 
 .term-log { flex: 1; overflow: auto; padding-block: var(--s-3); overscroll-behavior: contain; }
 .term-log:focus-visible { outline-offset: -2px !important; }
-.rec { display: grid; grid-template-columns: 20px 11ch 6ch 1fr; align-items: start; min-block-size: 1.35em; }
+.rec { display: grid; grid-template-columns: 20px 13ch 6ch 1fr; align-items: start; min-block-size: 1.35em; }
 .rec .gut { display: flex; align-items: center; block-size: 1.35em; }
 .rec .ts { color: var(--legend-faint); }
 .rec .lv { color: var(--legend-dim); }

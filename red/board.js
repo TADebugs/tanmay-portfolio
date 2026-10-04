@@ -37,7 +37,7 @@ function strip(p) {
     <div class="body">
       <h3 class="name" id="${li.id}-n">${esc(p.name)}</h3>
       ${p.oneLiner ? `<p class="one">${esc(p.oneLiner)}</p>` : ''}
-      ${p.readout ?? (READOUT[p.slug] ? `<p class="readout">${READOUT[p.slug]}</p>` : '')}
+      ${p.readout ?? (READOUT[p.slug] ? `<p class="readout">${READOUT[p.slug].split(' · ').map(x => `<span>${x}</span>`).join(' · ')}</p>` : '')}
     </div>
     <div class="ctl">
       ${p.route ? `<a class="btn" href="${esc(p.route)}" data-load>Load<span class="vh"> ${esc(p.name)}</span></a>` : ''}

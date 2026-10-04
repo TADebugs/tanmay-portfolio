@@ -24,7 +24,7 @@ ul, ol { padding: 0; list-style: none; }
 /* ---------- on-call plate ---------- */
 .oncall { padding-block-end: var(--s-6); border-bottom: var(--hair) solid var(--rule); }
 .oncall h1 {
-  max-inline-size: 36ch;
+  max-inline-size: 46ch;
   font: 400 var(--fs-h2)/var(--lh-tight) var(--font-ui);
   font-variation-settings: "wdth" var(--wdth-legend);
   color: var(--legend-dim); text-wrap: balance;
@@ -67,6 +67,8 @@ ul, ol { padding: 0; list-style: none; }
   font: 400 var(--fs-small)/var(--lh-ui) var(--font-mono); font-variant-numeric: tabular-nums slashed-zero;
   color: var(--legend);
 }
+
+.readout > span { white-space: nowrap; }
 .origin { display: grid; gap: var(--s-2); margin-block-start: var(--s-2); color: var(--legend-dim); line-height: var(--lh-ui); }
 .is-origin .ch { color: var(--legend-dim); }
 
